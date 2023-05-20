@@ -26,6 +26,16 @@ public class FontRendererWrapper extends Wrapper {
         }
     }
 
+    public void drawStringShadow(String s, float x, float y, int color) {
+        try {
+            String notch = Mappings.seargeToNotchMethod("func_175063_a"); // drawStringWithShadow
+            if (notch == null || notch.isEmpty()) return;
+            Method m = getClazz().getMethod(notch, String.class, float.class, float.class, int.class);
+            m.invoke(fontRendererObj, s, x, y, color);
+        } catch (Exception ignored) {
+        }
+    }
+
     public int getStringWidth(String s) {
         try {
             String notch = Mappings.seargeToNotchMethod("func_78256_a"); // getStringWidth
