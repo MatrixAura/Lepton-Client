@@ -8,6 +8,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import wtf.agent.inject.asm.api.annotation.Inject;
+import wtf.agent.inject.asm.transformers.render.EntityRendererTransformer;
 import wtf.agent.inject.mapping.Mappings;
 import wtf.agent.inject.asm.transformers.entity.EntityPlayerSPTransformer;
 import wtf.agent.inject.asm.transformers.gui.GuiIngameTransformer;
@@ -126,6 +127,7 @@ public class Transformers {
     static {
         transformers.add(new EntityPlayerSPTransformer());
         transformers.add(new GuiIngameTransformer());
+        transformers.add(new EntityRendererTransformer());
         transformers.add(new MinecraftTransformer());
     }
 }

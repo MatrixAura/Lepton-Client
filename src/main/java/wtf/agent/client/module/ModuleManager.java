@@ -3,6 +3,7 @@ package wtf.agent.client.module;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.agent.client.module.combat.NoClickDelay;
+import wtf.agent.client.module.combat.Reach;
 import wtf.agent.client.module.movement.Sprint;
 import wtf.agent.client.module.visual.HUD;
 
@@ -18,6 +19,7 @@ public class ModuleManager {
     public ModuleManager() {
 
         classModuleMap.put(NoClickDelay.class, new NoClickDelay());
+        classModuleMap.put(Reach.class, new Reach());
 
         classModuleMap.put(Sprint.class, new Sprint());
 
