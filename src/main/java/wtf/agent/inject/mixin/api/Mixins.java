@@ -66,13 +66,9 @@ public class Mixins {
                     continue;
                 }
 
-                logger.info("Looking for {}", obfName);
-
                 // huh???
                 for (MethodNode mNode : (List<MethodNode>) node.methods) {
-                    logger.info(mNode.name + " w " + mNode.desc);
                     if (mNode.name.equals(obfName) && mNode.desc.equals(desc)) {
-                        logger.info("Found the bitch");
                         try {
                             method.invoke(mixin, mNode);
                         } catch (IllegalAccessException | InvocationTargetException e) {
