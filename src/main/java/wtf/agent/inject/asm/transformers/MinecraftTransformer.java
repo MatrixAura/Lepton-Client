@@ -1,13 +1,16 @@
 package wtf.agent.inject.asm.transformers;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
 import wtf.agent.client.listener.bus.EventBus;
 import wtf.agent.client.listener.events.input.EventKeyInput;
+import wtf.agent.client.listener.events.input.EventMouseInput;
 import wtf.agent.inject.asm.api.annotation.Inject;
 import wtf.agent.inject.asm.wrapper.Wrapper;
+import wtf.agent.inject.asm.wrapper.impl.MinecraftWrapper;
 
 import static org.objectweb.asm.Opcodes.*;
 
@@ -43,13 +46,6 @@ public class MinecraftTransformer extends Wrapper {
 
                 InsnList list = new InsnList();
 
-                //          L3 {
-                //             iload 1 -> var1
-                //             ifeq L4 -> !=
-                //             invokestatic org/lwjgl/input/Keyboard.isRepeatEvent()Z
-                //             ifeq L5
-                //         }
-
                 // we're shooting for this:
                 // if (Keyboard.getEventKeyState()) {
                 //      Agent.getBus().dispatch(new EventKeyInput(var1));
@@ -81,5 +77,55 @@ public class MinecraftTransformer extends Wrapper {
                 break;
             }
         }
+    }
+
+    // MD: ave/s ()V net/minecraft/client/Minecraft/func_71407_l ()V
+    @Inject(method = "func_71407_l")
+    public void runTick(MethodNode methodNode) {
+
+        for (int i = 0; i < methodNode.instructions.size(); ++i) {
+            AbstractInsnNode x = methodNode.instructions.get(i);
+            if (x instanceof MethodInsnNode) {
+                MethodInsnNode m = (MethodInsnNode) x;
+                if (m.owner.equals(Type.getInternalName(Mouse.class)) && m.name.equals("getEventButton")) {
+                    InsnList list = new InsnList();
+
+                    // get the result of "Mouse.getEventButtonState()" and load into a var (var 2 ig)
+                    list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Mouse.class), "getEventButtonState", "()Z", false));
+                    list.add(new VarInsnNode(ISTORE, 2));
+                    list.add(new VarInsnNode(ILOAD, 2));
+
+                    // if var 2 is true, jump to this label
+                    LabelNode label = new LabelNode();
+                    list.add(new JumpInsnNode(IFEQ, label));
+
+                    // this is a mindfuck innit
+                    list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "getBus", "()Lwtf/agent/client/listener/bus/EventBus;", false));
+                    list.add(new TypeInsnNode(NEW, Type.getInternalName(EventMouseInput.class)));
+                    list.add(new InsnNode(DUP));
+                    list.add(new VarInsnNode(ILOAD, 1));
+                    list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventMouseInput.class), "<init>", "(I)V", false));
+                    list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
+                    list.add(new InsnNode(POP));
+
+                    // add label to jump to
+                    list.add(label);
+
+                    methodNode.instructions.insert(methodNode.instructions.get(i + 1), list);
+
+                    break;
+                }
+            }
+        }
+    }
+
+    // MD: ave/a (Laxu;)V net/minecraft/client/Minecraft/func_147108_a (Lnet/minecraft/client/gui/GuiScreen;)V
+    @Inject(method = "func_147108_a", descriptor = "(Laxu;)V")
+    public void displayGuiScreen(MethodNode methodNode) {
+        InsnList list = new InsnList();
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(MinecraftWrapper.class), "get", "()Lwtf/agent/inject/asm/wrapper/impl/MinecraftWrapper;", false));
+        list.add(new VarInsnNode(ALOAD, 1));
+        list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(MinecraftWrapper.class), "setCurrentScreen", "(Ljava/lang/Object;)V", false));
+        methodNode.instructions.insert(list);
     }
 }

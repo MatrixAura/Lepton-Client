@@ -41,8 +41,6 @@ public class EntityRendererTransformer extends Wrapper {
         for (int i = 0; i < methodNode.instructions.size(); ++i) {
             AbstractInsnNode x = methodNode.instructions.get(i);
 
-            Transformers.logger.info(x);
-
             if (x instanceof LdcInsnNode) {
                 LdcInsnNode t = (LdcInsnNode) x;
 

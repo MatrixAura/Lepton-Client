@@ -13,7 +13,9 @@ public class MinecraftWrapper extends Wrapper {
 
     private final Object minecraftObj;
 
-    private EntityPlayerSPWrapper thePlayer = new EntityPlayerSPWrapper();
+    private Object currentScreenObj;
+
+    private final EntityPlayerSPWrapper thePlayer = new EntityPlayerSPWrapper();
     private FontRendererWrapper fontRendererWrapper;
 
     private MinecraftWrapper(Object obj) {
@@ -35,6 +37,18 @@ public class MinecraftWrapper extends Wrapper {
         }
 
         return thePlayer;
+    }
+
+    public Object getCurrentScreen() {
+        return currentScreenObj;
+    }
+
+    public void setCurrentScreenHook(Object screen) {
+
+    }
+
+    public void setCurrentScreen(Object currentScreenObj) {
+        this.currentScreenObj = currentScreenObj;
     }
 
     public FontRendererWrapper getFontRenderer() {
