@@ -9,8 +9,8 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import wtf.agent.inject.mixin.api.annotation.Inject;
 import wtf.agent.inject.mixin.mapping.Mappings;
-import wtf.agent.inject.mixin.mixins.EntityPlayerSPMixin;
-import wtf.agent.inject.mixin.mixins.GuiIngame;
+import wtf.agent.inject.mixin.mixins.entity.EntityPlayerSPMixin;
+import wtf.agent.inject.mixin.mixins.gui.GuiIngame;
 import wtf.agent.inject.mixin.mixins.MinecraftMixin;
 import wtf.agent.inject.mixin.wrapper.Wrapper;
 

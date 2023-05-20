@@ -1,4 +1,4 @@
-package wtf.agent.inject.mixin.mixins;
+package wtf.agent.inject.mixin.mixins.gui;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
