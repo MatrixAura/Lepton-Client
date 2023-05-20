@@ -1,7 +1,6 @@
 package wtf.agent.inject;
 
 import com.sun.tools.attach.*;
-import net.bytebuddy.agent.ByteBuddyAgent;
 import wtf.agent.inject.logger.ConsoleColors;
 
 import java.io.File;
@@ -17,6 +16,8 @@ import java.util.Scanner;
 public class Main {
 
     private static final List<String> MINECRAFT_START = new ArrayList<>();
+
+    private static VirtualMachine vm;
     private static boolean attached;
 
     static {
@@ -25,6 +26,17 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (vm != null) {
+                try {
+                    vm.detach();
+                    info("detached successfully");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "VM"));
 
         File agentJarFile;
         if (args.length != 0 && args[0].equals("--dev")) {
@@ -94,7 +106,8 @@ public class Main {
             dbug("selected PID " + pid);
 
             try {
-                ByteBuddyAgent.attach(agentJarFile, pid);
+                vm = VirtualMachine.attach(pid);
+                vm.loadAgent(agentJarFile.getAbsolutePath());
                 attached = true;
                 info("attach to " + pid);
             } catch (Exception e) {

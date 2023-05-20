@@ -48,7 +48,6 @@ configurations {
 }
 
 dependencies {
-    dependency group: 'net.bytebuddy', name: 'byte-buddy-agent', version: '1.8.22'
     dependency group: 'org.ow2.asm', name: 'asm-all', version: '5.0.3'
 
     implementation files("${System.properties['java.home']}/../lib/tools.jar")
