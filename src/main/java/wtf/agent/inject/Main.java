@@ -26,7 +26,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        File inj = new File(System.getProperty("user.dir") + "/build/libs/Agent-3.0.jar");
+        File agentJarFile;
+        if (args.length != 0 && args[0].equals("--dev")) {
+            dbug("develop mode");
+            agentJarFile = new File(System.getProperty("user.dir") + "/build/libs/Agent-3.0.jar");
+        } else {
+            agentJarFile = new File(Main.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .getFile());
+        }
 
         try {
             Class.forName("com.sun.tools.attach.VirtualMachine");
@@ -75,7 +85,7 @@ public class Main {
             dbug("selected PID " + pid);
 
             try {
-                ByteBuddyAgent.attach(inj, pid);
+                ByteBuddyAgent.attach(agentJarFile, pid);
                 attached = true;
                 info("attach to " + pid);
             } catch (Exception e) {
