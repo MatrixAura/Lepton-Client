@@ -4,6 +4,8 @@ import org.lwjgl.input.Keyboard;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
+import wtf.agent.client.listener.bus.EventBus;
+import wtf.agent.client.listener.events.input.EventKeyInput;
 import wtf.agent.inject.mixin.api.Mixin;
 import wtf.agent.inject.mixin.api.annotation.Inject;
 
@@ -50,9 +52,8 @@ public class MinecraftMixin extends Mixin {
 
                 // we're shooting for this:
                 // if (Keyboard.getEventKeyState()) {
-                //      Agent.keyPress(var1);
+                //      Agent.getBus().dispatch(new EventKeyInput(var1));
                 // }
-                // soon we'll use an event bus but yknow
 
                 // get the result of "Keyboard.getEventKeyState()" and load into a var (var 2 ig)
                 list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Keyboard.class), "getEventKeyState", "()Z", false));
@@ -63,9 +64,14 @@ public class MinecraftMixin extends Mixin {
                 LabelNode label = new LabelNode();
                 list.add(new JumpInsnNode(IFEQ, label));
 
-                // load var 1 into method call
+                // this is a mindfuck innit
+                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "getBus", "()Lwtf/agent/client/listener/bus/EventBus;", false));
+                list.add(new TypeInsnNode(NEW, Type.getInternalName(EventKeyInput.class)));
+                list.add(new InsnNode(DUP));
                 list.add(new VarInsnNode(ILOAD, v.var));
-                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "keyPress", "(I)V", false));
+                list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventKeyInput.class), "<init>", "(I)V", false));
+                list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
+                list.add(new InsnNode(POP));
 
                 // add label to jump to
                 list.add(label);
