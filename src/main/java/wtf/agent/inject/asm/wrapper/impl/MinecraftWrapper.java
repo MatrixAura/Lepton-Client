@@ -51,6 +51,19 @@ public class MinecraftWrapper extends Wrapper {
         return fontRendererWrapper;
     }
 
+    public void setLeftClickCounter(int delay) {
+        // FD: ave/ag net/minecraft/client/Minecraft/field_71429_W
+
+        try {
+            String notch = Mappings.seargeToNotchField("field_71429_W"); // leftClickCounter
+            Field field = getClazz().getDeclaredField(notch);
+            field.setAccessible(true);
+            field.set(minecraftObj, delay);
+        } catch (Exception ignored) {
+
+        }
+    }
+
     public static MinecraftWrapper get() {
         if (instance == null) {
             try {
