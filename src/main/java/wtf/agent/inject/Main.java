@@ -44,12 +44,21 @@ public class Main {
         } catch (Exception ignored) {
             dbug("tools.jar not found, adding dynamically");
             try {
+
+                // thanks linus
                 Method addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
                 addURL.setAccessible(true);
-                String tools = "file:///" + System.getenv("JAVA_HOME") + System.getProperty("file.separator") + "lib" + System.getProperty("file.separator") + "tools.jar";
-                addURL.invoke(ClassLoader.getSystemClassLoader(), new URL(tools));
+
+                String sep = System.getProperty("file.separator");
+                addURL.invoke(ClassLoader.getSystemClassLoader(),
+                        new URL("file:///" + System.getenv("JAVA_HOME") + sep + "lib" + sep + "tools.jar"));
+
+                dbug("added tools.jar");
             } catch (Exception e) {
                 e.printStackTrace();
+
+                fail("could not add tools.jar to class loader. exiting now");
+                return;
             }
         }
 
