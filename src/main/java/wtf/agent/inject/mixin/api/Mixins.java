@@ -10,7 +10,9 @@ import org.objectweb.asm.tree.MethodNode;
 import wtf.agent.inject.mixin.api.annotation.Inject;
 import wtf.agent.inject.mixin.mapping.Mappings;
 import wtf.agent.inject.mixin.mixins.EntityPlayerSPMixin;
+import wtf.agent.inject.mixin.mixins.GuiIngame;
 import wtf.agent.inject.mixin.mixins.MinecraftMixin;
+import wtf.agent.inject.mixin.wrapper.Wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +29,7 @@ public class Mixins {
     public static final Logger logger = LogManager.getLogger("Mixins");
 
     // LOL
-    private static final List<Mixin> mixins = new ArrayList<>();
+    private static final List<Wrapper> mixins = new ArrayList<>();
 
     public static void init(Instrumentation is) throws IOException {
         if (mixins.isEmpty()) {
@@ -37,7 +39,7 @@ public class Mixins {
 
         logger.info("{} mixins to load", mixins.size());
 
-        for (Mixin mixin : mixins) {
+        for (Wrapper mixin : mixins) {
             if (mixin.getClazz() == null) {
                 logger.warn("Class for {} ({}) is null", mixin.getObfName(), mixin.getName());
                 continue;
@@ -60,7 +62,7 @@ public class Mixins {
                 String methodToModify = inject.method();
                 String desc = inject.descriptor();
 
-                String obfName = Mappings.seargeToNotch(methodToModify);
+                String obfName = Mappings.seargeToNotchMethod(methodToModify);
                 if (obfName == null || obfName.isEmpty()) {
                     logger.error("Could not find {} in class {}", methodToModify, mixin.getName());
                     continue;
@@ -122,7 +124,8 @@ public class Mixins {
     }
 
     static {
-        mixins.add(new MinecraftMixin());
         mixins.add(new EntityPlayerSPMixin());
+        mixins.add(new GuiIngame());
+        mixins.add(new MinecraftMixin());
     }
 }

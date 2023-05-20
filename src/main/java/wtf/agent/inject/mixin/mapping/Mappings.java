@@ -110,7 +110,11 @@ public class Mappings {
         return obfFields.get(name);
     }
 
-    public static String seargeToNotch(String searge) {
+    public static String seargeToNotchField(String searge) {
+        return obfFields.get(searge);
+    }
+
+    public static String seargeToNotchMethod(String searge) {
         return obfMethods.get(searge);
     }
 

@@ -6,12 +6,12 @@ import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
 import wtf.agent.client.listener.bus.EventBus;
 import wtf.agent.client.listener.events.input.EventKeyInput;
-import wtf.agent.inject.mixin.api.Mixin;
 import wtf.agent.inject.mixin.api.annotation.Inject;
+import wtf.agent.inject.mixin.wrapper.Wrapper;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class MinecraftMixin extends Mixin {
+public class MinecraftMixin extends Wrapper {
     public MinecraftMixin() {
         super("net/minecraft/client/Minecraft");
     }

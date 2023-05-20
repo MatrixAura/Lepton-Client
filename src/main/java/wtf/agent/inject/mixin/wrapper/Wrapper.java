@@ -1,14 +1,13 @@
-package wtf.agent.inject.mixin.api;
+package wtf.agent.inject.mixin.wrapper;
 
 import wtf.agent.inject.mixin.mapping.Mappings;
 
-public class Mixin {
+public class Wrapper {
 
     private final String name, obfName;
-
     private Class<?> clazz;
 
-    public Mixin(String name) {
+    public Wrapper(String name) {
         this.name = name;
 
         obfName = Mappings.getUnobfClass(name);
