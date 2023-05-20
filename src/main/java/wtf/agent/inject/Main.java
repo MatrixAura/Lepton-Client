@@ -36,6 +36,9 @@ public class Main {
                     e.printStackTrace();
                 }
             }
+
+            attached = false;
+            vm = null;
         }, "VM"));
 
         File agentJarFile;
@@ -124,15 +127,23 @@ public class Main {
         }
     }
 
-    private static void dbug(String s) {
+    public static void dbug(String s) {
         System.out.printf("%sdbug%s: %s\n", ConsoleColors.YELLOW, ConsoleColors.RESET, s);
     }
 
-    private static void info(String s) {
+    public static void info(String s) {
         System.out.printf("%sinfo%s: %s\n", ConsoleColors.CYAN, ConsoleColors.RESET, s);
     }
 
-    private static void fail(String s) {
+    public static void fail(String s) {
         System.out.printf("%sfail%s: %s\n", ConsoleColors.RED, ConsoleColors.RESET, s);
+    }
+
+    public static void agent(String s) {
+        System.out.printf("%sagent%s: %s\n", ConsoleColors.PURPLE, ConsoleColors.RESET, s);
+    }
+
+    public static boolean isOn() {
+        return attached && vm != null;
     }
 }
