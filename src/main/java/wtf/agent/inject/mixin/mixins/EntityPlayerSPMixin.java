@@ -1,14 +1,14 @@
 package wtf.agent.inject.mixin.mixins;
 
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.InsnList;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
+import wtf.agent.client.listener.bus.EventBus;
+import wtf.agent.client.listener.events.player.EventUpdate;
 import wtf.agent.inject.mixin.api.Mixin;
 import wtf.agent.inject.mixin.api.annotation.Inject;
 
-import static org.objectweb.asm.Opcodes.INVOKESTATIC;
+import static org.objectweb.asm.Opcodes.*;
 
 public class EntityPlayerSPMixin extends Mixin {
     public EntityPlayerSPMixin() {
@@ -18,8 +18,15 @@ public class EntityPlayerSPMixin extends Mixin {
     // func_70071_h_,onUpdate,2,Called to update the entity's position/logic.
     @Inject(method = "func_70071_h_")
     public void onUpdate(MethodNode methodNode) {
-        InsnList insn = new InsnList();
-        //insn.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "test", "()V", false));
-        methodNode.instructions.insert(insn);
+        InsnList list = new InsnList();
+
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "getBus", "()Lwtf/agent/client/listener/bus/EventBus;", false));
+        list.add(new TypeInsnNode(NEW, Type.getInternalName(EventUpdate.class)));
+        list.add(new InsnNode(DUP));
+        list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventUpdate.class), "<init>", "()V", false));
+        list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
+        list.add(new InsnNode(POP));
+
+        methodNode.instructions.insert(list);
     }
 }
