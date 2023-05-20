@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'de.fuerstenau.buildconfig' version '1.1.4'
+}
+
+version = '3.0'
+group = 'wtf.agent'
+archivesBaseName = 'Agent'
+
+def execute(String cmd) {
+    try {
+        def stdout = new ByteArrayOutputStream()
+
+        exec {
+            commandLine cmd.split(" ")
+            standardOutput = stdout
+        }
+
+        return stdout.toString().trim()
+    } catch (ignored) {
+        return null
+    }
+}
+
+buildConfig {
+    buildConfigField "String", "HASH", "${execute("git rev-parse --short HEAD")}"
+    buildConfigField "String", "BRANCH", "${execute("git branch").replace("* ", "")}"
+    buildConfigField "String", "VERSION", "${project.version}"
+
+    packageName "wtf.agent"
+}
+
+sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
+
+sourceCompatibility = targetCompatibility = '8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '8'
+    options.encoding 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    dependency
+    implementation.extendsFrom dependency
+}
+
+dependencies {
+    dependency group: 'net.bytebuddy', name: 'byte-buddy-agent', version: '1.8.22'
+    dependency group: 'org.ow2.asm', name: 'asm-all', version: '5.0.3'
+
+    implementation files("${System.properties['java.home']}/../lib/tools.jar")
+    implementation fileTree("mclibs/")
+}
+
+jar {
+    from(configurations.dependency.collect { it.isDirectory() ? it : zipTree(it) })
+
+    manifest.attributes(
+            'Agent-Class': 'wtf.agent.inject.AgentMain',
+            'Main-Class': 'wtf.agent.inject.Main',
+            'Can-Retransform-Classes': 'true',
+            'Can-Redefine-Classes': 'true'
+    )
+}
