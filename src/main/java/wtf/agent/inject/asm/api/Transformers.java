@@ -1,4 +1,4 @@
-package wtf.agent.inject.mixin.api;
+package wtf.agent.inject.asm.api;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -7,12 +7,12 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
-import wtf.agent.inject.mixin.api.annotation.Inject;
-import wtf.agent.inject.mixin.mapping.Mappings;
-import wtf.agent.inject.mixin.mixins.entity.EntityPlayerSPMixin;
-import wtf.agent.inject.mixin.mixins.gui.GuiIngame;
-import wtf.agent.inject.mixin.mixins.MinecraftMixin;
-import wtf.agent.inject.mixin.wrapper.Wrapper;
+import wtf.agent.inject.asm.api.annotation.Inject;
+import wtf.agent.inject.mapping.Mappings;
+import wtf.agent.inject.asm.transformers.entity.EntityPlayerSPMixin;
+import wtf.agent.inject.asm.transformers.gui.GuiIngame;
+import wtf.agent.inject.asm.transformers.MinecraftMixin;
+import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,22 +24,22 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mixins {
+public class Transformers {
 
     public static final Logger logger = LogManager.getLogger("Mixins");
 
     // LOL
-    private static final List<Wrapper> mixins = new ArrayList<>();
+    private static final List<Wrapper> transformers = new ArrayList<>();
 
     public static void init(Instrumentation is) throws IOException {
-        if (mixins.isEmpty()) {
+        if (transformers.isEmpty()) {
             logger.warn("No mixins were added");
             return;
         }
 
-        logger.info("{} mixins to load", mixins.size());
+        logger.info("{} mixins to load", transformers.size());
 
-        for (Wrapper mixin : mixins) {
+        for (Wrapper mixin : transformers) {
             if (mixin.getClazz() == null) {
                 logger.warn("Class for {} ({}) is null", mixin.getObfName(), mixin.getName());
                 continue;
@@ -124,8 +124,8 @@ public class Mixins {
     }
 
     static {
-        mixins.add(new EntityPlayerSPMixin());
-        mixins.add(new GuiIngame());
-        mixins.add(new MinecraftMixin());
+        transformers.add(new EntityPlayerSPMixin());
+        transformers.add(new GuiIngame());
+        transformers.add(new MinecraftMixin());
     }
 }

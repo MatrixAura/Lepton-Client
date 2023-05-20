@@ -1,8 +1,8 @@
-package wtf.agent.inject.mixin.wrapper.impl;
+package wtf.agent.inject.asm.wrapper.impl;
 
-import wtf.agent.inject.mixin.api.Mixins;
-import wtf.agent.inject.mixin.mapping.Mappings;
-import wtf.agent.inject.mixin.wrapper.Wrapper;
+import wtf.agent.inject.asm.api.Transformers;
+import wtf.agent.inject.mapping.Mappings;
+import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import java.lang.reflect.Field;
 
@@ -40,12 +40,12 @@ public class MinecraftWrapper extends Wrapper {
                 String notchClass = Mappings.getUnobfClass(CLASS);
                 String notch = Mappings.seargeToNotchMethod("func_71410_x");
 
-                Mixins.logger.info("{};{}", notchClass, notch);
+                Transformers.logger.info("{};{}", notchClass, notch);
 
                 Class<?> clazz = Class.forName(notchClass);
                 Object obj = clazz.getDeclaredMethod(notch).invoke(null);
 
-                Mixins.logger.info(obj);
+                Transformers.logger.info(obj);
 
                 instance = new MinecraftWrapper(obj);
             } catch (Exception ignored) {

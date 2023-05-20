@@ -1,4 +1,4 @@
-package wtf.agent.inject.mixin.mapping;
+package wtf.agent.inject.mapping;
 
 public enum MinecraftVersion {
     VER_1_8("1.8"),

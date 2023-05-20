@@ -1,12 +1,12 @@
-package wtf.agent.inject.mixin.mixins.gui;
+package wtf.agent.inject.asm.transformers.gui;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
 import wtf.agent.client.listener.bus.EventBus;
 import wtf.agent.client.listener.events.render.EventRender2D;
-import wtf.agent.inject.mixin.api.annotation.Inject;
-import wtf.agent.inject.mixin.wrapper.Wrapper;
+import wtf.agent.inject.asm.api.annotation.Inject;
+import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import static org.objectweb.asm.Opcodes.*;
 

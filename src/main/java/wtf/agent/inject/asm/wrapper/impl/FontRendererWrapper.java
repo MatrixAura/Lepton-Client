@@ -1,6 +1,6 @@
-package wtf.agent.inject.mixin.wrapper.impl;
+package wtf.agent.inject.asm.wrapper.impl;
 
-import wtf.agent.inject.mixin.wrapper.Wrapper;
+import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import java.lang.reflect.Method;
 

@@ -3,9 +3,9 @@ package wtf.agent.inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import wtf.agent.client.Agent;
-import wtf.agent.inject.mixin.api.Mixins;
-import wtf.agent.inject.mixin.mapping.Mappings;
-import wtf.agent.inject.mixin.mapping.MinecraftVersion;
+import wtf.agent.inject.asm.api.Transformers;
+import wtf.agent.inject.mapping.Mappings;
+import wtf.agent.inject.mapping.MinecraftVersion;
 
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
@@ -25,7 +25,7 @@ public class AgentMain {
         }
 
         try {
-            Mixins.init(is);
+            Transformers.init(is);
         } catch (IOException e) {
             logger.error("Failed to init mixins {}, {}", e.getMessage(), e.getStackTrace()[0]);
             e.printStackTrace();

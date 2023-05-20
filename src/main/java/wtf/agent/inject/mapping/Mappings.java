@@ -1,4 +1,4 @@
-package wtf.agent.inject.mixin.mapping;
+package wtf.agent.inject.mapping;
 
 import java.io.IOException;
 import java.io.InputStream;

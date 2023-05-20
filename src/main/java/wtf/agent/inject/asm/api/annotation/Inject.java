@@ -1,4 +1,4 @@
-package wtf.agent.inject.mixin.api.annotation;
+package wtf.agent.inject.asm.api.annotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

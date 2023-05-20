@@ -1,6 +1,6 @@
-package wtf.agent.inject.mixin.wrapper;
+package wtf.agent.inject.asm.wrapper;
 
-import wtf.agent.inject.mixin.mapping.Mappings;
+import wtf.agent.inject.mapping.Mappings;
 
 public class Wrapper {
 
