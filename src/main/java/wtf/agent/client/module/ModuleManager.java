@@ -2,8 +2,10 @@ package wtf.agent.client.module;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import wtf.agent.client.module.movement.Sprint;
 import wtf.agent.client.module.visual.HUD;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,8 @@ public class ModuleManager {
 
     public ModuleManager() {
 
+        classModuleMap.put(Sprint.class, new Sprint());
+
         classModuleMap.put(HUD.class, new HUD());
 
         logger.info("Loaded {} modules", classModuleMap.size());
@@ -21,5 +25,9 @@ public class ModuleManager {
 
     public <T extends Module> T get(Class<T> clazz) {
         return (T) classModuleMap.getOrDefault(clazz, null);
+    }
+
+    public Collection<Module> get() {
+        return classModuleMap.values();
     }
 }

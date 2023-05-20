@@ -13,11 +13,28 @@ public class MinecraftWrapper extends Wrapper {
 
     private final Object minecraftObj;
 
+    private EntityPlayerSPWrapper thePlayer = new EntityPlayerSPWrapper();
     private FontRendererWrapper fontRendererWrapper;
 
     private MinecraftWrapper(Object obj) {
         super(CLASS);
         this.minecraftObj = obj;
+    }
+
+    public EntityPlayerSPWrapper getPlayer() {
+
+        try {
+            // FD: ave/h net/minecraft/client/Minecraft/field_71439_g
+            String notch = Mappings.seargeToNotchField("field_71439_g"); // thePlayer
+            Field field = getClazz().getField(notch);
+
+            Object value = field.get(minecraftObj);
+            thePlayer.setPlayerObj(value);
+        } catch (Exception ignored) {
+
+        }
+
+        return thePlayer;
     }
 
     public FontRendererWrapper getFontRenderer() {
