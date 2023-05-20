@@ -40,12 +40,8 @@ public class MinecraftWrapper extends Wrapper {
                 String notchClass = Mappings.getUnobfClass(CLASS);
                 String notch = Mappings.seargeToNotchMethod("func_71410_x");
 
-                Transformers.logger.info("{};{}", notchClass, notch);
-
                 Class<?> clazz = Class.forName(notchClass);
                 Object obj = clazz.getDeclaredMethod(notch).invoke(null);
-
-                Transformers.logger.info(obj);
 
                 instance = new MinecraftWrapper(obj);
             } catch (Exception ignored) {

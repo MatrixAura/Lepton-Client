@@ -11,8 +11,8 @@ import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class MinecraftMixin extends Wrapper {
-    public MinecraftMixin() {
+public class MinecraftTransformer extends Wrapper {
+    public MinecraftTransformer() {
         super("net/minecraft/client/Minecraft");
     }
 

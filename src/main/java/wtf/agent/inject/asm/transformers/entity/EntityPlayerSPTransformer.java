@@ -10,8 +10,8 @@ import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import static org.objectweb.asm.Opcodes.*;
 
-public class EntityPlayerSPMixin extends Wrapper {
-    public EntityPlayerSPMixin() {
+public class EntityPlayerSPTransformer extends Wrapper {
+    public EntityPlayerSPTransformer() {
         super("net/minecraft/client/entity/EntityPlayerSP");
     }
 

@@ -9,9 +9,9 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import wtf.agent.inject.asm.api.annotation.Inject;
 import wtf.agent.inject.mapping.Mappings;
-import wtf.agent.inject.asm.transformers.entity.EntityPlayerSPMixin;
-import wtf.agent.inject.asm.transformers.gui.GuiIngame;
-import wtf.agent.inject.asm.transformers.MinecraftMixin;
+import wtf.agent.inject.asm.transformers.entity.EntityPlayerSPTransformer;
+import wtf.agent.inject.asm.transformers.gui.GuiIngameTransformer;
+import wtf.agent.inject.asm.transformers.MinecraftTransformer;
 import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import java.io.IOException;
@@ -124,8 +124,8 @@ public class Transformers {
     }
 
     static {
-        transformers.add(new EntityPlayerSPMixin());
-        transformers.add(new GuiIngame());
-        transformers.add(new MinecraftMixin());
+        transformers.add(new EntityPlayerSPTransformer());
+        transformers.add(new GuiIngameTransformer());
+        transformers.add(new MinecraftTransformer());
     }
 }
