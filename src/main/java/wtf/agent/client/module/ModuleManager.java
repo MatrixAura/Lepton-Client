@@ -8,6 +8,7 @@ import wtf.agent.client.module.combat.Reach;
 import wtf.agent.client.module.movement.BridgeAssist;
 import wtf.agent.client.module.movement.Sprint;
 import wtf.agent.client.module.visual.HUD;
+import wtf.agent.client.module.visual.Tracers;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class ModuleManager {
         classModuleMap.put(Sprint.class, new Sprint());
 
         classModuleMap.put(HUD.class, new HUD());
+        classModuleMap.put(Tracers.class, new Tracers());
 
         logger.info("Loaded {} modules", classModuleMap.size());
     }

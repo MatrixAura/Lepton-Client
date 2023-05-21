@@ -5,8 +5,11 @@ import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
 import wtf.agent.client.listener.bus.EventBus;
 import wtf.agent.client.listener.events.input.EventAttackReach;
+import wtf.agent.client.listener.events.render.EventRender2D;
+import wtf.agent.client.listener.events.render.EventRender3D;
 import wtf.agent.inject.asm.api.annotation.Inject;
 import wtf.agent.inject.asm.wrapper.Wrapper;
+import wtf.agent.inject.mapping.Mappings;
 
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.POP;
@@ -14,6 +17,37 @@ import static org.objectweb.asm.Opcodes.POP;
 public class EntityRendererTransformer extends Wrapper {
     public EntityRendererTransformer() {
         super("net/minecraft/client/renderer/EntityRenderer");
+    }
+
+    @Inject(method = "func_175068_a", descriptor = "(F)V")
+    public void renderWorldPass(MethodNode methodNode) {
+        AbstractInsnNode ldcNode = null;
+        for (int i = 0; i < methodNode.instructions.size(); ++i) {
+            AbstractInsnNode a = methodNode.instructions.get(i);
+            if (a instanceof MethodInsnNode) {
+                MethodInsnNode m = (MethodInsnNode) a;
+                if (m.owner.equals(Mappings.getUnobfClass("net/minecraft/profiler/Profiler"))
+                        && m.name.equals(Mappings.seargeToNotchMethod("func_76318_c"))) { // endStartSection
+
+                    ldcNode = a;
+                    break;
+                }
+            }
+        }
+
+        if (ldcNode == null) return;
+
+        InsnList list = new InsnList();
+
+        list.add(new TypeInsnNode(NEW, Type.getInternalName(EventRender3D.class)));
+        list.add(new InsnNode(DUP));
+        list.add(new VarInsnNode(FLOAD, 1));
+        list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventRender3D.class), "<init>", "(F)V", false));
+        list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
+        list.add(new InsnNode(POP));
+
+        methodNode.instructions.insert(ldcNode, list);
+
     }
 
     @Inject(method = "func_78473_a", descriptor = "(F)V")

@@ -1,6 +1,9 @@
 package wtf.agent.inject.asm.wrapper.impl;
 
+import wtf.agent.inject.asm.wrapper.impl.entity.EntityPlayerSPWrapper;
+import wtf.agent.inject.asm.wrapper.impl.render.EntityRendererWrapper;
 import wtf.agent.inject.asm.wrapper.impl.render.FontRendererWrapper;
+import wtf.agent.inject.asm.wrapper.impl.render.RenderManagerWrapper;
 import wtf.agent.inject.asm.wrapper.impl.setting.GameSettingsWrapper;
 import wtf.agent.inject.asm.wrapper.impl.world.WorldClientWrapper;
 import wtf.agent.inject.mapping.Mappings;
@@ -20,6 +23,9 @@ public class MinecraftWrapper extends Wrapper {
 
     private final EntityPlayerSPWrapper thePlayer = new EntityPlayerSPWrapper();
     private final WorldClientWrapper theWorld = new WorldClientWrapper();
+
+    private EntityRendererWrapper entityRenderer;
+    private RenderManagerWrapper renderManager;
     private GameSettingsWrapper gameSettings;
 
     private FontRendererWrapper fontRendererWrapper;
@@ -41,6 +47,35 @@ public class MinecraftWrapper extends Wrapper {
         }
 
         return gameSettings;
+    }
+
+    public RenderManagerWrapper getRenderManager() {
+        if (renderManager == null) {
+            try {
+                // FD: ave/aa net/minecraft/client/Minecraft/field_175616_W
+                Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_175616_W"));
+                field.setAccessible(true);
+                renderManager = new RenderManagerWrapper(field.get(minecraftObj));
+            } catch (Exception ignored) {
+
+            }
+        }
+
+        return renderManager;
+    }
+
+    public EntityRendererWrapper getEntityRenderer() {
+        if (entityRenderer == null) {
+            try {
+                // FD: ave/o net/minecraft/client/Minecraft/field_71460_t
+                Field field = getClazz().getField(Mappings.seargeToNotchField("field_71460_t")); // entityRenderer
+                entityRenderer = new EntityRendererWrapper(field.get(minecraftObj));
+            } catch (Exception ignored) {
+
+            }
+        }
+
+        return entityRenderer;
     }
 
     public HitResultWrapper getHitResult() {
