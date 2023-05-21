@@ -1,6 +1,6 @@
 package wtf.agent.inject.asm.wrapper.impl;
 
-import wtf.agent.inject.asm.api.Transformers;
+import wtf.agent.inject.asm.wrapper.impl.world.WorldClientWrapper;
 import wtf.agent.inject.mapping.Mappings;
 import wtf.agent.inject.asm.wrapper.Wrapper;
 
@@ -17,6 +17,8 @@ public class MinecraftWrapper extends Wrapper {
     private Object currentScreenObj;
 
     private final EntityPlayerSPWrapper thePlayer = new EntityPlayerSPWrapper();
+    private final WorldClientWrapper theWorld = new WorldClientWrapper();
+
     private FontRendererWrapper fontRendererWrapper;
 
     private MinecraftWrapper(Object obj) {
@@ -38,6 +40,21 @@ public class MinecraftWrapper extends Wrapper {
         }
 
         return thePlayer;
+    }
+
+    public WorldClientWrapper getWorld() {
+        try {
+            // FD: ave/h net/minecraft/client/Minecraft/field_71441_e
+            String notch = Mappings.seargeToNotchField("field_71441_e"); // theWorld
+            Field field = getClazz().getField(notch);
+
+            Object value = field.get(minecraftObj);
+            theWorld.setWorldObj(value);
+        } catch (Exception ignored) {
+
+        }
+
+        return theWorld;
     }
 
     public Object getCurrentScreen() {
