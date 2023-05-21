@@ -5,7 +5,6 @@ import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
 import wtf.agent.client.listener.bus.EventBus;
 import wtf.agent.client.listener.events.input.EventAttackReach;
-import wtf.agent.inject.asm.api.Transformers;
 import wtf.agent.inject.asm.api.annotation.Inject;
 import wtf.agent.inject.asm.wrapper.Wrapper;
 
@@ -26,10 +25,10 @@ public class EntityRendererTransformer extends Wrapper {
         list.add(new InsnNode(DUP));
         list.add(new LdcInsnNode(3.0));
         list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventAttackReach.class), "<init>", "(D)V", false));
-        list.add(new VarInsnNode(ASTORE, 16));
+        list.add(new VarInsnNode(ASTORE, 23));
 
         list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "getBus", "()Lwtf/agent/client/listener/bus/EventBus;", false));
-        list.add(new VarInsnNode(ALOAD, 16));
+        list.add(new VarInsnNode(ALOAD, 23));
         list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
         list.add(new InsnNode(POP));
 
@@ -52,9 +51,9 @@ public class EntityRendererTransformer extends Wrapper {
 
         if (ldc == null) return;
 
-//        InsnList improvised = new InsnList();
-//        improvised.add(new VarInsnNode(ALOAD, 16));
-//        improvised.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventAttackReach.class), "getReach", "()D", false));
+//        methodNode.instructions.insert(ldc, new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventAttackReach.class), "getReach", "()D", false));
+//        methodNode.instructions.insert(ldc, new VarInsnNode(ALOAD, 23));
+//        methodNode.instructions.remove(ldc);
 
     }
 }

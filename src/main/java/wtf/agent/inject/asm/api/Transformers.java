@@ -8,12 +8,12 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 import wtf.agent.inject.asm.api.annotation.Inject;
-import wtf.agent.inject.asm.transformers.render.EntityRendererTransformer;
-import wtf.agent.inject.mapping.Mappings;
+import wtf.agent.inject.asm.transformers.MinecraftTransformer;
 import wtf.agent.inject.asm.transformers.entity.EntityPlayerSPTransformer;
 import wtf.agent.inject.asm.transformers.gui.GuiIngameTransformer;
-import wtf.agent.inject.asm.transformers.MinecraftTransformer;
+import wtf.agent.inject.asm.transformers.render.EntityRendererTransformer;
 import wtf.agent.inject.asm.wrapper.Wrapper;
+import wtf.agent.inject.mapping.Mappings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +24,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
+import static org.objectweb.asm.ClassWriter.COMPUTE_MAXS;
 
 public class Transformers {
 
@@ -84,12 +87,17 @@ public class Transformers {
                 }
             }
 
-            bytes = rewriteClass(node);
+            try {
+                bytes = rewriteClass(node);
+            } catch (Exception e) {
+                logger.error("Could not rewrite class bytes for {} ({})", mixin.getClazz(), mixin.getName());
+                logger.error(e.getMessage() + " -> " + e.getStackTrace()[0]);
+            }
 
             if (bytes.length != 0) {
                 ClassDefinition classDef = new ClassDefinition(mixin.getClazz(), bytes);
                 try {
-                    logger.info("Redefined class {} ({}) ({}b)", mixin.getObfName(), mixin.getName(), bytes.length);
+                    logger.info("Redefined class {} ({}) ({} bytes)", mixin.getObfName(), mixin.getName(), bytes.length);
                     is.redefineClasses(classDef);
                 } catch (ClassNotFoundException | UnmodifiableClassException e) {
                     logger.error("Failed to modify {} ({})", mixin.getObfName(), mixin.getName());
@@ -119,7 +127,7 @@ public class Transformers {
     }
 
     private static byte[] rewriteClass(ClassNode node) {
-        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        ClassWriter writer = new ClassWriter(COMPUTE_MAXS | COMPUTE_FRAMES);
         node.accept(writer);
         return writer.toByteArray();
     }
