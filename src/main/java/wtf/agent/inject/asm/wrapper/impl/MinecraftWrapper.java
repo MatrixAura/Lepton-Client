@@ -5,6 +5,7 @@ import wtf.agent.inject.mapping.Mappings;
 import wtf.agent.inject.asm.wrapper.Wrapper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class MinecraftWrapper extends Wrapper {
     private static final String CLASS = "net/minecraft/client/Minecraft";
@@ -74,6 +75,17 @@ public class MinecraftWrapper extends Wrapper {
             field.setAccessible(true);
             field.set(minecraftObj, delay);
         } catch (Exception ignored) {
+
+        }
+    }
+
+    public void clickMouse() {
+        try {
+            String notch = Mappings.seargeToNotchMethod("func_147116_af"); // clickMouse
+            Method method = getClazz().getDeclaredMethod(notch);
+            method.setAccessible(true);
+            method.invoke(minecraftObj);
+        } catch (Exception e) {
 
         }
     }
