@@ -5,11 +5,12 @@ import org.objectweb.asm.tree.*;
 import wtf.agent.client.Agent;
 import wtf.agent.client.listener.bus.EventBus;
 import wtf.agent.client.listener.events.input.EventAttackReach;
-import wtf.agent.client.listener.events.render.EventRender2D;
 import wtf.agent.client.listener.events.render.EventRender3D;
 import wtf.agent.inject.asm.api.annotation.Inject;
 import wtf.agent.inject.asm.wrapper.Wrapper;
 import wtf.agent.inject.mapping.Mappings;
+
+import java.util.List;
 
 import static org.objectweb.asm.Opcodes.*;
 import static org.objectweb.asm.Opcodes.POP;
@@ -19,7 +20,7 @@ public class EntityRendererTransformer extends Wrapper {
         super("net/minecraft/client/renderer/EntityRenderer");
     }
 
-    @Inject(method = "func_175068_a", descriptor = "(F)V")
+    @Inject(method = "func_175068_a", descriptor = "(IFJ)V")
     public void renderWorldPass(MethodNode methodNode) {
         AbstractInsnNode ldcNode = null;
         for (int i = 0; i < methodNode.instructions.size(); ++i) {
@@ -30,18 +31,27 @@ public class EntityRendererTransformer extends Wrapper {
                         && m.name.equals(Mappings.seargeToNotchMethod("func_76318_c"))) { // endStartSection
 
                     ldcNode = a;
-                    break;
                 }
             }
         }
 
-        if (ldcNode == null) return;
+        int partialTicksVar = -1;
+        List<LocalVariableNode> locals = methodNode.localVariables;
+        for (LocalVariableNode lvn : locals) {
+            if (lvn.desc.equals("F")) {
+                partialTicksVar = lvn.index;
+                break;
+            }
+        }
+
+        if (ldcNode == null || partialTicksVar == -1) return;
 
         InsnList list = new InsnList();
 
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Agent.class), "getBus", "()Lwtf/agent/client/listener/bus/EventBus;", false));
         list.add(new TypeInsnNode(NEW, Type.getInternalName(EventRender3D.class)));
         list.add(new InsnNode(DUP));
-        list.add(new VarInsnNode(FLOAD, 1));
+        list.add(new VarInsnNode(FLOAD, partialTicksVar));
         list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventRender3D.class), "<init>", "(F)V", false));
         list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
         list.add(new InsnNode(POP));
