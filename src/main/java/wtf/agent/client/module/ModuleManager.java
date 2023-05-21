@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import wtf.agent.client.module.combat.AutoClicker;
 import wtf.agent.client.module.combat.NoClickDelay;
 import wtf.agent.client.module.combat.Reach;
+import wtf.agent.client.module.movement.BridgeAssist;
 import wtf.agent.client.module.movement.Sprint;
 import wtf.agent.client.module.visual.HUD;
 
@@ -23,6 +24,7 @@ public class ModuleManager {
         classModuleMap.put(NoClickDelay.class, new NoClickDelay());
         classModuleMap.put(Reach.class, new Reach());
 
+        classModuleMap.put(BridgeAssist.class, new BridgeAssist());
         classModuleMap.put(Sprint.class, new Sprint());
 
         classModuleMap.put(HUD.class, new HUD());

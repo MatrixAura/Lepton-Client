@@ -1,4 +1,4 @@
-package wtf.agent.inject.asm.wrapper.impl;
+package wtf.agent.inject.asm.wrapper.impl.render;
 
 import wtf.agent.inject.asm.wrapper.Wrapper;
 import wtf.agent.inject.mapping.Mappings;

@@ -1,5 +1,7 @@
 package wtf.agent.inject.asm.wrapper.impl;
 
+import wtf.agent.inject.asm.wrapper.impl.render.FontRendererWrapper;
+import wtf.agent.inject.asm.wrapper.impl.setting.GameSettingsWrapper;
 import wtf.agent.inject.asm.wrapper.impl.world.WorldClientWrapper;
 import wtf.agent.inject.mapping.Mappings;
 import wtf.agent.inject.asm.wrapper.Wrapper;
@@ -18,12 +20,45 @@ public class MinecraftWrapper extends Wrapper {
 
     private final EntityPlayerSPWrapper thePlayer = new EntityPlayerSPWrapper();
     private final WorldClientWrapper theWorld = new WorldClientWrapper();
+    private GameSettingsWrapper gameSettings;
 
     private FontRendererWrapper fontRendererWrapper;
 
     private MinecraftWrapper(Object obj) {
         super(CLASS);
         this.minecraftObj = obj;
+    }
+
+    public GameSettingsWrapper getGameSettings() {
+        if (gameSettings == null) {
+            try {
+                // FD: ave/t net/minecraft/client/Minecraft/field_71474_y
+                Field field = getClazz().getField(Mappings.seargeToNotchField("field_71474_y")); // gameSettings
+                gameSettings = new GameSettingsWrapper(field.get(minecraftObj));
+            } catch (Exception ignored) {
+
+            }
+        }
+
+        return gameSettings;
+    }
+
+    public HitResultWrapper getHitResult() {
+
+        try {
+            // FD: ave/s net/minecraft/client/Minecraft/field_71476_x
+            String notch = Mappings.seargeToNotchField("field_71476_x"); // objectMouseOver
+            Field field = getClazz().getField(notch);
+            Object value = field.get(minecraftObj);
+
+            if (value == null) return null;
+
+            return new HitResultWrapper(value);
+        } catch (Exception ignored) {
+
+        }
+
+        return null;
     }
 
     public EntityPlayerSPWrapper getPlayer() {
@@ -102,7 +137,18 @@ public class MinecraftWrapper extends Wrapper {
             Method method = getClazz().getDeclaredMethod(notch);
             method.setAccessible(true);
             method.invoke(minecraftObj);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    public void rightClickMouse() {
+        try {
+            String notch = Mappings.seargeToNotchMethod("func_147121_ag"); // rightClickMouse
+            Method method = getClazz().getDeclaredMethod(notch);
+            method.setAccessible(true);
+            method.invoke(minecraftObj);
+        } catch (Exception ignored) {
 
         }
     }

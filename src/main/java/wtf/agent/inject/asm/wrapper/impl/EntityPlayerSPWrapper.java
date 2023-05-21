@@ -1,8 +1,11 @@
 package wtf.agent.inject.asm.wrapper.impl;
 
+import wtf.agent.inject.asm.api.ReflectionUtils;
 import wtf.agent.inject.asm.wrapper.Wrapper;
+import wtf.agent.inject.asm.wrapper.impl.world.BlockPosWrapper;
 import wtf.agent.inject.mapping.Mappings;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class EntityPlayerSPWrapper extends Wrapper {
@@ -14,6 +17,38 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
     public boolean isNull() {
         return playerObj == null;
+    }
+
+    public double getX() {
+        // FD: pk/s net/minecraft/entity/Entity/field_70165_t
+
+        String notch = Mappings.seargeToNotchField("field_70165_t");
+        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
+        return value == null ? 0.0 : (Double) value;
+    }
+
+    public double getY() {
+        // FD: pk/s net/minecraft/entity/Entity/field_70165_t
+
+        String notch = Mappings.seargeToNotchField("field_70163_u");
+        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
+        return value == null ? 0.0 : (Double) value;
+    }
+
+    public double getZ() {
+        // FD: pk/s net/minecraft/entity/Entity/field_70165_t
+
+        String notch = Mappings.seargeToNotchField("field_70161_v");
+        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
+        return value == null ? 0.0 : (Double) value;
+    }
+
+    public BlockPosWrapper getPos() {
+        return new BlockPosWrapper(Math.floor(getX()), Math.floor(getY()), Math.floor(getZ()));
+    }
+
+    public Object getPosObj() {
+        return BlockPosWrapper.create(getX(), getY(), getZ());
     }
 
     public void setSprinting(boolean value) {
