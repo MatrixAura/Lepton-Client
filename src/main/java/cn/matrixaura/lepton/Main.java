@@ -35,7 +35,6 @@ public class Main {
         } catch (Exception ignored) {
             debug("tools.jar not found, adding dynamically");
             try {
-                // thanks linus
                 Method addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
                 addURL.setAccessible(true);
 

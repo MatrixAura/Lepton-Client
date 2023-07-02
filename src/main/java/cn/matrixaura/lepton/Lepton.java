@@ -3,8 +3,11 @@ package cn.matrixaura.lepton;
 import cn.matrixaura.lepton.bind.BindManager;
 import cn.matrixaura.lepton.listener.bus.EventBus;
 import cn.matrixaura.lepton.module.ModuleManager;
+import cn.matrixaura.lepton.server.LeptonHttpServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class Lepton {
 
@@ -25,6 +28,13 @@ public class Lepton {
         moduleManager = new ModuleManager();
 
         bus.subscribe(bindManager);
+
+        try {
+            LeptonHttpServer.start();
+        } catch (IOException e) {
+            logger.error("Failed to initialize server");
+            e.printStackTrace();
+        }
     }
 
     public BindManager getBindManager() {

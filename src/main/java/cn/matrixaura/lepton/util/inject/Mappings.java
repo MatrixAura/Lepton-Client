@@ -2,8 +2,6 @@ package cn.matrixaura.lepton.util.inject;
 
 import cn.matrixaura.lepton.util.file.FileUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 

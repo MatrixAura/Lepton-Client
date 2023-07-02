@@ -9,10 +9,8 @@ import java.util.concurrent.Executors;
 
 public class LeptonHttpServer {
 
-    private static HttpServer server;
-
-    public static void main(String[] args) throws IOException {
-        server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
+    public static void start() throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8080), 0);
         server.createContext("/", new RootHttpHandler());
         server.setExecutor(Executors.newFixedThreadPool(10));
         server.start();
