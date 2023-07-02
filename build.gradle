@@ -3,9 +3,9 @@ plugins {
     id 'de.fuerstenau.buildconfig' version '1.1.4'
 }
 
-version = '3.0'
-group = 'wtf.agent'
-archivesBaseName = 'Agent'
+version = '3.1'
+group = 'cn.matrixaura.lepton'
+archivesBaseName = 'Lepton'
 
 def execute(String cmd) {
     try {
@@ -27,7 +27,7 @@ buildConfig {
     buildConfigField "String", "BRANCH", "${execute("git branch").replace("* ", "")}"
     buildConfigField "String", "VERSION", "${project.version}"
 
-    packageName "wtf.agent"
+    packageName "cn.matrixaura.lepton"
 }
 
 sourceSets.main.java.srcDirs += "build/gen/buildconfig/src/main"
@@ -49,6 +49,8 @@ configurations {
 
 dependencies {
     dependency group: 'org.ow2.asm', name: 'asm-all', version: '5.0.3'
+    dependency group: 'net.java.dev.jna', name: 'jna', version: '5.13.0'
+    dependency group: 'net.java.dev.jna', name: 'jna-platform', version: '5.13.0'
 
     implementation files("${System.properties['java.home']}/../lib/tools.jar")
     implementation fileTree("mclibs/")
@@ -58,8 +60,8 @@ jar {
     from(configurations.dependency.collect { it.isDirectory() ? it : zipTree(it) })
 
     manifest.attributes(
-            'Agent-Class': 'wtf.agent.inject.AgentMain',
-            'Main-Class': 'wtf.agent.inject.Main',
+            'Agent-Class': 'cn.matrixaura.lepton.inject.AgentMain',
+            'Main-Class': 'cn.matrixaura.lepton.Main',
             'Can-Retransform-Classes': 'true',
             'Can-Redefine-Classes': 'true'
     )

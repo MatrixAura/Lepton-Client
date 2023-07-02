@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link
+            rel="stylesheet"
+            href="https://fastly.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
+            crossorigin="anonymous"
+    />
+    <script
+            src="https://fastly.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
+            integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
+            crossorigin="anonymous"
+    ></script>
+    <title>Lepton - 主页</title>
+</head>
+
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink">
+
+<div class="mdui-dialog" id="setting">
+    <div class="mdui-dialog-content">
+        <h1>错误</h1>
+        <h1>CSS加载失败</h1>
+    </div>
+    <div class="mdui-dialog-actions">
+        <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="aa_confirm" mdui-dialog-confirm="">确定</button>
+    </div>
+</div>
+
+<div class="mdui-appbar mdui-appbar-fixed">
+    <div class="mdui-toolbar mdui-color-theme">
+        <a href="javascript:;" mdui-drawer="{target: '#drawer'}" class="mdui-btn mdui-btn-icon">
+            <i class="mdui-icon material-icons">menu</i>
+        </a>
+        <a href="javascript:;" class="mdui-typo-headline">Lepton</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:location.reload();" class="mdui-btn mdui-btn-icon mdui-ripple">
+            <i class="mdui-icon material-icons">refresh</i>
+        </a>
+        <ul class="mdui-menu" id="menu">
+            <li class="mdui-menu-item">
+               
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="mdui-drawer" id="drawer">
+    <ul class="mdui-list" id="category">
+
+    </ul>
+</div>
+
+<div class="mdui-container mdui-typo">
+    <br>
+    <div class="mdui-row" id="point">
+
+    </div>
+</div>
+
+<script>
+
+        category = "combat"
+
+        $.ajax({
+            url: "/api/categoriesList",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                if (data.success) {
+                    for (var i = 0; i < data.result.length; i++) {
+                        addCategory(data.result[i]);
+                    }
+                } else {
+                    alert(data.reason);
+                }
+                if(location.hash) {
+                    category = location.hash.substr(1);
+                    if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
+                }
+                if(!data.result.includes(category)) {
+                    location.hash = "#" + (category = data.result[0]);
+                }
+                window.onhashchange = () => {
+                    if(location.hash) {
+                        category = location.hash.substr(1);
+                        if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
+                    }
+                    if(!data.result.includes(category)) {
+                        location.hash = "#" + (category = data.result[0]);
+                    }
+                    $.ajax({
+                        url: "/api/modulesList?category="+category,
+                        type: "GET",
+                        dataType: "json",
+                        success: data => {
+                            $("#point").children().remove();
+                            if (data.success) {
+                                Object.keys(data.result).forEach(module => {
+                                    addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings);
+                                })
+                            } else {
+                                alert(data.reason);
+                            }
+                        }
+                    })
+                }
+                window.onhashchange()
+                setInterval(window.onhashchange, 5000)
+            },
+            error: function(data) {
+                alert("请求失败");
+            }
+        });
+
+        function addModule(name,desc,state,settings) {
+            if (state) {
+                state="checked"
+            } else {
+                state = ""
+            }
+            $("#point").append([
+                '<div class="mdui-col-xs-12 mdui-col-sm-6 mdui-col-md-4">',
+                '<div class="mdui-card">',
+                '<div class="mdui-card-primary">',
+                '<div class="mdui-card-primary-title">'+name+'</div>',
+                '<div class="mdui-card-primary-subtitle">'+desc+'</div>',
+                '</div>',
+                '<div class="mdui-card-content">',
+                '<label class="mdui-switch">',
+                '<input type="checkbox" id="'+name+'-checkbox" onclick="onswitch(this)" '+state+'/>',
+                '<i class="mdui-switch-icon"></i>',
+                '</label>',
+                settings ? '<button class="mdui-btn mdui-ripple mdui-float-right" id="'+name+'-button" onclick="opensetting(this)"><i class="mdui-icon material-icons">settings</i></button>' : '',
+                '</div>',
+                '</div>',
+                '</div>'
+            ].join('\n'));
+        }
+        function addCategory(name,icon) {
+            $("#category").append([
+                '<a href="#'+name+'">',
+                '<li class="mdui-list-item mdui-ripple">',
+                '<i class="mdui-list-item-icon mdui-icon material-icons">'+icon+'</i>',
+                '<div class="mdui-list-item-content">'+name+'</div>',
+                '</li>',
+                '</a>'
+            ].join('\n'));
+        }
+        function onswitch(element) {
+            $.ajax({
+                url: "/api/setStatus?module="+element.id.split("-")[0]+"&state="+element.checked,
+                type: "GET",
+                dataType: "json",
+                success: data => {
+                    if(data.success) {
+                        element.checked = data.result;
+                    } else {
+                        alert(data.reason);
+                    }
+                },
+                error: function(data) {
+                    console.log(data)
+                    alert("请求失败");
+                    element.checked = !element.checked;
+                }
+            })
+        }
+        function opensetting(element) {
+            let module = element.id.split("-")[0];
+            $.ajax({
+                url: "/api/getModuleSetting?module="+module,
+                type: "GET",
+                dataType: "json",
+                success: data => {
+                    if(data.success) {
+                        let panel = $("#setting > div.mdui-dialog-content");
+                        panel.children().remove();
+                        data.result.forEach(setting => {
+                            switch(setting.type) {
+                                case "checkbox":
+                                    panel.append('<label class="mdui-checkbox"><input type="checkbox" onchange=valuechange(this) id="'+module+"-"+setting.name+'"'+(setting.value ? " checked>" : ">")+'<i class="mdui-checkbox-icon"></i>'+setting.displayName+"</label><br>");
+                                    break;
+                                case "slider":
+                                    panel.append("<span>"+setting.displayName+'</span><br><label class="mdui-slider mdui-slider-discrete"><input type="range" onchange=valuechange(this) id="'+module+"-"+setting.name+'" value="'+setting.value+'" max="'+setting.max+'" min="'+setting.min+'" step="'+setting.step+'"/>'+"</label><br>");
+                                    break;
+                                case "selection":
+                                    str = "<span>"+setting.displayName+'</span><br><select class="mdui-select" onchange=valuechange(this) id="'+module+"-"+setting.name+'" mdui-select="{position: \'bottom\'}">';
+                                    setting.values.forEach(val => {
+                                        str += "<option"+(val == setting.value ? " selected" : "")+">"+val+"</option>"
+                                    });
+                                    str += '</select><br/>';
+                                    panel.append(str);
+                                    break;
+                            }
+                            panel.append('<br><br>')
+                        });
+                        mdui.$("#setting > div.mdui-dialog-content").mutation();
+                        let dialog = new mdui.Dialog('#setting');
+                        dialog.open();
+                    } else {
+                        alert(data.reason);
+                    }
+                },
+                error: function(data) {
+                    console.log(data)
+                    alert("请求失败");
+                    element.checked = !element.checked;
+                }
+            })
+        }
+        function valuechange(element) {
+            let array = element.id.split('-')
+            $.ajax({
+                url: "/api/setModuleSettingValue?module="+array[0]+"&name="+array[1]+"&value="+(element.type == "checkbox" ? element.checked : element.value),
+                type: "GET",
+                dataType: "json",
+                success: data => {
+                    if(data.success) {
+                        if(element.type == "checkbox") {
+                            element.checked == data.result;
+                        } else {
+                            element.value = data.result;
+                        }
+                    } else {
+                        alert(data.reason);
+                    }
+                },
+                error: function(data) {
+                    console.log(data)
+                    alert("请求失败");
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
