@@ -27,14 +27,14 @@ public class Lepton {
         bindManager = new BindManager();
         moduleManager = new ModuleManager();
 
-        bus.subscribe(bindManager);
-
         try {
             LeptonHttpServer.start();
         } catch (IOException e) {
             logger.error("Failed to initialize server");
             e.printStackTrace();
         }
+
+        bus.subscribe(bindManager);
     }
 
     public BindManager getBindManager() {

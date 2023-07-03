@@ -51,4 +51,13 @@ public class ModuleManager {
     public Collection<Module> get() {
         return classModuleMap.values();
     }
+
+    public <T extends Module> T get(String name) {
+        if (classModuleMap.values().stream().anyMatch(it -> it.getName().equals(name)))
+            return (T) classModuleMap.values().stream()
+                .filter(it -> it.getName().equals(name))
+                .findAny()
+                .get();
+        return null;
+    }
 }

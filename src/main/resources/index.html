@@ -20,18 +20,18 @@
             integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
             crossorigin="anonymous"
     ></script>
-    <title>Lepton - 主页</title>
+    <title>Lepton - Home</title>
 </head>
 
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink">
 
 <div class="mdui-dialog" id="setting">
     <div class="mdui-dialog-content">
-        <h1>错误</h1>
-        <h1>CSS加载失败</h1>
+        <h1>Error</h1>
+        <h1>Failed to load CSS</h1>
     </div>
     <div class="mdui-dialog-actions">
-        <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="aa_confirm" mdui-dialog-confirm="">确定</button>
+        <button class="mdui-btn mdui-ripple mdui-color-theme-accent" id="aa_confirm" mdui-dialog-confirm="">Confirm</button>
     </div>
 </div>
 
@@ -68,7 +68,7 @@
 
 <script>
 
-        category = "combat"
+        category = "COMBAT"
 
         $.ajax({
             url: "/api/categoriesList",
@@ -114,10 +114,10 @@
                     })
                 }
                 window.onhashchange()
-                setInterval(window.onhashchange, 5000)
+                setInterval(window.onhashchange, 1000)
             },
             error: function(data) {
-                alert("请求失败");
+                alert("Error");
             }
         });
 
@@ -169,7 +169,7 @@
                 },
                 error: function(data) {
                     console.log(data)
-                    alert("请求失败");
+                    alert("Error");
                     element.checked = !element.checked;
                 }
             })
@@ -187,18 +187,21 @@
                         data.result.forEach(setting => {
                             switch(setting.type) {
                                 case "checkbox":
-                                    panel.append('<label class="mdui-checkbox"><input type="checkbox" onchange=valuechange(this) id="'+module+"-"+setting.name+'"'+(setting.value ? " checked>" : ">")+'<i class="mdui-checkbox-icon"></i>'+setting.displayName+"</label><br>");
+                                    panel.append('<label class="mdui-checkbox"><input type="checkbox" onchange=valuechange(this) id="'+module+"-"+setting.name+'"'+(setting.value ? " checked>" : ">")+'<i class="mdui-checkbox-icon"></i>'+setting.name+"</label><br>");
                                     break;
                                 case "slider":
-                                    panel.append("<span>"+setting.displayName+'</span><br><label class="mdui-slider mdui-slider-discrete"><input type="range" onchange=valuechange(this) id="'+module+"-"+setting.name+'" value="'+setting.value+'" max="'+setting.max+'" min="'+setting.min+'" step="'+setting.step+'"/>'+"</label><br>");
+                                    panel.append("<span>"+setting.name+'</span><br><label class="mdui-slider mdui-slider-discrete"><input type="range" onchange=valuechange(this) id="'+module+"-"+setting.name+'" value="'+setting.value+'" max="'+setting.max+'" min="'+setting.min+'" step="'+setting.step+'"/>'+"</label><br>");
                                     break;
                                 case "selection":
-                                    str = "<span>"+setting.displayName+'</span><br><select class="mdui-select" onchange=valuechange(this) id="'+module+"-"+setting.name+'" mdui-select="{position: \'bottom\'}">';
+                                    str = "<span>"+setting.name+'</span><br><select class="mdui-select" onchange=valuechange(this) id="'+module+"-"+setting.name+'" mdui-select="{position: \'bottom\'}">';
                                     setting.values.forEach(val => {
                                         str += "<option"+(val == setting.value ? " selected" : "")+">"+val+"</option>"
                                     });
                                     str += '</select><br/>';
                                     panel.append(str);
+                                    break;
+                                case "input":
+                                    panel.append("<div class=\"mdui-textfield mdui-textfield-floating-label\"><label class=\"mdui-textfield-label\">" + setting.name + "</label><input class=\"mdui-textfield-input\" type=\"text\" onchange=valuechange(this) id=\"" + module + "-" + setting.name + "\" value=" + setting.value + "/></div>");
                                     break;
                             }
                             panel.append('<br><br>')
@@ -212,7 +215,7 @@
                 },
                 error: function(data) {
                     console.log(data)
-                    alert("请求失败");
+                    alert("Error");
                     element.checked = !element.checked;
                 }
             })
@@ -236,7 +239,7 @@
                 },
                 error: function(data) {
                     console.log(data)
-                    alert("请求失败");
+                    alert("Error");
                 }
             })
         }
