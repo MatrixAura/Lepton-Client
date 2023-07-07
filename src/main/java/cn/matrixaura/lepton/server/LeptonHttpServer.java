@@ -18,6 +18,7 @@ public class LeptonHttpServer {
         server.createContext("/api/categoriesList", new CategoriesHttpHandler());
         server.createContext("/api/getModuleSetting", new SettingsHttpHandler());
         server.createContext("/api/setModuleSettingValue", new SetSettingHttpHandler());
+        server.createContext("/api/setBind", new BindHttpHandler());
         server.setExecutor(Executors.newFixedThreadPool(10));
         server.start();
     }

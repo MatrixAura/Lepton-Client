@@ -1,5 +1,7 @@
 package cn.matrixaura.lepton.module;
 
+import org.lwjgl.input.Keyboard;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -11,7 +13,7 @@ public @interface ModuleInfo {
 
     Category category();
 
-    int key() default 0;
+    int key() default Keyboard.KEY_NONE;
 
     boolean enabled() default false;
 

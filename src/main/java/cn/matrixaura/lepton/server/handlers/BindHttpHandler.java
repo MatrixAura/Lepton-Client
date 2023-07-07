@@ -1,6 +1,5 @@
 package cn.matrixaura.lepton.server.handlers;
 
-import cn.matrixaura.lepton.Lepton;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.sf.json.JSONObject;
@@ -10,18 +9,18 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
-public class ModuleInfoHttpHandler implements HttpHandler {
+public class BindHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String category = URLDecoder.decode(httpExchange.getRequestURI().getQuery(), "utf-8").split("=")[1];
+        String[] param = URLDecoder.decode(httpExchange.getRequestURI().getQuery(), "utf-8").split("&");
+        String module = param[0].split("=")[1];
+        int key = Integer.parseInt(param[1].split("=")[1]);
+
+        //Lepton.INSTANCE.getModuleManager().get(module).getBind().setKey(BindTransformer.standToLwjglKey(key));
 
         JSONObject jsonObject = new JSONObject();
-        JSONObject result = new JSONObject();
-
-        Lepton.INSTANCE.getModuleManager().get().stream().filter(it -> it.getCategory().name().equals(category)).forEach(it -> result.put(it.getName(), it.isToggled()));
-
-        jsonObject.put("result", result);
+        jsonObject.put("result", key);
         jsonObject.put("success", true);
 
         byte[] response = jsonObject.toString().getBytes(StandardCharsets.UTF_8);

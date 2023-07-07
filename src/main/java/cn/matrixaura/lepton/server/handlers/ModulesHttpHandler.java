@@ -2,6 +2,7 @@ package cn.matrixaura.lepton.server.handlers;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.module.Module;
+import cn.matrixaura.lepton.util.bind.BindTransformer;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.sf.json.JSONObject;
@@ -25,7 +26,7 @@ public class ModulesHttpHandler implements HttpHandler {
                 JSONObject moduleJsonObj = new JSONObject();
                 moduleJsonObj.put("state", module.isToggled());
                 moduleJsonObj.put("desc", module.getDescription());
-                moduleJsonObj.put("binding", module.getBind().getKey());
+                moduleJsonObj.put("binding", BindTransformer.lwjglToStandKey(module.getBind().getKey()));
                 moduleJsonObj.put("settings", !module.getSettings().isEmpty());
                 result.put(module.getName(), moduleJsonObj);
             }

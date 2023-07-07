@@ -2,10 +2,12 @@ package cn.matrixaura.lepton.module;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.bind.Bind;
-import cn.matrixaura.lepton.bind.BindDevice;
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.setting.Setting;
-import cn.matrixaura.lepton.setting.settings.*;
+import cn.matrixaura.lepton.setting.settings.BooleanSetting;
+import cn.matrixaura.lepton.setting.settings.EnumSetting;
+import cn.matrixaura.lepton.setting.settings.NumberSetting;
+import cn.matrixaura.lepton.setting.settings.StringSetting;
 import cn.matrixaura.lepton.util.trait.Nameable;
 import cn.matrixaura.lepton.util.trait.Toggleable;
 

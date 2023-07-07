@@ -3,7 +3,6 @@ package cn.matrixaura.lepton.bind;
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.input.EventKeyInput;
-import cn.matrixaura.lepton.listener.events.input.EventMouseInput;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
