@@ -2,6 +2,7 @@ package cn.matrixaura.lepton;
 
 import cn.matrixaura.lepton.bind.BindManager;
 import cn.matrixaura.lepton.listener.bus.EventBus;
+import cn.matrixaura.lepton.module.Core;
 import cn.matrixaura.lepton.module.ModuleManager;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +36,7 @@ public class Lepton {
         }
 
         bus.subscribe(bindManager);
+        bus.subscribe(new Core());
     }
 
     public BindManager getBindManager() {

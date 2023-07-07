@@ -24,20 +24,7 @@ public class BindManager {
         for (Bind bind : bindMap.values()) {
 
             // if the key pressed equals the bind key and this bind is a keyboard bind, toggle the bind
-            if (bind.getKey() == event.getKeyCode() && bind.getDevice() == BindDevice.KEYBOARD) {
-                bind.setState(!bind.isToggled());
-            }
-        }
-    }
-
-    @Listener
-    public void onMouseInput(EventMouseInput event) {
-        if (event.getButton() < KEY_NONE || mc.getCurrentScreen() != null) return;
-
-        for (Bind bind : bindMap.values()) {
-
-            // if the button pressed equals the bind button and this bind is a mouse bind, toggle the bind
-            if (bind.getKey() == event.getButton() && bind.getDevice() == BindDevice.MOUSE) {
+            if (bind.getKey() == event.getKeyCode()) {
                 bind.setState(!bind.isToggled());
             }
         }

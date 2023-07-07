@@ -44,7 +44,7 @@ public class Module implements Nameable, Toggleable {
                     onDisable();
                 }
             }
-        }, BindDevice.KEYBOARD, info.key());
+        }, info.key());
         bind.setState(info.enabled());
         Lepton.INSTANCE.getBindManager().addBind(bind);
     }
@@ -68,10 +68,6 @@ public class Module implements Nameable, Toggleable {
 
     public Category getCategory() {
         return category;
-    }
-
-    public boolean canSeen() {
-        return getCategory() != Category.HIDDEN;
     }
 
     public Bind getBind() {

@@ -5,6 +5,7 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
 
 public class InjectUtils {
+
     public static int getMinecraftProcessId() throws InterruptedException {
         User32 user32 = User32.INSTANCE;
         IntByReference pid = new IntByReference(-1);
@@ -24,4 +25,5 @@ public class InjectUtils {
         } while (pid.getValue() == -1);
         return pid.getValue();
     }
+
 }

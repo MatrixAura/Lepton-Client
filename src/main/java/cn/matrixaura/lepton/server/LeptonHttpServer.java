@@ -14,6 +14,7 @@ public class LeptonHttpServer {
         server.createContext("/", new RootHttpHandler());
         server.createContext("/api/setStatus", new StatusHttpHandler());
         server.createContext("/api/modulesList", new ModulesHttpHandler());
+        server.createContext("/api/updateModulesInfo", new ModuleInfoHttpHandler());
         server.createContext("/api/categoriesList", new CategoriesHttpHandler());
         server.createContext("/api/getModuleSetting", new SettingsHttpHandler());
         server.createContext("/api/setModuleSettingValue", new SetSettingHttpHandler());

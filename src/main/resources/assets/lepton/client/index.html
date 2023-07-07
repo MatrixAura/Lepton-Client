@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-cmn-Hans">
+<html>
 
 <head>
     <meta charset="utf-8">
@@ -68,7 +68,7 @@
 
 <script>
 
-        category = "COMBAT"
+        category = "Combat"
 
         $.ajax({
             url: "/api/categoriesList",
@@ -98,14 +98,14 @@
                         location.hash = "#" + (category = data.result[0]);
                     }
                     $.ajax({
-                        url: "/api/modulesList?category="+category,
+                        url: "/api/modulesList?category=" + category,
                         type: "GET",
                         dataType: "json",
                         success: data => {
                             $("#point").children().remove();
                             if (data.success) {
                                 Object.keys(data.result).forEach(module => {
-                                    addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings);
+                                    addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings, data.result[module].binding);
                                 })
                             } else {
                                 alert(data.reason);
@@ -113,17 +113,46 @@
                         }
                     })
                 }
+                window.updatemodules = () => {
+                    if(location.hash) {
+                        category = location.hash.substr(1);
+                        if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
+                    }
+                    if(!data.result.includes(category)) {
+                        location.hash = "#" + (category = data.result[0]);
+                    }
+                    $.ajax({
+                        url: "/api/updateModulesInfo?category="+category,
+                        type: "GET",
+                        dataType: "json",
+                        success: data => {
+                            if (data.success) {
+                                Object.keys(data.result).forEach(module => {
+                                    updateModuleInfo(module, data.result[module]);
+                                })
+                            } else {
+                                alert(data.reason);
+                            }
+                        }
+                    })
+                }
+                window.updatemodules()
                 window.onhashchange()
-                setInterval(window.onhashchange, 1000)
+                setInterval(window.updatemodules, 1000)
             },
             error: function(data) {
                 alert("Error");
             }
         });
 
-        function addModule(name,desc,state,settings) {
+        function updateModuleInfo(name,state) {
+            var module = document.getElementById(name+'-checkbox')
+            module.checked = state
+        }
+
+        function addModule(name,desc,state,settings,bind) {
             if (state) {
-                state="checked"
+                state = "checked"
             } else {
                 state = ""
             }
@@ -140,10 +169,17 @@
                 '<i class="mdui-switch-icon"></i>',
                 '</label>',
                 settings ? '<button class="mdui-btn mdui-ripple mdui-float-right" id="'+name+'-button" onclick="opensetting(this)"><i class="mdui-icon material-icons">settings</i></button>' : '',
+                '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeydown="onkey(this,event.which)">',
+                'Bound to '+getKeyName(bind),
+                '</button>',
                 '</div>',
                 '</div>',
                 '</div>'
             ].join('\n'));
+        }
+        function getKeyName(bind) {
+            var binds = ["NONE", "ESCAPE", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "MINUS", "EQUALS", "BACK", "TAB", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "LBRACKET", "RBRACKET", "RETURN", "LCONTROL", "A", "S", "D", "F", "G", "H", "J", "K", "L", "SEMICOLON", "APOSTROPHE", "GRAVE", "LSHIFT", "BACKSLASH", "Z", "X", "C", "V", "B", "N", "M", "COMMA", "PERIOD", "SLASH", "RSHIFT", "MULTIPLY", "LMENU", "SPACE", "CAPITAL", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "NUMLOCK", "SCROLL", "NUMPAD7", "NUMPAD8", "NUMPAD9", "SUBTRACT", "NUMPAD4", "NUMPAD5", "NUMPAD6", "ADD", "NUMPAD1", "NUMPAD2", "NUMPAD3", "NUMPAD0", "DECIMAL", "null", "null", "null", "F11", "F12", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "F13", "F14", "F15", "F16", "F17", "F18", "null", "null", "null", "null", "null", "null", "KANA", "F19", "null", "null", "null", "null", "null", "null", "null", "CONVERT", "null", "NOCONVERT", "null", "YEN", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "NUMPADEQUALS", "null", "null", "CIRCUMFLEX", "AT", "COLON", "UNDERLINE", "KANJI", "STOP", "AX", "UNLABELED", "null", "null", "null", "null", "NUMPADENTER", "RCONTROL", "null", "null", "null", "null", "null", "null", "null", "null", "null", "SECTION", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "NUMPADCOMMA", "null", "DIVIDE", "null", "SYSRQ", "RMENU", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "FUNCTION", "PAUSE", "null", "HOME", "UP", "PRIOR", "null", "LEFT", "null", "RIGHT", "null", "END", "DOWN", "NEXT", "INSERT", "DELETE", "null", "null", "null", "null", "null", "null", "CLEAR", "LMETA", "RMETA", "APPS", "POWER", "SLEEP", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"]
+            return binds[bind]
         }
         function addCategory(name,icon) {
             $("#category").append([
@@ -154,6 +190,12 @@
                 '</li>',
                 '</a>'
             ].join('\n'));
+        }
+        function onbind(element) {
+            element.innerText = "Listening"
+        }
+        function onkey(element,code) {
+            element.innerText = "Bound to " + getKeyName(code)
         }
         function onswitch(element) {
             $.ajax({

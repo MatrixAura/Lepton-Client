@@ -11,7 +11,7 @@ public @interface ModuleInfo {
 
     Category category();
 
-    int key() default -1;
+    int key() default 0;
 
     boolean enabled() default false;
 

@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
-public class ModulesHttpHandler implements HttpHandler {
+public class ModuleInfoHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -20,16 +20,7 @@ public class ModulesHttpHandler implements HttpHandler {
         JSONObject jsonObject = new JSONObject();
         JSONObject result = new JSONObject();
 
-        for (Module module : Lepton.INSTANCE.getModuleManager().get()) {
-            if (module.getCategory().name().equals(category)) {
-                JSONObject moduleJsonObj = new JSONObject();
-                moduleJsonObj.put("state", module.isToggled());
-                moduleJsonObj.put("desc", module.getDescription());
-                moduleJsonObj.put("binding", module.getBind().getKey());
-                moduleJsonObj.put("settings", !module.getSettings().isEmpty());
-                result.put(module.getName(), moduleJsonObj);
-            }
-        }
+        Lepton.INSTANCE.getModuleManager().get().stream().filter(it -> it.getCategory().name().equals(category)).forEach(it -> result.put(it.getName(), it.isToggled()));
 
         jsonObject.put("result", result);
         jsonObject.put("success", true);

@@ -34,7 +34,7 @@ public class BlinkUtils {
 
     public static void blockOutboundPacket(EventPacketSend event) {
         blockedPackets.add(event.getPacket());
-        event.setCancelled(true);
+        event.cancel();
     }
 
     public enum Type {

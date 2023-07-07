@@ -21,7 +21,6 @@ public class PacketUtils {
     }
 
     public static boolean isMovingPacket(Object packet) {
-        // C03: ip C04: ip$a C06: ip$b C05: ip$c
         return packet.getClass().getName().replace(".", "/").startsWith(Mappings.getObfClass("net/minecraft/network/play/client/C03PacketPlayer"));
     }
 

@@ -1,15 +1,11 @@
-package cn.matrixaura.lepton.module.core;
+package cn.matrixaura.lepton.module;
 
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.packet.EventPacketSend;
-import cn.matrixaura.lepton.module.Category;
-import cn.matrixaura.lepton.module.Module;
-import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.util.packet.BlinkUtils;
 import cn.matrixaura.lepton.util.packet.PacketUtils;
 
-@ModuleInfo(name = "Core", category = Category.HIDDEN, enabled = true, canToggle = false)
-public class CoreModule extends Module {
+public class Core {
 
     @Listener
     public void onPacketSend(EventPacketSend event) {

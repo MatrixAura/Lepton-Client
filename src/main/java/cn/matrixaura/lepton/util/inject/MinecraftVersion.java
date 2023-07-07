@@ -15,14 +15,14 @@ public enum MinecraftVersion {
     }
 
     public String getSrg() {
-        return "/mappings/" + dir + "/joined.srg";
+        return "/assets/lepton/client/mappings/" + dir + "/joined.srg";
     }
 
     public String getFields() {
-        return "/mappings/" + dir + "/fields.csv";
+        return "/assets/lepton/client/mappings/" + dir + "/fields.csv";
     }
 
     public String getMethods() {
-        return "/mappings/" + dir + "/methods.csv";
+        return "/assets/lepton/client/mappings/" + dir + "/methods.csv";
     }
 }

@@ -7,7 +7,7 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Reach", description = "Reaches further than normal", category = Category.COMBAT, key = Keyboard.KEY_X)
+@ModuleInfo(name = "Reach", description = "Reaches further than normal", category = Category.Combat, key = Keyboard.KEY_X)
 public class Reach extends Module {
 
     @Listener

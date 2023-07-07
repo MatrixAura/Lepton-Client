@@ -23,6 +23,23 @@ public class ReflectionUtils {
         return null;
     }
 
+    public static Object getFieldValue(Class<?> clazz, String name) {
+        Class<?> c = clazz;
+        while (c.getSuperclass() != null) {
+
+            try {
+                Field field = c.getDeclaredField(name);
+                field.setAccessible(true);
+                return field.get(null);
+            } catch (IllegalAccessException | NoSuchFieldException ignored) {
+            }
+
+            c = c.getSuperclass();
+        }
+
+        return null;
+    }
+
     public static void setFieldValue(Class<?> clazz, Object instance, String name, Object value) {
         Class<?> c = clazz;
         while (c.getSuperclass() != null) {

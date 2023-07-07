@@ -7,12 +7,17 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Sprint", description = "Automatically sprints for you", category = Category.MOVEMENT, key = Keyboard.KEY_O, enabled = true)
+@ModuleInfo(name = "Sprint", description = "Automatically sprints for you", category = Category.Movement, key = Keyboard.KEY_O, enabled = true)
 public class Sprint extends Module {
 
     @Listener
     public void onUpdate(EventUpdate event) {
         if (mc.getPlayer().isNull()) return;
         mc.getGameSettings().getKey("key.sprint").setPressed(true);
+    }
+
+    @Override
+    public void onDisable() {
+        mc.getGameSettings().getKey("key.sprint").setPressed(false);
     }
 }

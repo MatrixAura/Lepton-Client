@@ -13,16 +13,14 @@ public class Bind implements Nameable, Toggleable {
 
     private final String name;
 
-    private BindDevice device;
     private int key;
 
     private boolean state;
     private Consumer<Bind> action;
 
-    public Bind(String name, Consumer<Bind> action, BindDevice device, int key) {
+    public Bind(String name, Consumer<Bind> action, int key) {
         this.name = name;
         this.action = action;
-        this.device = device;
         this.key = key;
     }
 
@@ -34,14 +32,6 @@ public class Bind implements Nameable, Toggleable {
     @Override
     public void onDisable() {
         // empty method
-    }
-
-    public BindDevice getDevice() {
-        return device;
-    }
-
-    public void setDevice(BindDevice device) {
-        this.device = device;
     }
 
     public int getKey() {

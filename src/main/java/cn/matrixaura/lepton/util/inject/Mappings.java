@@ -5,7 +5,6 @@ import cn.matrixaura.lepton.util.file.FileUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-// im sorry for this mess please dont look at it
 public class Mappings {
 
     // friendly -> notch

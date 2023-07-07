@@ -30,7 +30,7 @@ public class Transformers {
     // LOL
     private static final List<Transformer> transformers = new ArrayList<>();
 
-    public static void init(Instrumentation is) throws IOException {
+    public static void init(Instrumentation inst) throws IOException {
         if (transformers.isEmpty()) {
             logger.warn("No mixins were added");
             return;
@@ -93,7 +93,7 @@ public class Transformers {
                 ClassDefinition classDef = new ClassDefinition(mixin.getClazz(), bytes);
                 try {
                     logger.info("Redefined class {} ({}) ({} bytes)", mixin.getObfName(), mixin.getName(), bytes.length);
-                    is.redefineClasses(classDef);
+                    inst.redefineClasses(classDef);
                 } catch (ClassNotFoundException | UnmodifiableClassException e) {
                     logger.error("Failed to modify {} ({})", mixin.getObfName(), mixin.getName());
                     logger.error(e.getMessage() + " -> " + e.getStackTrace()[0]);

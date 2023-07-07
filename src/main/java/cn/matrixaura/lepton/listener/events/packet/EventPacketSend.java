@@ -1,8 +1,9 @@
 package cn.matrixaura.lepton.listener.events.packet;
 
-public class EventPacketSend {
+import cn.matrixaura.lepton.listener.bus.CancelableEvent;
+
+public class EventPacketSend extends CancelableEvent {
     private final Object packet;
-    private boolean cancelled = false;
 
     public EventPacketSend(Object packet) {
         this.packet = packet;
@@ -10,13 +11,5 @@ public class EventPacketSend {
 
     public Object getPacket() {
         return packet;
-    }
-
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
-
-    public boolean isCancelled() {
-        return cancelled;
     }
 }

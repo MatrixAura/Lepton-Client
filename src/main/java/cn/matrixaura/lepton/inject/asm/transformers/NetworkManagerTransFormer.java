@@ -36,9 +36,6 @@ public class NetworkManagerTransFormer extends Transformer {
                 list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new VarInsnNode(ALOAD, 3));
                 list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
-                list.add(new InsnNode(POP));
-                list.add(new VarInsnNode(ALOAD, 3));
-                list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventPacketReceive.class), "isCancelled", "()Z", false));
                 list.add(new JumpInsnNode(IFEQ, label));
                 list.add(new InsnNode(RETURN));
 
@@ -70,9 +67,6 @@ public class NetworkManagerTransFormer extends Transformer {
                 list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new VarInsnNode(ALOAD, 2));
                 list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
-                list.add(new InsnNode(POP));
-                list.add(new VarInsnNode(ALOAD, 2));
-                list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventPacketSend.class), "isCancelled", "()Z", false));
                 list.add(new JumpInsnNode(IFEQ, label));
                 list.add(new InsnNode(RETURN));
 

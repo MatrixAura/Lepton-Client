@@ -8,7 +8,7 @@ import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.util.player.PlayerUtils;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Speed", description = "Make you move faster", category = Category.MOVEMENT, key = Keyboard.KEY_G)
+@ModuleInfo(name = "Speed", description = "Make you move faster", category = Category.Movement, key = Keyboard.KEY_G)
 public class Speed extends Module {
 
     @Override

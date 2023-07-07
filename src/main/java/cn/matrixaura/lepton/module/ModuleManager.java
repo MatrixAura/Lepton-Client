@@ -1,14 +1,9 @@
 package cn.matrixaura.lepton.module;
 
-import cn.matrixaura.lepton.module.combat.AutoClicker;
-import cn.matrixaura.lepton.module.combat.NoClickDelay;
-import cn.matrixaura.lepton.module.combat.Reach;
-import cn.matrixaura.lepton.module.core.CoreModule;
-import cn.matrixaura.lepton.module.movement.BridgeAssist;
-import cn.matrixaura.lepton.module.movement.Speed;
-import cn.matrixaura.lepton.module.movement.Sprint;
-import cn.matrixaura.lepton.module.visual.HUD;
-import cn.matrixaura.lepton.module.visual.Tracers;
+import cn.matrixaura.lepton.module.combat.*;
+import cn.matrixaura.lepton.module.movement.*;
+import cn.matrixaura.lepton.module.visual.*;
+import cn.matrixaura.lepton.module.world.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,8 +21,8 @@ public class ModuleManager {
         putModule(
                 AutoClicker.class, NoClickDelay.class, Reach.class, // Combat
                 BridgeAssist.class, Sprint.class, Speed.class, // Movement
-                CoreModule.class, // Hidden
-                HUD.class, Tracers.class // Render
+                HUD.class, Tracers.class, // Visual
+                Timer.class // World
         );
 
         logger.info("Loaded {} modules", classModuleMap.size());

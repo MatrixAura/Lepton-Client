@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@ModuleInfo(name = "Tracers", description = "Draws lines to entities", category = Category.VISUAL, key = Keyboard.KEY_V)
+@ModuleInfo(name = "Tracers", description = "Draws lines to entities", category = Category.Visual, key = Keyboard.KEY_V)
 public class Tracers extends Module {
 
     @Listener

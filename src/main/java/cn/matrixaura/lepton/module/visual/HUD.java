@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@ModuleInfo(name = "HUD", description = "Draws a HUD over the vanilla HUD", category = Category.VISUAL, enabled = true)
+@ModuleInfo(name = "HUD", description = "Head-Up Display", category = Category.Visual, enabled = true)
 public class HUD extends Module {
 
     @Listener
@@ -22,7 +22,6 @@ public class HUD extends Module {
             List<Module> modules = Lepton.INSTANCE.getModuleManager().get()
                     .stream()
                     .filter(Module::isToggled)
-                    .filter(Module::canSeen)
                     .sorted(Comparator.comparingInt((x) -> -mc.getFontRenderer().getStringWidth(x.getName())))
                     .collect(Collectors.toList());
 
@@ -39,5 +38,6 @@ public class HUD extends Module {
 
             }
         }
+
     }
 }
