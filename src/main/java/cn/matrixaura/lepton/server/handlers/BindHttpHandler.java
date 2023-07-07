@@ -1,5 +1,7 @@
 package cn.matrixaura.lepton.server.handlers;
 
+import cn.matrixaura.lepton.Lepton;
+import cn.matrixaura.lepton.util.bind.BindTransformer;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.sf.json.JSONObject;
@@ -17,7 +19,12 @@ public class BindHttpHandler implements HttpHandler {
         String module = param[0].split("=")[1];
         int key = Integer.parseInt(param[1].split("=")[1]);
 
-        //Lepton.INSTANCE.getModuleManager().get(module).getBind().setKey(BindTransformer.standToLwjglKey(key));
+        try {
+            int lwjglKey = BindTransformer.standToLwjglKey(key);
+            Lepton.INSTANCE.getModuleManager().get(module).getBind().setKey(lwjglKey);
+        } catch (NullPointerException ignored) {
+            Lepton.INSTANCE.getModuleManager().get(module).getBind().setKey(0);
+        }
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", key);

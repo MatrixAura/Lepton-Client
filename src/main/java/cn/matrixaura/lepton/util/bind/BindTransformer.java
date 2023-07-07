@@ -32,53 +32,51 @@ public class BindTransformer {
     public static final int KEY_9 = 57;
     public static final int KEY_SEMICOLON = 59;
     public static final int KEY_EQUALS = 61;
-    public static final int KEY_A = 65;
-    public static final int KEY_B = 66;
-    public static final int KEY_C = 67;
-    public static final int KEY_D = 68;
-    public static final int KEY_E = 69;
-    public static final int KEY_F = 70;
-    public static final int KEY_G = 71;
-    public static final int KEY_H = 72;
-    public static final int KEY_I = 73;
-    public static final int KEY_J = 74;
-    public static final int KEY_K = 75;
-    public static final int KEY_L = 76;
-    public static final int KEY_M = 77;
-    public static final int KEY_N = 78;
-    public static final int KEY_O = 79;
-    public static final int KEY_P = 80;
-    public static final int KEY_Q = 81;
-    public static final int KEY_R = 82;
-    public static final int KEY_S = 83;
-    public static final int KEY_T = 84;
-    public static final int KEY_U = 85;
-    public static final int KEY_V = 86;
-    public static final int KEY_W = 87;
-    public static final int KEY_X = 88;
-    public static final int KEY_Y = 89;
-    public static final int KEY_Z = 90;
     public static final int KEY_LMENU = 91;
     public static final int KEY_BACKSLASH = 92;
     public static final int KEY_RMENU = 93;
+    public static final int KEY_GRAVE = 96;
+    public static final int KEY_A = 97;
+    public static final int KEY_B = 98;
+    public static final int KEY_C = 99;
+    public static final int KEY_D = 100;
+    public static final int KEY_E = 101;
+    public static final int KEY_F = 102;
+    public static final int KEY_G = 103;
+    public static final int KEY_H = 104;
+    public static final int KEY_I = 105;
+    public static final int KEY_J = 106;
+    public static final int KEY_K = 107;
+    public static final int KEY_L = 108;
+    public static final int KEY_M = 109;
+    public static final int KEY_N = 110;
+    public static final int KEY_O = 111;
+    public static final int KEY_P = 112;
+    public static final int KEY_Q = 113;
+    public static final int KEY_R = 114;
+    public static final int KEY_S = 115;
+    public static final int KEY_T = 116;
+    public static final int KEY_U = 117;
+    public static final int KEY_V = 118;
+    public static final int KEY_W = 119;
+    public static final int KEY_X = 120;
+    public static final int KEY_Y = 121;
+    public static final int KEY_Z = 122;
 
     public static final String[] keys = new String[256];
     public static final Map<String, Integer> keyMap = new HashMap<>();
-
-    public static int standToLwjglKey(String key) {
-        return (Integer) ReflectionUtils.getFieldValue(Keyboard.class, key);
-    }
 
     public static int standToLwjglKey(int key) {
         return (Integer) ReflectionUtils.getFieldValue(Keyboard.class, getStandKeyName(key));
     }
 
     public static int lwjglToStandKey(int key) {
-        return keyMap.get("KEY_" + Keyboard.getKeyName(key));
-    }
-
-    public static int lwjglToStandKey(String key) {
-        return keyMap.get(key);
+        try {
+            int standKey = keyMap.get("KEY_" + Keyboard.getKeyName(key));
+            return standKey;
+        } catch (NullPointerException ignored) {
+            return KEY_NONE;
+        }
     }
 
     public static String getStandKeyName(int key) {
