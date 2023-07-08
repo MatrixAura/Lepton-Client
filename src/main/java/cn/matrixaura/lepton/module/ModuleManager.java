@@ -1,19 +1,12 @@
 package cn.matrixaura.lepton.module;
 
-import cn.matrixaura.lepton.module.combat.AutoClicker;
-import cn.matrixaura.lepton.module.combat.NoClickDelay;
-import cn.matrixaura.lepton.module.combat.Reach;
-import cn.matrixaura.lepton.module.movement.BridgeAssist;
-import cn.matrixaura.lepton.module.movement.Speed;
-import cn.matrixaura.lepton.module.movement.Sprint;
-import cn.matrixaura.lepton.module.visual.HUD;
-import cn.matrixaura.lepton.module.visual.Tracers;
-import cn.matrixaura.lepton.module.world.Timer;
+import cn.matrixaura.lepton.util.inject.ClassUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ModuleManager {
@@ -23,25 +16,15 @@ public class ModuleManager {
 
     public ModuleManager() {
 
-        putModule(
-                AutoClicker.class, NoClickDelay.class, Reach.class, // Combat
-                BridgeAssist.class, Sprint.class, Speed.class, // Movement
-                HUD.class, Tracers.class, // Visual
-                Timer.class // World
-        );
+        try {
+            for (Class<? extends Module> module : (List<Class<? extends Module>>) ClassUtils.getClasses("cn.matrixaura.lepton.module.impl")) {
+                classModuleMap.put(module, module.newInstance());
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load modules: {},{}", e.getMessage(), e.getStackTrace()[0]);
+        }
 
         logger.info("Loaded {} modules", classModuleMap.size());
-    }
-
-    @SafeVarargs
-    private final void putModule(Class<? extends Module>... modules) {
-        for (Class<? extends Module> module : modules) {
-            try {
-                classModuleMap.put(module, module.newInstance());
-            } catch (Exception e) {
-                logger.error("Failed to initialize modules: {}", module.getName());
-            }
-        }
     }
 
     public <T extends Module> T get(Class<T> clazz) {

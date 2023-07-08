@@ -1,4 +1,4 @@
-package cn.matrixaura.lepton.module.movement;
+package cn.matrixaura.lepton.module.impl.movement;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.HitResult;
 import cn.matrixaura.lepton.listener.bus.Listener;

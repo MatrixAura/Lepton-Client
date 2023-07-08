@@ -1,4 +1,4 @@
-package cn.matrixaura.lepton.module.combat;
+package cn.matrixaura.lepton.module.impl.combat;
 
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.input.EventAttackReach;

@@ -1,4 +1,4 @@
-package cn.matrixaura.lepton.module.world;
+package cn.matrixaura.lepton.module.impl.world;
 
 import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;

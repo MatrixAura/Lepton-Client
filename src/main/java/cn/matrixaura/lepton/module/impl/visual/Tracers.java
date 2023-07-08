@@ -1,4 +1,4 @@
-package cn.matrixaura.lepton.module.visual;
+package cn.matrixaura.lepton.module.impl.visual;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.entity.EntityPlayerWrapper;
 import cn.matrixaura.lepton.listener.bus.Listener;

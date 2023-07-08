@@ -1,4 +1,4 @@
-package cn.matrixaura.lepton.module.world;
+package cn.matrixaura.lepton.module.impl.world;
 
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.player.EventUpdate;
