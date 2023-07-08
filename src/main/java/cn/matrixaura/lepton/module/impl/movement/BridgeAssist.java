@@ -8,7 +8,7 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "BridgeAssist", description = "Assists you at bridging", category = Category.Movement, key = Keyboard.KEY_N)
+@ModuleInfo(name = "Bridge Assist", description = "Assists you at bridging", category = Category.Movement, key = Keyboard.KEY_N)
 public class BridgeAssist extends Module {
     private boolean sneakOverride;
 
