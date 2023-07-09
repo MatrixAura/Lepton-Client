@@ -4,10 +4,10 @@ public enum Category {
 
     Combat("gps_fixed"),
     Movement("directions_run"),
-    Visual("remove_red_eye"),
+    Visual("camera"),
     World("map");
 
-    private String icon;
+    private final String icon;
 
     Category(String icon) {
         this.icon = icon;
