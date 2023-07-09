@@ -7,12 +7,11 @@ import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.util.time.Timer;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import static cn.matrixaura.lepton.util.math.MathUtils.random;
 
-@ModuleInfo(name = "Auto Clicker", description = "Automatically clicks for you", category = Category.Combat, key = Keyboard.KEY_R)
+@ModuleInfo(name = "Auto Clicker", description = "Automatically clicks for you", category = Category.Combat)
 public class AutoClicker extends Module {
     private final Timer timer = new Timer();
     private final Timer cps = new Timer();

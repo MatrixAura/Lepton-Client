@@ -21,9 +21,9 @@ public class BindHttpHandler implements HttpHandler {
 
         try {
             int lwjglKey = BindTransformer.standToLwjglKey(key);
-            Lepton.INSTANCE.getModuleManager().get(module).getBind().setKey(lwjglKey);
+            Lepton.INSTANCE.getModuleManager().get(module).getBind().setKeyCode(lwjglKey);
         } catch (NullPointerException ignored) {
-            Lepton.INSTANCE.getModuleManager().get(module).getBind().setKey(0);
+            Lepton.INSTANCE.getModuleManager().get(module).getBind().setKeyCode(0);
         }
 
         JSONObject jsonObject = new JSONObject();

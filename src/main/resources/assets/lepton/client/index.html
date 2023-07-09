@@ -76,9 +76,9 @@
             dataType: "json",
             success: function(data) {
                 if (data.success) {
-                    for (var i = 0; i < data.result.length; i++) {
-                        addCategory(data.result[i]);
-                    }
+                    Object.keys(data.result).forEach(str => {
+                        addCategory(str, data.result[str]);
+                    })
                 } else {
                     alert(data.reason);
                 }
@@ -86,16 +86,16 @@
                     category = location.hash.substr(1);
                     if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
                 }
-                if(!data.result.includes(category)) {
-                    location.hash = "#" + (category = data.result[0]);
+                if(!Object.keys(data.result).includes(category)) {
+                    location.hash = "#" + (category = Object.keys(data.result)[0]);
                 }
                 window.onhashchange = () => {
                     if(location.hash) {
                         category = location.hash.substr(1);
                         if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
                     }
-                    if(!data.result.includes(category)) {
-                        location.hash = "#" + (category = data.result[0]);
+                    if(!Object.keys(data.result).includes(category)) {
+                        location.hash = "#" + (category = Object.keys(data.result)[0]);
                     }
                     $.ajax({
                         url: "/api/modulesList?category=" + category,
@@ -118,8 +118,8 @@
                         category = location.hash.substr(1);
                         if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
                     }
-                    if(!data.result.includes(category)) {
-                        location.hash = "#" + (category = data.result[0]);
+                    if(!Object.keys(data.result).includes(category)) {
+                        location.hash = "#" + (category = Object.keys(data.result)[0]);
                     }
                     $.ajax({
                         url: "/api/updateModulesInfo?category="+category,

@@ -6,9 +6,8 @@ import cn.matrixaura.lepton.listener.events.player.EventUpdate;
 import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
-import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Bridge Assist", description = "Assists you at bridging", category = Category.Movement, key = Keyboard.KEY_N)
+@ModuleInfo(name = "Bridge Assist", description = "Assists you at bridging", category = Category.Movement)
 public class BridgeAssist extends Module {
     private boolean sneakOverride;
 

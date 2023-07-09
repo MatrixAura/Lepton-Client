@@ -4,7 +4,7 @@ import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.setting.settings.BooleanSetting;
-import cn.matrixaura.lepton.setting.settings.EnumSetting;
+import cn.matrixaura.lepton.setting.settings.ModeSetting;
 import cn.matrixaura.lepton.setting.settings.NumberSetting;
 import cn.matrixaura.lepton.setting.settings.StringSetting;
 import com.sun.net.httpserver.HttpExchange;
@@ -30,17 +30,17 @@ public class SetSettingHttpHandler implements HttpHandler {
 
         for (Setting<?> setting : module.getSettings()) {
             if (setting.getName().equals(name)) {
-                if (setting.getValue() instanceof Boolean) {
+                if (setting instanceof BooleanSetting) {
                     ((BooleanSetting) setting).setValue(value.equals("true"));
                     jsonObject.put("result", value.equals("true"));
-                } else if (setting.getValue() instanceof Number) {
+                } else if (setting instanceof NumberSetting) {
                     ((NumberSetting) setting).setValue(Double.valueOf(value));
                     jsonObject.put("result", Double.valueOf(value));
-                } else if (setting.getValue() instanceof String) {
+                } else if (setting instanceof StringSetting) {
                     ((StringSetting) setting).setValue(value);
                     jsonObject.put("result", value);
-                } else if (setting.getValue() instanceof Enum) {
-                    ((EnumSetting<?>) setting).setByName(value);
+                } else if (setting instanceof ModeSetting) {
+                    ((ModeSetting) setting).setValue(value);
                     jsonObject.put("result", value);
                 }
             }

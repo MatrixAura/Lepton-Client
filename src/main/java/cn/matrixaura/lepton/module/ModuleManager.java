@@ -1,13 +1,13 @@
 package cn.matrixaura.lepton.module;
 
-import cn.matrixaura.lepton.util.inject.ClassUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.reflections.Reflections;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ModuleManager {
 
@@ -16,12 +16,17 @@ public class ModuleManager {
 
     public ModuleManager() {
 
-        try {
-            for (Class<? extends Module> module : (List<Class<? extends Module>>) ClassUtils.getClasses("cn.matrixaura.lepton.module.impl")) {
-                classModuleMap.put(module, module.newInstance());
+        Reflections reflections = new Reflections("cn.matrixaura.lepton.module");
+
+        Set<Class<? extends Module>> classes = reflections.getSubTypesOf(Module.class);
+
+        for (Class<?> clazz : classes) {
+            try {
+                Module feature = (Module) clazz.newInstance();
+                classModuleMap.put(feature.getClass(), feature);
+            } catch (InstantiationException | IllegalAccessException e) {
+                logger.info("Failed to load module {}", e.getStackTrace()[0]);
             }
-        } catch (Exception e) {
-            logger.error("Failed to load modules: {},{}", e.getMessage(), e.getStackTrace()[0]);
         }
 
         logger.info("Loaded {} modules", classModuleMap.size());

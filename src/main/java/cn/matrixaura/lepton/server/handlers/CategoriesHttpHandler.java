@@ -3,7 +3,6 @@ package cn.matrixaura.lepton.server.handlers;
 import cn.matrixaura.lepton.module.Category;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.io.IOException;
@@ -15,10 +14,10 @@ public class CategoriesHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         JSONObject jsonObject = new JSONObject();
-        JSONArray result = new JSONArray();
+        JSONObject result = new JSONObject();
 
         for (Category category : Category.values()) {
-            result.add(category.name());
+            result.put(category.name(), category.getIcon());
         }
 
         jsonObject.put("result", result);

@@ -26,7 +26,7 @@ public class ModulesHttpHandler implements HttpHandler {
                 JSONObject moduleJsonObj = new JSONObject();
                 moduleJsonObj.put("state", module.isToggled());
                 moduleJsonObj.put("desc", module.getDescription());
-                moduleJsonObj.put("binding", BindTransformer.lwjglToStandKey(module.getBind().getKey()));
+                moduleJsonObj.put("binding", BindTransformer.lwjglToStandKey(module.getBind().getKeyCode()));
                 moduleJsonObj.put("settings", !module.getSettings().isEmpty());
                 result.put(module.getName(), moduleJsonObj);
             }

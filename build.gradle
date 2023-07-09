@@ -3,7 +3,7 @@ plugins {
     id 'de.fuerstenau.buildconfig' version '1.1.4'
 }
 
-version = '3.2'
+version = '3.3'
 group = 'cn.matrixaura.lepton'
 archivesBaseName = 'Lepton'
 
@@ -48,10 +48,11 @@ configurations {
 }
 
 dependencies {
-    dependency group: 'org.ow2.asm', name: 'asm-all', version: '5.0.3'
-    dependency group: 'net.java.dev.jna', name: 'jna', version: '5.13.0'
-    dependency group: 'net.java.dev.jna', name: 'jna-platform', version: '5.13.0'
+    dependency 'org.ow2.asm:asm-all:5.2'
+    dependency 'net.java.dev.jna:jna:5.13.0'
+    dependency 'net.java.dev.jna:jna-platform:5.13.0'
     dependency 'net.sf.json-lib:json-lib:2.4:jdk15'
+    dependency 'org.reflections:reflections:0.10.2'
 
     implementation files("${System.properties['java.home']}/../lib/tools.jar")
     implementation fileTree("mclibs/")
@@ -63,7 +64,6 @@ jar {
     manifest.attributes(
             'Agent-Class': 'cn.matrixaura.lepton.inject.AgentMain',
             'Main-Class': 'cn.matrixaura.lepton.Main',
-            'Can-Retransform-Classes': 'true',
             'Can-Redefine-Classes': 'true'
     )
 }

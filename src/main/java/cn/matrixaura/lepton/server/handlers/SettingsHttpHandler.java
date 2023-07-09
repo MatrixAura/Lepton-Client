@@ -4,7 +4,7 @@ import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.setting.settings.BooleanSetting;
-import cn.matrixaura.lepton.setting.settings.EnumSetting;
+import cn.matrixaura.lepton.setting.settings.ModeSetting;
 import cn.matrixaura.lepton.setting.settings.NumberSetting;
 import cn.matrixaura.lepton.setting.settings.StringSetting;
 import com.sun.net.httpserver.HttpExchange;
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class SettingsHttpHandler implements HttpHandler {
 
@@ -32,27 +33,25 @@ public class SettingsHttpHandler implements HttpHandler {
                 isFound = true;
                 for (Setting<?> setting : module.getSettings()) {
                     JSONObject moduleSet = new JSONObject();
-                    if (setting.getValue() instanceof String) {
+                    if (setting instanceof StringSetting) {
                         moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "input");
                         moduleSet.put("value", ((StringSetting) setting).getValue());
-                    } else if (setting.getValue() instanceof Number) {
+                    } else if (setting instanceof NumberSetting) {
                         moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "slider");
                         moduleSet.put("min", ((NumberSetting) setting).getMin().doubleValue());
                         moduleSet.put("max", ((NumberSetting) setting).getMax().doubleValue());
                         moduleSet.put("step", ((NumberSetting) setting).getInc().doubleValue());
                         moduleSet.put("value", ((NumberSetting) setting).getValue().doubleValue());
-                    } else if (setting.getValue() instanceof Enum) {
+                    } else if (setting instanceof ModeSetting) {
                         moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "selection");
                         JSONArray values = new JSONArray();
-                        for (Enum<?> aEnum : ((Enum<?>) setting.getValue()).getDeclaringClass().getEnumConstants()) {
-                            values.add(aEnum.name());
-                        }
+                        values.addAll(Arrays.asList(((ModeSetting) setting).getValues()));
                         moduleSet.put("values", values);
-                        moduleSet.put("value", ((EnumSetting<?>) setting).getValue().name());
-                    } else if (setting.getValue() instanceof Boolean) {
+                        moduleSet.put("value", ((ModeSetting) setting).getValue());
+                    } else if (setting instanceof BooleanSetting) {
                         moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "checkbox");
                         moduleSet.put("value", ((BooleanSetting) setting).getValue());

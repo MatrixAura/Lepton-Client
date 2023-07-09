@@ -51,6 +51,7 @@ public class Main {
             }
         }
 
+        version(BuildConfig.VERSION);
         info("Waiting Minecraft process");
         int pid = InjectUtils.getMinecraftProcessId();
         info("Find a Minecraft process, PID: " + ConsoleColors.GREEN + pid + ConsoleColors.RESET);
@@ -83,7 +84,7 @@ public class Main {
         System.out.printf("%sfail%s: %s\n", ConsoleColors.RED, ConsoleColors.RESET, s);
     }
 
-    public static void agent(String s) {
-        System.out.printf("%sagent%s: %s\n", ConsoleColors.PURPLE, ConsoleColors.RESET, s);
+    public static void version(String s) {
+        System.out.printf("%sclient%s: Version %s%s%s\n", ConsoleColors.PURPLE, ConsoleColors.RESET, ConsoleColors.BLUE, s, ConsoleColors.RESET);
     }
 }

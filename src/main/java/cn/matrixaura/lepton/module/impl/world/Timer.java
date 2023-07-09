@@ -6,9 +6,8 @@ import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.setting.Setting;
-import org.lwjgl.input.Keyboard;
 
-@ModuleInfo(name = "Timer", description = "Change your game speed", category = Category.World, key = Keyboard.KEY_G)
+@ModuleInfo(name = "Timer", description = "Change your game speed", category = Category.World)
 public class Timer extends Module {
 
     private Setting<Number> timer = setting("Timer", 2, 0, 10, 0.1);

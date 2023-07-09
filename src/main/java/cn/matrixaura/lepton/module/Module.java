@@ -1,26 +1,26 @@
 package cn.matrixaura.lepton.module;
 
 import cn.matrixaura.lepton.Lepton;
-import cn.matrixaura.lepton.bind.Bind;
+import cn.matrixaura.lepton.bind.KeyBind;
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.setting.settings.BooleanSetting;
-import cn.matrixaura.lepton.setting.settings.EnumSetting;
+import cn.matrixaura.lepton.setting.settings.ModeSetting;
 import cn.matrixaura.lepton.setting.settings.NumberSetting;
 import cn.matrixaura.lepton.setting.settings.StringSetting;
-import cn.matrixaura.lepton.util.trait.Nameable;
-import cn.matrixaura.lepton.util.trait.Toggleable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Module implements Nameable, Toggleable {
+public class Module {
     protected static final MinecraftWrapper mc = MinecraftWrapper.get();
 
     private final String name, description;
     private final Category category;
-    private final Bind bind;
+    private final KeyBind bind;
     private final List<Setting<?>> settings = new ArrayList<>();
+
+    private boolean state = false;
 
     private final boolean canToggle;
 
@@ -36,30 +36,33 @@ public class Module implements Nameable, Toggleable {
         this.category = info.category();
         this.canToggle = info.canToggle();
 
-        bind = new Bind(name, (x) -> {
-            if (canToggle) {
-                if (x.isToggled()) {
-                    onEnable();
-                    Lepton.getBus().subscribe(this);
-                } else {
-                    Lepton.getBus().unsubscribe(this);
-                    onDisable();
+        bind = new KeyBind(
+                info.key(),
+                () -> {
+                    if (canToggle) toggle();
                 }
-            }
-        }, info.key());
-        bind.setState(info.enabled());
+        );
+        setState(info.enabled());
         Lepton.INSTANCE.getBindManager().addBind(bind);
     }
 
-    @Override
     public void onEnable() {
     }
 
-    @Override
     public void onDisable() {
     }
 
-    @Override
+    public void toggle() {
+        if (state) {
+            Lepton.getBus().unsubscribe(this);
+            onDisable();
+        } else {
+            onEnable();
+            Lepton.getBus().subscribe(this);
+        }
+        state = !state;
+    }
+
     public String getName() {
         return name;
     }
@@ -72,7 +75,7 @@ public class Module implements Nameable, Toggleable {
         return category;
     }
 
-    public Bind getBind() {
+    public KeyBind getBind() {
         return bind;
     }
 
@@ -80,14 +83,12 @@ public class Module implements Nameable, Toggleable {
         return settings;
     }
 
-    @Override
     public boolean isToggled() {
-        return bind.isToggled();
+        return state;
     }
 
-    @Override
     public void setState(boolean state) {
-        bind.setState(state);
+        if (state != this.state) toggle();
     }
 
     public Setting<Boolean> setting(String name, boolean defaultValue) {
@@ -102,14 +103,14 @@ public class Module implements Nameable, Toggleable {
         return setting;
     }
 
-    public <E extends Enum<E>> Setting<E> setting(String name, E defaultValue) {
-        EnumSetting<E> setting = new EnumSetting<>(name, defaultValue);
+    public Setting<String> setting(String name, String defaultValue) {
+        StringSetting setting = new StringSetting(name, defaultValue);
         settings.add(setting);
         return setting;
     }
 
-    public Setting<String> setting(String name, String defaultValue) {
-        StringSetting setting = new StringSetting(name, defaultValue);
+    public Setting<String> setting(String name, String defaultValue, String... values) {
+        ModeSetting setting = new ModeSetting(name, defaultValue, values);
         settings.add(setting);
         return setting;
     }
