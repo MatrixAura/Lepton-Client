@@ -52,6 +52,10 @@ public class Module {
     public void onDisable() {
     }
 
+    public boolean canToggle() {
+        return canToggle;
+    }
+
     public void toggle() {
         if (state) {
             Lepton.getBus().unsubscribe(this);

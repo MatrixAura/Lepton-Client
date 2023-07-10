@@ -19,9 +19,4 @@ public class RandomUtils {
         return rng.nextInt() * (max - min) + min;
     }
 
-    public static long longRandom(long min, long max) {
-        final SecureRandom rng = new SecureRandom();
-        return rng.nextLong() * (max - min) + min;
-    }
-
 }

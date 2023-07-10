@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
-@ModuleInfo(name = "Tracers", description = "Draws lines to entities", category = Category.Visual)
+@ModuleInfo(name = "Tracers", description = "Draws lines to players", category = Category.Visual)
 public class Tracers extends Module {
 
     @Listener

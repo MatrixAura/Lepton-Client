@@ -1,0 +1,31 @@
+package cn.matrixaura.lepton.module.impl.other.anticrash.checks;
+
+import cn.matrixaura.lepton.module.impl.other.anticrash.CrashCheck;
+import cn.matrixaura.lepton.util.inject.Mappings;
+import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+
+public class ParticleCheck extends CrashCheck {
+
+    private int particles;
+
+    public ParticleCheck() {
+        super("ParticleCheck", "Server attempted to crash the client with a large amount of particles");
+    }
+
+    @Override
+    public boolean handle(Object packet) {
+        if (Mappings.getUnobfClass(packet.getClass().getName().replace(".", "/")).equals("net/minecraft/network/play/server/S2APacketParticles")) {
+            int particleCount = (Integer) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_149222_k"));
+            int particleSpeed = (Integer) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_149227_j"));
+
+            particles += particleCount;
+            particles -= 6;
+            particles = Math.min(particles, 150);
+
+            return particles > 100 || particleCount < 1 || Math.abs(particleCount) > 20 || particleSpeed < 0 || particleSpeed > 1000;
+        }
+
+        return false;
+    }
+
+}

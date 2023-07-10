@@ -4,7 +4,9 @@ import cn.matrixaura.lepton.inject.dynamic.Dynamic;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import org.objectweb.asm.*;
 
-public class GuiScreenDynamic extends Dynamic implements Opcodes {
+import static org.objectweb.asm.Opcodes.*;
+
+public class GuiScreenDynamic extends Dynamic {
 
     public GuiScreenDynamic() {
         super("net.minecraft.client.gui.GuiScreen");

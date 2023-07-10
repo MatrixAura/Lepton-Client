@@ -1,0 +1,24 @@
+package cn.matrixaura.lepton.module.impl.other.anticrash.checks;
+
+import cn.matrixaura.lepton.module.impl.other.anticrash.CrashCheck;
+import cn.matrixaura.lepton.util.inject.Mappings;
+import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+
+public class ExplosionCheck extends CrashCheck {
+
+    public ExplosionCheck() {
+        super("Explosion Check", "Blocked a large explosion packet");
+    }
+
+    @Override
+    public boolean handle(Object packet) {
+        if (Mappings.getUnobfClass(packet.getClass().getName().replace(".", "/")).equals("net/minecraft/network/play/server/S27PacketExplosion")) {
+            return (Byte) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_149149_c")) >= Byte.MAX_VALUE
+                    || (Byte) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_149144_d")) >= Byte.MAX_VALUE
+                    || (Byte) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_149147_e")) >= Byte.MAX_VALUE;
+        }
+
+        return false;
+    }
+
+}

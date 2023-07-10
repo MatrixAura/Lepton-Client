@@ -5,7 +5,8 @@ public enum Category {
     Combat("gps_fixed"),
     Movement("directions_run"),
     Visual("camera"),
-    World("map");
+    World("map"),
+    Other("more_horiz");
 
     private final String icon;
 

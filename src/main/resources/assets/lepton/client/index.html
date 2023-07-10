@@ -105,7 +105,7 @@
                             $("#point").children().remove();
                             if (data.success) {
                                 Object.keys(data.result).forEach(module => {
-                                    addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings, data.result[module].binding);
+                                    addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings, data.result[module].binding, data.result[module].canToggle);
                                 })
                             } else {
                                 alert(data.reason);
@@ -150,7 +150,7 @@
             module.checked = state
         }
 
-        function addModule(name,desc,state,settings,bind) {
+        function addModule(name,desc,state,settings,bind,canToggle) {
             if (state) {
                 state = "checked"
             } else {
@@ -164,14 +164,9 @@
                 '<div class="mdui-card-primary-subtitle">'+desc+'</div>',
                 '</div>',
                 '<div class="mdui-card-content">',
-                '<label class="mdui-switch">',
-                '<input type="checkbox" id="'+name+'-checkbox" onclick="onswitch(this)" '+state+'/>',
-                '<i class="mdui-switch-icon"></i>',
-                '</label>',
+                canToggle ? '<label class="mdui-switch"><input type="checkbox" id="'+name+'-checkbox" onclick="onswitch(this)" '+state+'/><i class="mdui-switch-icon"></i></label>' : '',
                 settings ? '<button class="mdui-btn mdui-ripple mdui-float-right" id="'+name+'-button" onclick="opensetting(this)"><i class="mdui-icon material-icons">settings</i></button>' : '',
-                '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeypress="onkey(this,event.keyCode)">',
-                'Bound to '+getKeyName(bind),
-                '</button>',
+                canToggle ? '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeypress="onkey(this,event.keyCode)">Bound to '+getKeyName(bind)+'</button>' : '',
                 '</div>',
                 '</div>',
                 '</div>'

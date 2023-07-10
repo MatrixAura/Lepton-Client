@@ -1,5 +1,6 @@
 package cn.matrixaura.lepton.util.inject;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -93,6 +94,30 @@ public class ReflectionUtils {
                 method.setAccessible(true);
                 return method.invoke(null);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
+            }
+
+            c = c.getSuperclass();
+        }
+        return null;
+    }
+
+    public static Object newInstance(Class<?> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static Object newInstance(Class<?> clazz, Class<?>[] desc, Object... args) {
+        Class<?> c = clazz;
+        while (c.getSuperclass() != null) {
+            try {
+                Constructor<?> method = c.getDeclaredConstructor(desc);
+                method.setAccessible(true);
+                return method.newInstance(args);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException ignored) {
+
             }
 
             c = c.getSuperclass();

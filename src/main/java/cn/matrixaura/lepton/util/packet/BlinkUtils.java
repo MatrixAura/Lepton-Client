@@ -1,14 +1,13 @@
 package cn.matrixaura.lepton.util.packet;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
-import cn.matrixaura.lepton.listener.events.packet.EventPacketSend;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BlinkUtils {
 
     private static boolean blinking = false;
-    private static Type type = Type.ALL;
+    private static Type type = Type.OUTBOUND;
     private static final CopyOnWriteArrayList<Object> blockedPackets = new CopyOnWriteArrayList<>();
 
     public static void startBlink() {
@@ -17,7 +16,25 @@ public class BlinkUtils {
 
     public static void stopBlink() {
         blinking = false;
-        blockedPackets.forEach(MinecraftWrapper.get().getNetHandler()::addToSendQueue);
+        switch (type) {
+            case INBOUND: {
+                blockedPackets.forEach(MinecraftWrapper.get().getNetHandler().getNetworkManager()::processPacket);
+                break;
+            }
+            case OUTBOUND: {
+                blockedPackets.forEach(MinecraftWrapper.get().getNetHandler()::addToSendQueue);
+                break;
+            }
+            case BOTH: {
+                blockedPackets.forEach(packet -> {
+                    if (PacketUtils.isPacketInbound(packet)) {
+                        MinecraftWrapper.get().getNetHandler().getNetworkManager().processPacket(packet);
+                    } else MinecraftWrapper.get().getNetHandler().addToSendQueue(packet);
+                });
+                break;
+            }
+        }
+        blockedPackets.clear();
     }
 
     public static boolean isBlinking() {
@@ -32,14 +49,18 @@ public class BlinkUtils {
         type = type1;
     }
 
-    public static void blockOutboundPacket(EventPacketSend event) {
-        blockedPackets.add(event.getPacket());
-        event.cancel();
+    public static void blockOutboundPacket(Object packet) {
+        blockedPackets.add(packet);
+    }
+
+    public static void blockInboundPacket(Object packet) {
+        blockedPackets.add(packet);
     }
 
     public enum Type {
-        MOVING,
-        ALL
+        INBOUND,
+        OUTBOUND,
+        BOTH
     }
 
 }
