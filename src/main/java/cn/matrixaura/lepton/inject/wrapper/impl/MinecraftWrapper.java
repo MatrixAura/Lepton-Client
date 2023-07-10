@@ -130,6 +130,14 @@ public class MinecraftWrapper extends Wrapper {
         this.currentScreenObj = currentScreenObj;
     }
 
+    public void displayGuiScreen(Object guiScreen) {
+        try {
+            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.seargeToNotchMethod("func_147108_a"), new Class[]{ Class.forName(Mappings.getObfClass("net/minecraft/client/gui/GuiScreen")) }, guiScreen);
+        } catch (Exception ignored) {
+
+        }
+    }
+
     public FontRendererWrapper getFontRenderer() {
         if (fontRendererWrapper == null) {
             try {

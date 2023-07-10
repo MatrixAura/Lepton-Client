@@ -2,6 +2,7 @@ package cn.matrixaura.lepton.inject;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.asm.api.Transformers;
+import cn.matrixaura.lepton.inject.dynamic.Dynamics;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import cn.matrixaura.lepton.util.inject.MinecraftVersion;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,13 @@ public class AgentMain {
         } catch (Exception e) {
             logger.error("Failed to read mappings, {}", e.getStackTrace()[0]);
             return;
+        }
+
+        try {
+            Dynamics.init();
+        } catch (Exception e) {
+            logger.error("Failed to init dynamic classes {}, {}", e.getMessage(), e.getStackTrace()[0]);
+            e.printStackTrace();
         }
 
         try {
