@@ -7,7 +7,7 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 
 @ModuleInfo(name = "No Click Delay", description = "Stops left click delay", category = Category.Combat, enabled = true)
-public class NoClickDelay extends Module {
+public class NoClickDelayModule extends Module {
 
     @Listener
     public void onUpdate(EventUpdate event) {

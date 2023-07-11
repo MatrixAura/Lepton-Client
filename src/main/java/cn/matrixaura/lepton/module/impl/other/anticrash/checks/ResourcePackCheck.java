@@ -4,6 +4,7 @@ import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.module.impl.other.anticrash.CrashCheck;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.packet.PacketUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +19,7 @@ public class ResourcePackCheck extends CrashCheck {
 
     @Override
     public boolean handle(Object packet) {
-        if (Mappings.getUnobfClass(packet.getClass().getName().replace(".", "/")).equals("net/minecraft/network/play/server/S48PacketResourcePackSend")) {
+        if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S48PacketResourcePackSend")) {
 
             final String url = (String) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_179783_a"));
             final String hash = (String) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_179784_b"));

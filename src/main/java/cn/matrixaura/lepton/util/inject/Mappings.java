@@ -104,6 +104,10 @@ public class Mappings {
         return classNames.get(obfName);
     }
 
+    public static String getUnobfClass(Class<?> obfClass) {
+        return getUnobfClass(obfClass.getName().replace(".", "/"));
+    }
+
     public static String fieldToNotch(String name) {
         String searge = deobfFields.get(name);
         if (searge == null) return null;

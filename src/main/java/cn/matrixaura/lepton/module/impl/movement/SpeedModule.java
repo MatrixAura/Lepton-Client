@@ -9,7 +9,7 @@ import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.util.player.PlayerUtils;
 
 @ModuleInfo(name = "Speed", description = "Make you move faster", category = Category.Movement)
-public class Speed extends Module {
+public class SpeedModule extends Module {
 
     public Setting<String> mode = setting("Mode", "Legit", "Legit", "Timer");
 

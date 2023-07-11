@@ -7,7 +7,7 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 
 @ModuleInfo(name = "Reach", description = "Reaches further than normal", category = Category.Combat)
-public class Reach extends Module {
+public class ReachModule extends Module {
 
     @Listener
     public void onAttackReach(EventAttackReach event) {

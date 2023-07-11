@@ -7,7 +7,7 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 
 @ModuleInfo(name = "Sprint", description = "Automatically sprints for you", category = Category.Movement, enabled = true)
-public class Sprint extends Module {
+public class SprintModule extends Module {
 
     @Listener
     public void onUpdate(EventUpdate event) {

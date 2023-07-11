@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ModuleInfo(name = "Anti Crash", description = "Prevent server crashes your game", category = Category.Other, enabled = true, canToggle = false)
-public class AntiCrash extends Module {
+public class AntiCrashModule extends Module {
 
     private final List<CrashCheck> checks = new ArrayList<>();
 
-    {
+    public AntiCrashModule() {
         checks.add(new DemoCheck());
         checks.add(new ExplosionCheck());
         checks.add(new LoggerRCECheck());
@@ -25,6 +25,7 @@ public class AntiCrash extends Module {
         checks.add(new TeleportCheck());
         checks.add(new EntityCheck());
         checks.add(new RotationCheck());
+        Lepton.logger.info("Loaded {} Anti-Crash checks", checks.size());
     }
 
     @Listener

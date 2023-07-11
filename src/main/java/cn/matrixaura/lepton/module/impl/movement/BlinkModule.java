@@ -7,7 +7,7 @@ import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.util.packet.BlinkUtils;
 
 @ModuleInfo(name = "Blink", description = "Pause your packet send/receive", category = Category.Movement)
-public class Blink extends Module {
+public class BlinkModule extends Module {
 
     public Setting<String> mode = setting("Mode", "Inbound", "Inbound", "Outbound", "Both");
 

@@ -8,7 +8,7 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 
 @ModuleInfo(name = "Bridge Assist", description = "Assists you at bridging", category = Category.Movement)
-public class BridgeAssist extends Module {
+public class BridgeAssistModule extends Module {
     private boolean sneakOverride;
 
     @Override
