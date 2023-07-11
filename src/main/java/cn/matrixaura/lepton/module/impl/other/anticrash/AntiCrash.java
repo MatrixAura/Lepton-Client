@@ -23,6 +23,8 @@ public class AntiCrash extends Module {
         checks.add(new ParticleCheck());
         checks.add(new ResourcePackCheck());
         checks.add(new TeleportCheck());
+        checks.add(new EntityCheck());
+        checks.add(new RotationCheck());
     }
 
     @Listener
@@ -30,7 +32,7 @@ public class AntiCrash extends Module {
         checks.forEach(crashCheck -> {
             if (crashCheck.handle(event.getPacket())) {
                 event.cancel();
-                Lepton.logger.info("[Anti-Crash] {} was detected. Desc: {}", crashCheck.getName(), crashCheck.getDesc());
+                Lepton.logger.info("[Anti-Crash] {} was detected. Message: {}", crashCheck.getName(), crashCheck.getMessage());
             }
         });
     }

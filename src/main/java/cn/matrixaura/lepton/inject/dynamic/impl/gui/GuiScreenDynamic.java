@@ -2,7 +2,9 @@ package cn.matrixaura.lepton.inject.dynamic.impl.gui;
 
 import cn.matrixaura.lepton.inject.dynamic.Dynamic;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import org.objectweb.asm.*;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.*;
 

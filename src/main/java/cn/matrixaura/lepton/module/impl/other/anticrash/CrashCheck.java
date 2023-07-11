@@ -2,11 +2,11 @@ package cn.matrixaura.lepton.module.impl.other.anticrash;
 
 public abstract class CrashCheck {
 
-    private final String name, desc;
+    private final String name, message;
 
-    public CrashCheck(String name, String desc) {
+    public CrashCheck(String name, String message) {
         this.name = name;
-        this.desc = desc;
+        this.message = message;
     }
 
     public abstract boolean handle(Object packet);
@@ -15,8 +15,8 @@ public abstract class CrashCheck {
         return name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getMessage() {
+        return message;
     }
 
 }

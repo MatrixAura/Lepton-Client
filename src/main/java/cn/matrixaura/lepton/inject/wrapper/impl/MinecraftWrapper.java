@@ -132,7 +132,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void displayGuiScreen(Object guiScreen) {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.seargeToNotchMethod("func_147108_a"), new Class[]{ Class.forName(Mappings.getObfClass("net/minecraft/client/gui/GuiScreen")) }, guiScreen);
+            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.seargeToNotchMethod("func_147108_a"), new Class[]{Class.forName(Mappings.getObfClass("net/minecraft/client/gui/GuiScreen"))}, guiScreen);
         } catch (Exception ignored) {
 
         }
@@ -184,9 +184,7 @@ public class MinecraftWrapper extends Wrapper {
     public static MinecraftWrapper get() {
         if (instance == null) {
             try {
-                Class<?> clazz = Class.forName(Mappings.getObfClass(CLASS));
-
-                instance = new MinecraftWrapper(ReflectionUtils.invokeMethod(clazz, Mappings.seargeToNotchMethod("func_71410_x")));
+                instance = new MinecraftWrapper(ReflectionUtils.invokeMethod(Class.forName(Mappings.getObfClass(CLASS)), Mappings.seargeToNotchMethod("func_71410_x")));
             } catch (Exception ignored) {
 
             }

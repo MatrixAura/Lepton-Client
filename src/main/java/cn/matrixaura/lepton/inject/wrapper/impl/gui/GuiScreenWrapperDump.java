@@ -1,7 +1,10 @@
 package cn.matrixaura.lepton.inject.wrapper.impl.gui;
 
 import cn.matrixaura.lepton.util.inject.Mappings;
-import org.objectweb.asm.*;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 public class GuiScreenWrapperDump implements Opcodes {
 
@@ -9,7 +12,7 @@ public class GuiScreenWrapperDump implements Opcodes {
 
         ClassWriter classWriter = new ClassWriter(0);
         MethodVisitor methodVisitor;
-        
+
         String obfGuiScreenClass = Mappings.getObfClass("net/minecraft/client/gui/GuiScreen");
 
         classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, "net/minecraft/client/gui/GuiScreen", null, obfGuiScreenClass, null);
