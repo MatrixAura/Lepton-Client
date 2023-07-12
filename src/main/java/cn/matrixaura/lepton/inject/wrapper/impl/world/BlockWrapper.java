@@ -23,7 +23,7 @@ public class BlockWrapper extends Wrapper {
 
         try {
             // FD: afh/J net/minecraft/block/Block/field_149764_J
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_149764_J"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_149764_J"));
             field.setAccessible(true);
             material = new MaterialWrapper(field.get(blockObj));
             field.setAccessible(false);

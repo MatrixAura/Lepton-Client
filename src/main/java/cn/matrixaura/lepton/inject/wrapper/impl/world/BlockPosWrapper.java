@@ -23,17 +23,17 @@ public class BlockPosWrapper extends Wrapper {
         //FD: df/d net/minecraft/util/Vec3i/field_177961_c z
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_177962_a"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_177962_a"));
             field.setAccessible(true);
 
             x = (Integer) field.get(blockPosObj);
 
-            field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_177960_b"));
+            field = getClazz().getDeclaredField(Mappings.getObfField("field_177960_b"));
             field.setAccessible(true);
 
             y = (Integer) field.get(blockPosObj);
 
-            field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_177961_c"));
+            field = getClazz().getDeclaredField(Mappings.getObfField("field_177961_c"));
             field.setAccessible(true);
 
             z = (Integer) field.get(blockPosObj);

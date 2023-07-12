@@ -4,25 +4,18 @@ public enum MinecraftVersion {
     VER_1_7_10("1.7.10"),
     VER_1_8_9("1.8.9");
 
-    private final String dir;
+    private final String ver;
 
-    MinecraftVersion(String dir) {
-        this.dir = dir;
+    MinecraftVersion(String ver) {
+        this.ver = ver;
     }
 
-    public String getDir() {
-        return dir;
+    public String getVer() {
+        return ver;
     }
 
     public String getSrg() {
-        return "/assets/lepton/client/mappings/" + dir + "/joined.srg";
+        return "/assets/lepton/client/mappings/" + ver.replace(".", "_") + ".srg";
     }
 
-    public String getFields() {
-        return "/assets/lepton/client/mappings/" + dir + "/fields.csv";
-    }
-
-    public String getMethods() {
-        return "/assets/lepton/client/mappings/" + dir + "/methods.csv";
-    }
 }

@@ -15,7 +15,7 @@ public class EntityPlayerWrapper extends Wrapper {
     public double getX() {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
-        String notch = Mappings.seargeToNotchField("field_70165_t");
+        String notch = Mappings.getObfField("field_70165_t");
         Object value = ReflectionUtils.getFieldValue(getClazz(), entityPlayerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
@@ -23,7 +23,7 @@ public class EntityPlayerWrapper extends Wrapper {
     public double getY() {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
-        String notch = Mappings.seargeToNotchField("field_70163_u");
+        String notch = Mappings.getObfField("field_70163_u");
         Object value = ReflectionUtils.getFieldValue(getClazz(), entityPlayerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
@@ -31,7 +31,7 @@ public class EntityPlayerWrapper extends Wrapper {
     public double getZ() {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
-        String notch = Mappings.seargeToNotchField("field_70161_v");
+        String notch = Mappings.getObfField("field_70161_v");
         Object value = ReflectionUtils.getFieldValue(getClazz(), entityPlayerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }

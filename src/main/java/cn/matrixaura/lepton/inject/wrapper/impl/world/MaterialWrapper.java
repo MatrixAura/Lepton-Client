@@ -17,7 +17,7 @@ public class MaterialWrapper extends Wrapper {
         // FD: arm/K net/minecraft/block/material/Material/field_76239_H
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_76239_H"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_76239_H"));
             field.setAccessible(true);
             Object value = field.get(materialObj);
             return value != null && (Boolean) value;

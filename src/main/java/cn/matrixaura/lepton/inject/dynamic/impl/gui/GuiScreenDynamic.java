@@ -38,7 +38,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.seargeToNotchMethod("func_73866_w_"), "()V", null, null);
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.getObfMethod("func_73866_w_"), "()V", null, null);
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
@@ -56,7 +56,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PROTECTED, Mappings.seargeToNotchMethod("func_73869_a"), "(CI)V", null, new String[]{"java/io/IOException"});
+            methodVisitor = classWriter.visitMethod(ACC_PROTECTED, Mappings.getObfMethod("func_73869_a"), "(CI)V", null, new String[]{"java/io/IOException"});
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
@@ -71,7 +71,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitVarInsn(ILOAD, 1);
             methodVisitor.visitVarInsn(ILOAD, 2);
-            methodVisitor.visitMethodInsn(INVOKESPECIAL, Mappings.getObfClass("net/minecraft/client/gui/GuiScreen"), Mappings.seargeToNotchMethod("func_73869_a"), "(CI)V", false);
+            methodVisitor.visitMethodInsn(INVOKESPECIAL, Mappings.getObfClass("net/minecraft/client/gui/GuiScreen"), Mappings.getObfMethod("func_73869_a"), "(CI)V", false);
             Label label2 = new Label();
             methodVisitor.visitLabel(label2);
             methodVisitor.visitLineNumber(18, label2);
@@ -85,7 +85,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.seargeToNotchMethod("func_73868_f"), "()Z", null, null);
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.getObfMethod("func_73868_f"), "()Z", null, null);
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
@@ -100,7 +100,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.seargeToNotchMethod("func_146281_b"), "()V", null, null);
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.getObfMethod("func_146281_b"), "()V", null, null);
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
@@ -118,7 +118,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PROTECTED, Mappings.seargeToNotchMethod("func_73864_a"), "(III)V", null, new String[]{"java/io/IOException"});
+            methodVisitor = classWriter.visitMethod(ACC_PROTECTED, Mappings.getObfMethod("func_73864_a"), "(III)V", null, new String[]{"java/io/IOException"});
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
@@ -142,7 +142,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PROTECTED, Mappings.seargeToNotchMethod("func_146286_b"), "(III)V", null, null);
+            methodVisitor = classWriter.visitMethod(ACC_PROTECTED, Mappings.getObfMethod("func_146286_b"), "(III)V", null, null);
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
@@ -166,7 +166,7 @@ public class GuiScreenDynamic extends Dynamic {
             methodVisitor.visitEnd();
         }
         {
-            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.seargeToNotchMethod("func_73863_a"), "(IIF)V", null, null);
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, Mappings.getObfMethod("func_73863_a"), "(IIF)V", null, null);
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);

@@ -18,14 +18,14 @@ public class LoggerRCECheck extends CrashCheck {
     @Override
     public boolean handle(Object packet) {
         if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S29PacketSoundEffect")) {
-            String name = (String) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_149212_c"));
+            String name = (String) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_149212_c"));
             return PATTERN.matcher(name).matches();
         }
 
         if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S02PacketChat")) {
-            Object component = ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.seargeToNotchMethod("func_148915_c"));
-            String unformatted = (String) ReflectionUtils.invokeMethod(component.getClass(), component, Mappings.seargeToNotchMethod("func_150260_c"));
-            String formatted = (String) ReflectionUtils.invokeMethod(component.getClass(), component, Mappings.seargeToNotchMethod("func_150254_d"));
+            Object component = ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_148915_c"));
+            String unformatted = (String) ReflectionUtils.invokeMethod(component.getClass(), component, Mappings.getObfMethod("func_150260_c"));
+            String formatted = (String) ReflectionUtils.invokeMethod(component.getClass(), component, Mappings.getObfMethod("func_150254_d"));
 
             return PATTERN.matcher(unformatted).matches()
                     || PATTERN.matcher(formatted).matches();

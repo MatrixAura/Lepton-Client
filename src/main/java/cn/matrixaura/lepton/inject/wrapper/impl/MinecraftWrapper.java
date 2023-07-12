@@ -40,7 +40,7 @@ public class MinecraftWrapper extends Wrapper {
     public GameSettingsWrapper getGameSettings() {
         if (gameSettings == null) {
             try {
-                gameSettings = new GameSettingsWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71474_y")));
+                gameSettings = new GameSettingsWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71474_y")));
             } catch (Exception ignored) {
 
             }
@@ -52,7 +52,7 @@ public class MinecraftWrapper extends Wrapper {
     public TimerWrapper getTimer() {
         if (timer == null) {
             try {
-                timer = new TimerWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71428_T")));
+                timer = new TimerWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71428_T")));
             } catch (Exception ignored) {
 
             }
@@ -63,7 +63,7 @@ public class MinecraftWrapper extends Wrapper {
     public RenderManagerWrapper getRenderManager() {
         if (renderManager == null) {
             try {
-                renderManager = new RenderManagerWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_175616_W")));
+                renderManager = new RenderManagerWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_175616_W")));
             } catch (Exception ignored) {
 
             }
@@ -75,7 +75,7 @@ public class MinecraftWrapper extends Wrapper {
     public EntityRendererWrapper getEntityRenderer() {
         if (entityRenderer == null) {
             try {
-                entityRenderer = new EntityRendererWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71460_t")));
+                entityRenderer = new EntityRendererWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71460_t")));
             } catch (Exception ignored) {
 
             }
@@ -87,7 +87,7 @@ public class MinecraftWrapper extends Wrapper {
     public HitResult getHitResult() {
 
         try {
-            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71476_x"));
+            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71476_x"));
 
             if (value == null) return null;
 
@@ -102,7 +102,7 @@ public class MinecraftWrapper extends Wrapper {
     public EntityPlayerSPWrapper getPlayer() {
 
         try {
-            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71439_g"));
+            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71439_g"));
             thePlayer.setPlayerObj(value);
         } catch (Exception ignored) {
 
@@ -113,7 +113,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public WorldClientWrapper getWorld() {
         try {
-            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71441_e"));
+            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71441_e"));
             theWorld.setWorldObj(value);
         } catch (Exception ignored) {
 
@@ -132,7 +132,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void displayGuiScreen(Object guiScreen) {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.seargeToNotchMethod("func_147108_a"), new Class[]{Class.forName(Mappings.getObfClass("net/minecraft/client/gui/GuiScreen"))}, guiScreen);
+            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.getObfMethod("func_147108_a"), new Class[]{guiScreen.getClass()}, guiScreen);
         } catch (Exception ignored) {
 
         }
@@ -141,7 +141,7 @@ public class MinecraftWrapper extends Wrapper {
     public FontRendererWrapper getFontRenderer() {
         if (fontRendererWrapper == null) {
             try {
-                fontRendererWrapper = new FontRendererWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71466_p")));
+                fontRendererWrapper = new FontRendererWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71466_p")));
             } catch (Exception ignored) {
 
             }
@@ -159,7 +159,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void setLeftClickCounter(int delay) {
         try {
-            ReflectionUtils.setFieldValue(getClazz(), minecraftObj, Mappings.seargeToNotchField("field_71429_W"), delay);
+            ReflectionUtils.setFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71429_W"), delay);
         } catch (Exception ignored) {
 
         }
@@ -167,7 +167,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void clickMouse() {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.seargeToNotchMethod("func_147116_af"));
+            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.getObfMethod("func_147116_af"));
         } catch (Exception ignored) {
 
         }
@@ -175,7 +175,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void rightClickMouse() {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.seargeToNotchMethod("func_147121_ag"));
+            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.getObfMethod("func_147121_ag"));
         } catch (Exception ignored) {
 
         }
@@ -184,7 +184,7 @@ public class MinecraftWrapper extends Wrapper {
     public static MinecraftWrapper get() {
         if (instance == null) {
             try {
-                instance = new MinecraftWrapper(ReflectionUtils.invokeMethod(Class.forName(Mappings.getObfClass(CLASS)), Mappings.seargeToNotchMethod("func_71410_x")));
+                instance = new MinecraftWrapper(ReflectionUtils.invokeMethod(Class.forName(Mappings.getObfClass(CLASS)), Mappings.getObfMethod("func_71410_x")));
             } catch (Exception ignored) {
 
             }

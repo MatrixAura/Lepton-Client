@@ -18,7 +18,7 @@ public class GameSettingsWrapper extends Wrapper {
         this.gameSettingsObj = gameSettingsObj;
 
         try {
-            Field field = getClazz().getField(Mappings.seargeToNotchField("field_74324_K"));
+            Field field = getClazz().getField(Mappings.getObfField("field_74324_K"));
             Object[] value = (Object[]) field.get(gameSettingsObj);
             for (Object v : value) {
                 KeyBindingWrapper wrapper = new KeyBindingWrapper(v);

@@ -16,7 +16,7 @@ public class EntityRendererWrapper extends Wrapper {
     public void orientCamera(float partialTicks) {
         try {
             // MD: bfk/f (F)V net/minecraft/client/renderer/EntityRenderer/func_78467_g (F)V
-            Method method = getClazz().getDeclaredMethod(Mappings.seargeToNotchMethod("func_78467_g"), float.class);
+            Method method = getClazz().getDeclaredMethod(Mappings.getObfMethod("func_78467_g"), float.class);
             method.setAccessible(true);
             method.invoke(entityRendererObj, partialTicks);
         } catch (Exception ignored) {

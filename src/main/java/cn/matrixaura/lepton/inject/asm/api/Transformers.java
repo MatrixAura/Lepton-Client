@@ -62,7 +62,7 @@ public class Transformers {
                 String methodToModify = inject.method();
                 String desc = inject.descriptor();
 
-                String obfName = Mappings.seargeToNotchMethod(methodToModify);
+                String obfName = Mappings.getObfMethod(methodToModify);
                 if (obfName == null || obfName.isEmpty()) {
                     logger.error("Could not find {} in class {}", methodToModify, mixin.getName());
                     continue;

@@ -21,7 +21,7 @@ public class KeyBindingWrapper extends Wrapper {
             // MD: avb/g ()Ljava/lang/String; net/minecraft/client/settings/KeyBinding/func_151464_g ()Ljava/lang/String;
 
             try {
-                Method method = getClazz().getMethod(Mappings.seargeToNotchMethod("func_151464_g"));
+                Method method = getClazz().getMethod(Mappings.getObfMethod("func_151464_g"));
                 Object value = method.invoke(keyBindingObj);
                 return value == null ? null : (String) value;
             } catch (Exception ignored) {
@@ -36,7 +36,7 @@ public class KeyBindingWrapper extends Wrapper {
         // FD: avb/h net/minecraft/client/settings/KeyBinding/field_74513_e
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_74513_e"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_74513_e"));
             field.setAccessible(true);
             field.set(keyBindingObj, pressed);
             field.setAccessible(false);
@@ -49,7 +49,7 @@ public class KeyBindingWrapper extends Wrapper {
         // FD: avb/h net/minecraft/client/settings/KeyBinding/field_74513_e
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_74513_e"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_74513_e"));
             field.setAccessible(true);
             Object value = field.get(keyBindingObj);
             field.setAccessible(false);

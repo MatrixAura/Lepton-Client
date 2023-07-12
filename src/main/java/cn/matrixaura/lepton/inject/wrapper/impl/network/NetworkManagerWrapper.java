@@ -18,10 +18,10 @@ public class NetworkManagerWrapper extends Wrapper {
             ReflectionUtils.invokeMethod(
                     getClazz(),
                     networkManagerObj,
-                    Mappings.seargeToNotchMethod("channelRead0"),
+                    Mappings.getObfMethod("channelRead0"),
                     new Class[]{
                             Class.forName("io/netty/channel/ChannelHandlerContext"),
-                            Class.forName(Mappings.getObfClass("net/minecraft/network/Packet"))
+                            packet.getClass()
                     },
                     null,
                     packet

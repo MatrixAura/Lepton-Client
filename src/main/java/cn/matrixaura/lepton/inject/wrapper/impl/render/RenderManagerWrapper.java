@@ -14,19 +14,19 @@ public class RenderManagerWrapper extends Wrapper {
 
     public double getRenderPosX() {
         Object value = ReflectionUtils.getFieldValue(
-                getClazz(), renderManagerObj, Mappings.seargeToNotchField("field_78725_b"));
+                getClazz(), renderManagerObj, Mappings.getObfField("field_78725_b"));
         return value == null ? 0.0 : (Double) value;
     }
 
     public double getRenderPosY() {
         Object value = ReflectionUtils.getFieldValue(
-                getClazz(), renderManagerObj, Mappings.seargeToNotchField("field_78726_c"));
+                getClazz(), renderManagerObj, Mappings.getObfField("field_78726_c"));
         return value == null ? 0.0 : (Double) value;
     }
 
     public double getRenderPosZ() {
         Object value = ReflectionUtils.getFieldValue(
-                getClazz(), renderManagerObj, Mappings.seargeToNotchField("field_78728_n"));
+                getClazz(), renderManagerObj, Mappings.getObfField("field_78728_n"));
         return value == null ? 0.0 : (Double) value;
     }
 }

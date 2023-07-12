@@ -9,7 +9,7 @@ public class HitResult {
 
     public HitResult(Object objectMouseOverObj) {
         try {
-            Object value = ReflectionUtils.getFieldValue(objectMouseOverObj.getClass(), objectMouseOverObj, Mappings.seargeToNotchField("field_72313_a"));
+            Object value = ReflectionUtils.getFieldValue(objectMouseOverObj.getClass(), objectMouseOverObj, Mappings.getObfField("field_72313_a"));
             type = Type.valueOf(((Enum<?>) value).name());
         } catch (Exception ignored) {
         }

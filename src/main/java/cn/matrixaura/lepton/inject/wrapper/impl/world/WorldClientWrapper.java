@@ -27,7 +27,7 @@ public class WorldClientWrapper extends Wrapper {
         // FD: adm/f net/minecraft/world/World/field_72996_f
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_72996_f"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_72996_f"));
             Object value = field.get(worldObj);
             if (value instanceof List) {
                 List<EntityWrapper> entities = new ArrayList<>();
@@ -50,7 +50,7 @@ public class WorldClientWrapper extends Wrapper {
         // FD: adm/j net/minecraft/world/World/field_73010_i
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.seargeToNotchField("field_73010_i"));
+            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_73010_i"));
             Object value = field.get(worldObj);
             if (value instanceof List) {
                 List<EntityPlayerWrapper> entities = new ArrayList<>();
@@ -75,7 +75,7 @@ public class WorldClientWrapper extends Wrapper {
 
     public IBlockStateWrapper getBlockState(Object blockPosObj) {
         try {
-            Method method = getClazz().getMethod(Mappings.seargeToNotchMethod("func_180495_p"), BlockPosWrapper.getBlockPosClass());
+            Method method = getClazz().getMethod(Mappings.getObfMethod("func_180495_p"), BlockPosWrapper.getBlockPosClass());
             Object object = method.invoke(worldObj, blockPosObj);
             return new IBlockStateWrapper(object);
         } catch (Exception ignored) {
@@ -89,7 +89,7 @@ public class WorldClientWrapper extends Wrapper {
         // MD: adq/d (Lcj;)Z net/minecraft/world/IBlockAccess/func_175623_d (Lnet/minecraft/util/BlockPos;)Z
 
         try {
-            Method method = getClazz().getMethod(Mappings.seargeToNotchMethod("func_175623_d"), BlockPosWrapper.getBlockPosClass());
+            Method method = getClazz().getMethod(Mappings.getObfMethod("func_175623_d"), BlockPosWrapper.getBlockPosClass());
             Object value = method.invoke(worldObj, blockPosObj);
             return value != null && (Boolean) value;
         } catch (Exception ignored) {

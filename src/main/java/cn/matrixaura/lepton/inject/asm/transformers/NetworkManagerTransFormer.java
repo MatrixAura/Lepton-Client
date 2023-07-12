@@ -26,7 +26,7 @@ public class NetworkManagerTransFormer extends Transformer {
         for (int i = 0; i < mn.instructions.size(); ++i) {
             AbstractInsnNode node = mn.instructions.get(i);
 
-            if (node instanceof FieldInsnNode && ((FieldInsnNode) node).name.equals(Mappings.seargeToNotchField("field_150744_m"))) {
+            if (node instanceof FieldInsnNode && ((FieldInsnNode) node).name.equals(Mappings.getObfField("field_150744_m"))) {
 
                 list.add(new TypeInsnNode(NEW, Type.getInternalName(EventPacketReceive.class)));
                 list.add(new InsnNode(DUP));
@@ -58,7 +58,7 @@ public class NetworkManagerTransFormer extends Transformer {
         for (int i = 0; i < mn.instructions.size(); ++i) {
             AbstractInsnNode node = mn.instructions.get(i);
 
-            if (node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals(Mappings.seargeToNotchMethod("func_150733_h"))) {
+            if (node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals(Mappings.getObfMethod("func_150733_h"))) {
                 list.add(new TypeInsnNode(NEW, Type.getInternalName(EventPacketSend.class)));
                 list.add(new InsnNode(DUP));
                 list.add(new VarInsnNode(ALOAD, 1)); // #1 Packet packetIn

@@ -17,7 +17,7 @@ public class IBlockStateWrapper extends Wrapper {
 
     public BlockWrapper getBlock() {
         try {
-            Method method = getClazz().getMethod(Mappings.seargeToNotchMethod("func_177230_c"));
+            Method method = getClazz().getMethod(Mappings.getObfMethod("func_177230_c"));
             Object value = method.invoke(iBlockStateObj);
             block.setBlockObj(value);
         } catch (Exception ignored) {

@@ -7,26 +7,20 @@ import java.util.Map;
 
 public class Mappings {
 
-    // friendly -> notch
-    private static final Map<String, String> obfClassNames = new HashMap<>();
+    // friendly -> notch (Class)
+    private static final Map<String, String> obfClass = new HashMap<>();
 
-    // notch -> friendly
-    private static final Map<String, String> classNames = new HashMap<>();
+    // notch -> friendly (Class)
+    private static final Map<String, String> unobfClass = new HashMap<>();
 
-    // searge -> notch
+    // searge -> notch (Field)
     private static final Map<String, String> obfFields = new HashMap<>();
 
-    // friendly -> searge
-    private static final Map<String, String> deobfFields = new HashMap<>();
-
-    // notch -> searge
+    // searge -> notch (Method)
     private static final Map<String, String> obfMethods = new HashMap<>();
 
-    // searge -> friendly
-    private static final Map<String, String> deobfMethods = new HashMap<>();
-
     public static void readMappings(MinecraftVersion mcVer) {
-        String content = readSrgFile(mcVer);
+        String content = FileUtils.read(mcVer.getSrg());
         if (content == null || content.isEmpty())
             throw new RuntimeException("Failed to read mappings, cannot continue (null or empty srg)");
 
@@ -36,8 +30,8 @@ public class Mappings {
                     .split(" ");
 
             if (line.startsWith("CL: ")) { // class name
-                classNames.put(parts[0], parts[1]);
-                obfClassNames.put(parts[1], parts[0]);
+                unobfClass.put(parts[0], parts[1]);
+                obfClass.put(parts[1], parts[0]);
             } else if (line.startsWith("FD: ")) { // field name
                 String notch = parts[0].split("/")[1];
 
@@ -46,8 +40,6 @@ public class Mappings {
 
                 obfFields.put(searge, notch);
             } else if (line.startsWith("MD: ")) { // method name
-                // MD: a/a (I)La; net/minecraft/util/EnumChatFormatting/func_175744_a (I)Lnet/minecraft/util/EnumChatFormatting;
-                //   | 0   1      2                                                   3
 
                 String notch = parts[0].split("/")[1];
 
@@ -58,78 +50,26 @@ public class Mappings {
             }
         }
 
-        readCsv(mcVer);
     }
 
-    private static void readCsv(MinecraftVersion mcVer) {
-        String content = FileUtils.read(mcVer.getFields());
-        if (content == null || content.isEmpty())
-            throw new RuntimeException("Failed to read mappings, cannot continue (null or empty fields csv)");
-
-        // field_100013_f,isPotionDurationMax,0,"True if potion effect duration is at maximum, false otherwise."
-
-        for (String line : content.split("\n")) {
-            String[] parts = line.split(",");
-            deobfFields.put(parts[1], parts[0]);
-        }
-
-        content = FileUtils.read(mcVer.getMethods());
-        if (content == null || content.isEmpty())
-            throw new RuntimeException("Failed to read mappings, cannot continue (null or empty fields ");
-
-        // func_100011_g,getIsPotionDurationMax,0,
-
-        for (String line : content.split("\n")) {
-            String[] parts = line.split(",");
-            deobfMethods.put(parts[1], parts[0]);
-        }
-    }
-
-    /**
-     * Gets the notch obfuscated name for this class
-     * <p>
-     * For example, let's say you have the class name "EnumChatFormatting".
-     * This is not helpful the minecraft jar we injected into as it is still obfuscated.
-     * This will take the friendly "EnumChatFormatting" and turn it into the notch name "a"
-     * </p>
-     *
-     * @param friendlyClassName the friendly name
-     * @return the notch obfuscated name
-     */
-    public static String getObfClass(String friendlyClassName) {
-        return obfClassNames.get(friendlyClassName);
+    public static String getObfClass(String friendlyName) {
+        return obfClass.get(friendlyName);
     }
 
     public static String getUnobfClass(String obfName) {
-        return classNames.get(obfName);
+        return unobfClass.get(obfName);
     }
 
-    public static String getUnobfClass(Class<?> obfClass) {
-        return getUnobfClass(obfClass.getName().replace(".", "/"));
+    public static String getUnobfClass(Object obfClass) {
+        return getUnobfClass(obfClass.getClass().getName().replace(".", "/"));
     }
 
-    public static String fieldToNotch(String name) {
-        String searge = deobfFields.get(name);
-        if (searge == null) return null;
-        return obfFields.get(name);
-    }
-
-    public static String seargeToNotchField(String searge) {
+    public static String getObfField(String searge) {
         return obfFields.get(searge);
     }
 
-    public static String seargeToNotchMethod(String searge) {
+    public static String getObfMethod(String searge) {
         return obfMethods.get(searge);
-    }
-
-    public static String methodToNotch(String name) {
-        String searge = deobfMethods.get(name);
-        if (searge == null) return null;
-        return obfMethods.get(searge);
-    }
-
-    private static String readSrgFile(MinecraftVersion mc) {
-        return FileUtils.read(mc.getSrg());
     }
 
 }

@@ -34,7 +34,7 @@ public class GuiIngameTransformer extends Transformer {
 
                 if (meth.owner.equals(Mappings.getObfClass(GL_STATE_MANAGER_NAME))
                         // MD: bfl/c (FFFF)V net/minecraft/client/renderer/GlStateManager/func_179131_c (FFFF)V
-                        && meth.name.equals(Mappings.seargeToNotchMethod("func_179131_c"))
+                        && meth.name.equals(Mappings.getObfMethod("func_179131_c"))
                         && meth.desc.equals("(FFFF)V")) {
 
                     point = aisn;

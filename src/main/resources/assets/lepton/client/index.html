@@ -166,7 +166,7 @@
                 '<div class="mdui-card-content">',
                 canToggle ? '<label class="mdui-switch"><input type="checkbox" id="'+name+'-checkbox" onclick="onswitch(this)" '+state+'/><i class="mdui-switch-icon"></i></label>' : '',
                 settings ? '<button class="mdui-btn mdui-ripple mdui-float-right" id="'+name+'-button" onclick="opensetting(this)"><i class="mdui-icon material-icons">settings</i></button>' : '',
-                canToggle ? '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeypress="onkey(this,event.keyCode)">Bound to '+getKeyName(bind)+'</button>' : '',
+                canToggle ? '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeypress="onkey(this,event.keyCode)">BOUND TO '+getKeyName(bind)+'</button>' : '',
                 '</div>',
                 '</div>',
                 '</div>'
@@ -187,7 +187,8 @@
             ].join('\n'));
         }
         function onbind(element) {
-            element.innerText = "Listening"
+            if (element.innerText != "LISTENING") element.innerText = "LISTENING"
+            else onkey(element,0)
         }
         function onkey(element,code) {
             if (element.innerText == "LISTENING") {
@@ -197,7 +198,7 @@
                     dataType: "json",
                     success: data => {
                         if (data.success) {
-                            element.innerText = "Bound to " + getKeyName(data.result)
+                            element.innerText = "BOUND TO " + getKeyName(data.result)
                         } else {
                             alert(data.reason);
                         }

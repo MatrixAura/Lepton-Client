@@ -14,10 +14,10 @@ public class MovementInputWrapper extends Wrapper {
     }
 
     public float getMoveForward() {
-        return (Float) ReflectionUtils.getFieldValue(getClazz(), movementInputObj, Mappings.seargeToNotchField("field_78900_b"));
+        return (Float) ReflectionUtils.getFieldValue(getClazz(), movementInputObj, Mappings.getObfField("field_78900_b"));
     }
 
     public float getMoveStrafe() {
-        return (Float) ReflectionUtils.getFieldValue(getClazz(), movementInputObj, Mappings.seargeToNotchField("field_78902_a"));
+        return (Float) ReflectionUtils.getFieldValue(getClazz(), movementInputObj, Mappings.getObfField("field_78902_a"));
     }
 }

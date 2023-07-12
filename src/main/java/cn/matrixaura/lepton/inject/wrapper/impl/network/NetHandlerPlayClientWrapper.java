@@ -17,7 +17,7 @@ public class NetHandlerPlayClientWrapper extends Wrapper {
 
     public void addToSendQueue(Object packet) {
         try {
-            String notch = Mappings.seargeToNotchMethod("func_147297_a"); // addToSendQueue
+            String notch = Mappings.getObfMethod("func_147297_a"); // addToSendQueue
             Class<?> packetClass = Class.forName(Mappings.getObfClass("net/minecraft/network/Packet"));
             Method method = getClass().getMethod(notch, packetClass);
             method.invoke(netHandlerPlayClientObj, packet);
@@ -26,6 +26,6 @@ public class NetHandlerPlayClientWrapper extends Wrapper {
     }
 
     public NetworkManagerWrapper getNetworkManager() {
-        return new NetworkManagerWrapper(ReflectionUtils.invokeMethod(getClazz(), netHandlerPlayClientObj, Mappings.seargeToNotchMethod("func_147298_b")));
+        return new NetworkManagerWrapper(ReflectionUtils.invokeMethod(getClazz(), netHandlerPlayClientObj, Mappings.getObfMethod("func_147298_b")));
     }
 }

@@ -13,11 +13,11 @@ public class TimerWrapper extends Wrapper {
     }
 
     public float getTimerSpeed() {
-        return (Float) ReflectionUtils.getFieldValue(getClazz(), timerObj, Mappings.seargeToNotchField("field_74278_d"));
+        return (Float) ReflectionUtils.getFieldValue(getClazz(), timerObj, Mappings.getObfField("field_74278_d"));
     }
 
     public void setTimerSpeed(Float speed) {
-        ReflectionUtils.setFieldValue(getClazz(), timerObj, Mappings.seargeToNotchField("field_74278_d"), speed);
+        ReflectionUtils.setFieldValue(getClazz(), timerObj, Mappings.getObfField("field_74278_d"), speed);
     }
 
 }

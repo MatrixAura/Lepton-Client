@@ -27,7 +27,7 @@ public class EntityRendererTransformer extends Transformer {
             if (a instanceof MethodInsnNode) {
                 MethodInsnNode m = (MethodInsnNode) a;
                 if (m.owner.equals(Mappings.getObfClass("net/minecraft/profiler/Profiler"))
-                        && m.name.equals(Mappings.seargeToNotchMethod("func_76318_c"))) { // endStartSection
+                        && m.name.equals(Mappings.getObfMethod("func_76318_c"))) { // endStartSection
 
                     ldcNode = a;
                 }

@@ -27,7 +27,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public double getX() {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
-        String notch = Mappings.seargeToNotchField("field_70165_t");
+        String notch = Mappings.getObfField("field_70165_t");
         Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
@@ -35,7 +35,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public double getY() {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
-        String notch = Mappings.seargeToNotchField("field_70163_u");
+        String notch = Mappings.getObfField("field_70163_u");
         Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
@@ -43,18 +43,18 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public double getZ() {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
-        String notch = Mappings.seargeToNotchField("field_70161_v");
+        String notch = Mappings.getObfField("field_70161_v");
         Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 
     public boolean onGround() {
         // FD: pk/C net/minecraft/entity/Entity/field_70122_E
-        return (Boolean) ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.seargeToNotchField("field_70122_E"));
+        return (Boolean) ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_70122_E"));
     }
 
     public void jump() {
-        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.seargeToNotchMethod("func_70664_aZ")); // jump()
+        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.getObfMethod("func_70664_aZ")); // jump()
     }
 
     public BlockPosWrapper getPos() {
@@ -82,13 +82,13 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
     public float getYaw() {
         // FD: pk/y net/minecraft/entity/Entity/field_70177_z
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.seargeToNotchField("field_70177_z"));
+        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_70177_z"));
         return value == null ? 0.0f : (Float) value;
     }
 
     public float getPitch() {
         // FD: pk/z net/minecraft/entity/Entity/field_70125_A
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.seargeToNotchField("field_70125_A"));
+        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_70125_A"));
         return value == null ? 0.0f : (Float) value;
     }
 
@@ -108,7 +108,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
         // MD: bew/d (Z)V net/minecraft/client/entity/EntityPlayerSP/func_70031_b (Z)V
 
-        String notch = Mappings.seargeToNotchMethod("func_70031_b"); // setSprinting
+        String notch = Mappings.getObfMethod("func_70031_b"); // setSprinting
         try {
             Method m = getClazz().getMethod(notch, boolean.class);
             m.invoke(playerObj, value);
@@ -122,7 +122,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
         // MD: pk/aw ()Z net/minecraft/entity/Entity/func_70051_ag ()Z
 
-        String notch = Mappings.seargeToNotchMethod("func_70051_ag"); // isSprinting
+        String notch = Mappings.getObfMethod("func_70051_ag"); // isSprinting
         try {
             Method m = getClazz().getDeclaredMethod(notch);
             Object value = m.invoke(playerObj);
@@ -139,7 +139,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
         // MD: pk/av ()Z net/minecraft/entity/Entity/func_70093_af ()Z
 
-        String notch = Mappings.seargeToNotchMethod("func_70093_af"); // isSneaking
+        String notch = Mappings.getObfMethod("func_70093_af"); // isSneaking
         try {
             Method m = getClazz().getDeclaredMethod(notch);
             Object value = m.invoke(playerObj);
@@ -154,7 +154,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public Object getSendQueue() {
         if (sendQueueObj == null) {
             try {
-                String notch = Mappings.seargeToNotchField("field_71174_a"); // sendQueue
+                String notch = Mappings.getObfField("field_71174_a"); // sendQueue
                 Field field = getClazz().getField(notch);
                 sendQueueObj = field.get(playerObj);
             } catch (Exception ignored) {
@@ -166,11 +166,19 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public MovementInputWrapper getMovementInputObj() {
         if (movementInputObj == null) {
             try {
-                movementInputObj = new MovementInputWrapper(ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.seargeToNotchField("field_71158_b")));
+                movementInputObj = new MovementInputWrapper(ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_71158_b")));
             } catch (Exception ignored) {
             }
         }
         return movementInputObj;
+    }
+
+    public void addChatMessage(Object chatComponentText) {
+        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.getObfMethod("func_145747_a"), new Class[]{chatComponentText.getClass()}, chatComponentText);
+    }
+
+    public void sendChatMessage(String message) {
+        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.getObfMethod("func_71165_d"), new Class[]{String.class}, message);
     }
 
     public void setPlayerObj(Object playerObj) {
