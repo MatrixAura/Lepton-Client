@@ -2,6 +2,7 @@ package cn.matrixaura.lepton.util.inject;
 
 import cn.matrixaura.lepton.util.file.FileUtils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class Mappings {
 
     public static void readMappings(MinecraftVersion mcVer) {
         String content = FileUtils.read(mcVer.getSrg());
-        if (content == null || content.isEmpty())
+        if (content.isEmpty())
             throw new RuntimeException("Failed to read mappings, cannot continue (null or empty srg)");
 
         for (String line : content.split("\n")) {

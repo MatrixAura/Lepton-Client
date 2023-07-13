@@ -39,7 +39,7 @@ public class Setting<T> {
         return this;
     }
 
-    public <E extends Enum<E>> Setting<T> whenAtMode(Setting<E> enumSetting, E mode) {
+    public Setting<T> whenAtMode(Setting<String> enumSetting, String mode) {
         return when(() -> enumSetting.getValue().equals(mode));
     }
 

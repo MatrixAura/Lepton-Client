@@ -181,6 +181,10 @@ public class MinecraftWrapper extends Wrapper {
         }
     }
 
+    public Object getMinecraftObj() {
+        return minecraftObj;
+    }
+
     public static MinecraftWrapper get() {
         if (instance == null) {
             try {

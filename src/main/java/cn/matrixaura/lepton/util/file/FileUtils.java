@@ -1,9 +1,9 @@
 package cn.matrixaura.lepton.util.file;
 
-import cn.matrixaura.lepton.util.inject.Mappings;
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class FileUtils {
 
@@ -12,7 +12,7 @@ public class FileUtils {
 
         InputStream is = null;
         try {
-            is = Mappings.class.getResourceAsStream(path);
+            is = FileUtils.class.getResourceAsStream(path);
             if (is == null) return null;
 
             int b;
@@ -32,6 +32,22 @@ public class FileUtils {
         }
 
         return builder.toString();
+    }
+
+
+    public static String readInputStream(InputStream inputStream) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = bufferedReader.readLine()) != null)
+                stringBuilder.append(line).append('\n');
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 
 }
