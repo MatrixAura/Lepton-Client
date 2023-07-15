@@ -21,8 +21,8 @@ public class ResourcePackCheck extends CrashCheck {
     public boolean handle(Object packet) {
         if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S48PacketResourcePackSend")) {
 
-            final String url = (String) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_179783_a"));
-            final String hash = (String) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_179784_b"));
+            final String url = (String) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_179783_a"));
+            final String hash = (String) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_179784_b"));
 
             if (url.toLowerCase().startsWith("level://")) {
                 return check(url, hash);
@@ -56,7 +56,7 @@ public class ResourcePackCheck extends CrashCheck {
             try {
                 Class<?> clazz = Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C19PacketResourcePackStatus"));
                 Class<?> actionClass = Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C19PacketResourcePackStatus$Action"));
-                Object failedDownload = ReflectionUtils.getFieldValue(actionClass, null, Mappings.getObfField("FAILED_DOWNLOAD"));
+                Object failedDownload = ReflectionUtils.getFieldValue(null, Mappings.getObfField("FAILED_DOWNLOAD"));
                 MinecraftWrapper.get().getNetHandler().addToSendQueue(ReflectionUtils.newInstance(clazz, new Class[]{String.class, actionClass}, hash, failedDownload));
             } catch (ClassNotFoundException ignored) {
             }

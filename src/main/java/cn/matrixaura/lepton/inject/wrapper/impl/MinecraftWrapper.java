@@ -6,6 +6,7 @@ import cn.matrixaura.lepton.inject.wrapper.impl.network.NetHandlerPlayClientWrap
 import cn.matrixaura.lepton.inject.wrapper.impl.other.TimerWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.render.EntityRendererWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.render.FontRendererWrapper;
+import cn.matrixaura.lepton.inject.wrapper.impl.render.FramebufferWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.render.RenderManagerWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.setting.GameSettingsWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.world.WorldClientWrapper;
@@ -28,6 +29,7 @@ public class MinecraftWrapper extends Wrapper {
     private RenderManagerWrapper renderManager;
     private GameSettingsWrapper gameSettings;
     private NetHandlerPlayClientWrapper netHandlerPlayClientWrapper;
+    private FramebufferWrapper framebufferWrapper;
     private TimerWrapper timer;
 
     private FontRendererWrapper fontRendererWrapper;
@@ -40,7 +42,7 @@ public class MinecraftWrapper extends Wrapper {
     public GameSettingsWrapper getGameSettings() {
         if (gameSettings == null) {
             try {
-                gameSettings = new GameSettingsWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71474_y")));
+                gameSettings = new GameSettingsWrapper(ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71474_y")));
             } catch (Exception ignored) {
 
             }
@@ -52,7 +54,7 @@ public class MinecraftWrapper extends Wrapper {
     public TimerWrapper getTimer() {
         if (timer == null) {
             try {
-                timer = new TimerWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71428_T")));
+                timer = new TimerWrapper(ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71428_T")));
             } catch (Exception ignored) {
 
             }
@@ -63,7 +65,7 @@ public class MinecraftWrapper extends Wrapper {
     public RenderManagerWrapper getRenderManager() {
         if (renderManager == null) {
             try {
-                renderManager = new RenderManagerWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_175616_W")));
+                renderManager = new RenderManagerWrapper(ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_175616_W")));
             } catch (Exception ignored) {
 
             }
@@ -75,7 +77,7 @@ public class MinecraftWrapper extends Wrapper {
     public EntityRendererWrapper getEntityRenderer() {
         if (entityRenderer == null) {
             try {
-                entityRenderer = new EntityRendererWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71460_t")));
+                entityRenderer = new EntityRendererWrapper(ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71460_t")));
             } catch (Exception ignored) {
 
             }
@@ -87,7 +89,7 @@ public class MinecraftWrapper extends Wrapper {
     public HitResult getHitResult() {
 
         try {
-            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71476_x"));
+            Object value = ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71476_x"));
 
             if (value == null) return null;
 
@@ -102,7 +104,7 @@ public class MinecraftWrapper extends Wrapper {
     public EntityPlayerSPWrapper getPlayer() {
 
         try {
-            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71439_g"));
+            Object value = ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71439_g"));
             thePlayer.setPlayerObj(value);
         } catch (Exception ignored) {
 
@@ -113,7 +115,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public WorldClientWrapper getWorld() {
         try {
-            Object value = ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71441_e"));
+            Object value = ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71441_e"));
             theWorld.setWorldObj(value);
         } catch (Exception ignored) {
 
@@ -132,16 +134,24 @@ public class MinecraftWrapper extends Wrapper {
 
     public void displayGuiScreen(Object guiScreen) {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.getObfMethod("func_147108_a"), new Class[]{guiScreen.getClass()}, guiScreen);
+            ReflectionUtils.invokeMethod(minecraftObj, Mappings.getObfMethod("func_147108_a"), new Class[]{guiScreen.getClass()}, guiScreen);
         } catch (Exception ignored) {
 
         }
     }
 
+    public int getDisplayWidth() {
+        return (Integer) ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71443_c"));
+    }
+
+    public int getDisplayHeight() {
+        return (Integer) ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71440_d"));
+    }
+
     public FontRendererWrapper getFontRenderer() {
         if (fontRendererWrapper == null) {
             try {
-                fontRendererWrapper = new FontRendererWrapper(ReflectionUtils.getFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71466_p")));
+                fontRendererWrapper = new FontRendererWrapper(ReflectionUtils.getFieldValue(minecraftObj, Mappings.getObfField("field_71466_p")));
             } catch (Exception ignored) {
 
             }
@@ -157,9 +167,16 @@ public class MinecraftWrapper extends Wrapper {
         return netHandlerPlayClientWrapper;
     }
 
+    public FramebufferWrapper getFramebuffer() {
+        if (framebufferWrapper == null) {
+            framebufferWrapper = new FramebufferWrapper(ReflectionUtils.invokeMethod(minecraftObj, Mappings.getObfMethod("func_147110_a")));
+        }
+        return framebufferWrapper;
+    }
+
     public void setLeftClickCounter(int delay) {
         try {
-            ReflectionUtils.setFieldValue(getClazz(), minecraftObj, Mappings.getObfField("field_71429_W"), delay);
+            ReflectionUtils.setFieldValue(minecraftObj, Mappings.getObfField("field_71429_W"), delay);
         } catch (Exception ignored) {
 
         }
@@ -167,7 +184,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void clickMouse() {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.getObfMethod("func_147116_af"));
+            ReflectionUtils.invokeMethod(minecraftObj, Mappings.getObfMethod("func_147116_af"));
         } catch (Exception ignored) {
 
         }
@@ -175,7 +192,7 @@ public class MinecraftWrapper extends Wrapper {
 
     public void rightClickMouse() {
         try {
-            ReflectionUtils.invokeMethod(getClazz(), minecraftObj, Mappings.getObfMethod("func_147121_ag"));
+            ReflectionUtils.invokeMethod(minecraftObj, Mappings.getObfMethod("func_147121_ag"));
         } catch (Exception ignored) {
 
         }

@@ -7,8 +7,8 @@ import java.lang.reflect.Method;
 
 public class ReflectionUtils {
 
-    public static Object getFieldValue(Class<?> clazz, Object instance, String name) {
-        Class<?> c = clazz;
+    public static Object getFieldValue(Object instance, String name) {
+        Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
 
             try {
@@ -41,8 +41,8 @@ public class ReflectionUtils {
         return null;
     }
 
-    public static void setFieldValue(Class<?> clazz, Object instance, String name, Object value) {
-        Class<?> c = clazz;
+    public static void setFieldValue(Object instance, String name, Object value) {
+        Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
 
             try {
@@ -56,8 +56,8 @@ public class ReflectionUtils {
         }
     }
 
-    public static Object invokeMethod(Class<?> clazz, Object instance, String name, Class<?>[] desc, Object... args) {
-        Class<?> c = clazz;
+    public static Object invokeMethod(Object instance, String name, Class<?>[] desc, Object... args) {
+        Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
             try {
                 Method method = c.getDeclaredMethod(name, desc);
@@ -71,8 +71,8 @@ public class ReflectionUtils {
         return null;
     }
 
-    public static Object invokeMethod(Class<?> clazz, Object instance, String name) {
-        Class<?> c = clazz;
+    public static Object invokeMethod(Object instance, String name) {
+        Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
             try {
                 Method method = c.getDeclaredMethod(name);

@@ -24,20 +24,19 @@ public class AgentMain {
         }
 
         try {
-            Dynamics.init();
+            Dynamics.defineClasses();
         } catch (Exception e) {
             logger.error("Failed to init dynamic classes {}, {}", e.getMessage(), e.getStackTrace()[0]);
             e.printStackTrace();
         }
 
+        Lepton.init();
+
         try {
-            Transformers.init(is);
+            Transformers.transform(is);
         } catch (IOException e) {
-            logger.error("Failed to init mixins {}, {}", e.getMessage(), e.getStackTrace()[0]);
+            logger.error("Failed to init transformers {}, {}", e.getMessage(), e.getStackTrace()[0]);
             e.printStackTrace();
         }
-
-        // init client
-        Lepton.init();
     }
 }

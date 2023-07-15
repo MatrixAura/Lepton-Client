@@ -1,13 +1,13 @@
 package cn.matrixaura.lepton.util.render.shader;
 
 import cn.matrixaura.lepton.Lepton;
-import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.util.file.FileUtils;
-import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.render.RenderUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -20,15 +20,18 @@ public class ShaderUtils {
         int fragmentShaderID, vertexShaderID;
 
         switch (shaderType) {
-            case RoundedRect:
-                fragmentShaderID = createShader(new ByteArrayInputStream(roundedRect.getBytes()), GL_FRAGMENT_SHADER);
-                vertexShaderID = createShader(new ByteArrayInputStream(vertex.getBytes()), GL_VERTEX_SHADER);
+            case RoundedRect: {
+                fragmentShaderID = createFrag(roundedRect);
+                vertexShaderID = createVertex(vertex);
                 break;
-            case Shadow:
-                fragmentShaderID = createShader(new ByteArrayInputStream(shadow.getBytes()), GL_FRAGMENT_SHADER);
-                vertexShaderID = createShader(new ByteArrayInputStream(shadow_vertex.getBytes()), GL_VERTEX_SHADER);
+            }
+            case Bloom: {
+                fragmentShaderID = createFrag(shadow);
+                vertexShaderID = createVertex(vertex);
                 break;
-            default: throw new RuntimeException("Unreachable case");
+            }
+            default:
+                throw new RuntimeException("Unreachable case");
         }
 
         glAttachShader(program, fragmentShaderID);
@@ -82,38 +85,42 @@ public class ShaderUtils {
         else glUniform1i(loc, args[0]);
     }
 
-    public static void drawQuads(float x, float y, float width, float height) {
+    public void setUniformb(String name, FloatBuffer fb) {
+        int loc = glGetUniformLocation(programID, name);
+        glUniform1(loc, fb);
+    }
+
+    public void setUniformb(String name, IntBuffer fb) {
+        int loc = glGetUniformLocation(programID, name);
+        glUniform1(loc, fb);
+    }
+
+    public static void drawQuads(float x, float y, float x1, float y1) {
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0);
         glVertex2f(x, y);
         glTexCoord2f(0, 1);
-        glVertex2f(x, y + height);
+        glVertex2f(x, y1);
         glTexCoord2f(1, 1);
-        glVertex2f(x + width, y + height);
+        glVertex2f(x1, y1);
         glTexCoord2f(1, 0);
-        glVertex2f(x + width, y);
+        glVertex2f(x1, y);
         glEnd();
     }
 
     public static void drawQuads() {
-        try {
-            Object mc = MinecraftWrapper.get().getMinecraftObj();
-            Object sr = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
-            double width = (Double) ReflectionUtils.invokeMethod(sr.getClass(), sr, Mappings.getObfMethod("func_78327_c"));
-            double height = (Double) ReflectionUtils.invokeMethod(sr.getClass(), sr, Mappings.getObfMethod("func_78324_d"));
-            glBegin(GL_QUADS);
-            glTexCoord2f(0, 1);
-            glVertex2f(0, 0);
-            glTexCoord2f(0, 0);
-            glVertex2f(0, (float) height);
-            glTexCoord2f(1, 0);
-            glVertex2f((float) width, (float) height);
-            glTexCoord2f(1, 1);
-            glVertex2f((float) width, 0);
-            glEnd();
-        } catch (ClassNotFoundException ignored) {
-
-        }
+        double width = RenderUtils.getScaledWidth();
+        double height = RenderUtils.getScaledHeight();
+        glBegin(GL_QUADS);
+        glTexCoord2f(0, 1);
+        glVertex2f(0, 0);
+        glTexCoord2f(0, 0);
+        glVertex2f(0, (float) height);
+        glTexCoord2f(1, 0);
+        glVertex2f((float) width, (float) height);
+        glTexCoord2f(1, 1);
+        glVertex2f((float) width, 0);
+        glEnd();
     }
 
     private int createShader(InputStream inputStream, int shaderType) {
@@ -130,21 +137,20 @@ public class ShaderUtils {
         return shader;
     }
 
+    private int createFrag(String fsh) {
+        return createShader(new ByteArrayInputStream(fsh.getBytes()), GL_FRAGMENT_SHADER);
+    }
+
+    private int createVertex(String vsh) {
+        return createShader(new ByteArrayInputStream(vsh.getBytes()), GL_VERTEX_SHADER);
+    }
+
     private static final String vertex = "#version 120\n" +
             "\n" +
             "    void main() {\n" +
             "        gl_TexCoord[0] = gl_MultiTexCoord0;\n" +
             "        gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n" +
             "    }";
-
-    private static final String shadow_vertex = "#version 120\n" +
-            "varying vec2 f_Position;\n" +
-            "\n" +
-            "void main() {\n" +
-            "    f_Position = gl_Vertex.xy;\n" +
-            "    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n" +
-            "    gl_FrontColor = gl_Color;\n" +
-            "}";
 
     private static final String roundedRect = "#version 120\n" +
             "\n" +
@@ -167,80 +173,44 @@ public class ShaderUtils {
             "}";
 
     private static final String shadow = "#version 120\n" +
-            "precision highp float;\n" +
-            "uniform vec4 u_InnerRect;\n" +
-            "uniform float u_Spread;\n" +
-            "uniform vec4 u_Color;\n" +
-            "varying vec2 f_Position;\n" +
             "\n" +
-            "// blend two color by alpha\n" +
-            "vec4 blend(vec4 src, vec4 append) {\n" +
-            "    return vec4(src.rgb + append.rgb,\n" +
-            "    1.0 - (1.0 - (src.a)) * (1.0 - append.a));\n" +
-            "}\n" +
+            "uniform sampler2D u_diffuse_sampler;\n" +
+            "uniform sampler2D u_other_sampler;\n" +
+            "uniform vec2 u_texel_size;\n" +
+            "uniform vec2 u_direction;\n" +
+            "uniform float u_radius;\n" +
+            "uniform float u_kernel[128];\n" +
             "\n" +
-            "// approximation to the gaussian integral [x, infty)\n" +
-            "float gi(float x) {\n" +
-            "    float i6 = 1.0 / 6.0;\n" +
-            "    float i4 = 1.0 / 4.0;\n" +
-            "    float i3 = 1.0 / 3.0;\n" +
+            "void main(void)\n" +
+            "{\n" +
+            "    vec2 uv = gl_TexCoord[0].st;\n" +
             "\n" +
-            "    if (x > 1.5) return 0.0;\n" +
-            "    if (x < -1.5) return 1.0;\n" +
+            "    if (u_direction.x == 0.0) {\n" +
+            "        float alpha = texture2D(u_other_sampler, uv).a;\n" +
+            "        if (alpha > 0.0) discard;\n" +
+            "    }\n" +
             "\n" +
-            "    float x2 = x * x;\n" +
-            "    float x3 = x2 * x;\n" +
+            "    float half_radius = u_radius / 2.0;\n" +
+            "    vec4 pixel_color = texture2D(u_diffuse_sampler, uv);\n" +
+            "    pixel_color.rgb *= pixel_color.a;\n" +
+            "    pixel_color *= u_kernel[0];\n" +
             "\n" +
-            "    if (x >  0.5) return .5625  - ( x3 * i6 - 3. * x2 * i4 + 1.125 * x);\n" +
-            "    if (x > -0.5) return 0.5    - (0.75 * x - x3 * i3);\n" +
-            "    return 0.4375 + (-x3 * i6 - 3. * x2 * i4 - 1.125 * x);\n" +
-            "}\n" +
+            "    for (float f = 1; f <= u_radius; f++) {\n" +
+            "        vec2 offset = f * u_texel_size * u_direction;\n" +
+            "        vec4 left = texture2D(u_diffuse_sampler, uv - offset);\n" +
+            "        vec4 right = texture2D(u_diffuse_sampler, uv + offset);\n" +
             "\n" +
-            "// create a line shadow mask\n" +
-            "float lineShadow(vec2 border, float pos , float sigma) {\n" +
-            "    float t = (border.y - border.x) / sigma;\n" +
+            "        left.rgb *= left.a;\n" +
+            "        right.rgb *= right.a;\n" +
+            "        pixel_color += (left + right) * u_kernel[int(f)];\n" +
+            "    }\n" +
             "\n" +
-            "    float pos1 = ((border.x - pos) / sigma) * 1.5;\n" +
-            "    float pos2 = ((pos - border.y) / sigma) * 1.5;\n" +
-            "\n" +
-            "    return 1.0 - abs(gi(pos1) - gi(pos2));\n" +
-            "}\n" +
-            "\n" +
-            "// create a rect shadow by two line shadow\n" +
-            "float rectShadow(vec4 rect, vec2 point, float sigma) {\n" +
-            "\n" +
-            "    float lineV = lineShadow(vec2(rect.x, rect.x + rect.z), point.x, sigma);\n" +
-            "    float lineH = lineShadow(vec2(rect.y, rect.y + rect.w), point.y, sigma);\n" +
-            "\n" +
-            "    return lineV * lineH;\n" +
-            "}\n" +
-            "\n" +
-            "// draw shadow\n" +
-            "vec4 drawRectShadow(vec2 pos, vec4 rect, vec4 color, float sigma) {\n" +
-            "    vec4 result = color;\n" +
-            "\n" +
-            "    float shadowMask = rectShadow(rect, pos, sigma);\n" +
-            "\n" +
-            "    result.a *= shadowMask;\n" +
-            "\n" +
-            "    return result;\n" +
-            "}\n" +
-            "\n" +
-            "void main() {\n" +
-            "    float sigma = u_Spread;\n" +
-            "\n" +
-            "    vec4 rect = u_InnerRect;\n" +
-            "    vec4 shadowRect = vec4(vec2(rect.x , rect.y), vec2(rect.z, rect.w));\n" +
-            "    vec4 shadowColor = u_Color;\n" +
-            "\n" +
-            "    vec4 result = drawRectShadow(f_Position, shadowRect, shadowColor, sigma);\n" +
-            "    gl_FragColor = result;\n" +
-            "}";
-
+            "    gl_FragColor = vec4(0.0, 0.0, 0.0, pixel_color.a);\n" +
+            "}\n";
 
     public enum Shaders {
-        Shadow,
-        RoundedRect
+        RoundedRect,
+        Bloom
     }
 
 }

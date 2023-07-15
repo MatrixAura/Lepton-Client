@@ -15,7 +15,7 @@ public class GuiScreenDynamic extends Dynamic {
     }
 
     @Override
-    public byte[] dump() throws Exception {
+    public byte[] dump() {
 
         ClassWriter classWriter = new ClassWriter(0);
         MethodVisitor methodVisitor;

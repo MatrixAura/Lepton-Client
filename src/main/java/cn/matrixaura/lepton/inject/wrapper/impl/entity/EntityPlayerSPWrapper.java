@@ -28,7 +28,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
         String notch = Mappings.getObfField("field_70165_t");
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
+        Object value = ReflectionUtils.getFieldValue(playerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 
@@ -36,7 +36,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
         String notch = Mappings.getObfField("field_70163_u");
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
+        Object value = ReflectionUtils.getFieldValue(playerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 
@@ -44,17 +44,17 @@ public class EntityPlayerSPWrapper extends Wrapper {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
         String notch = Mappings.getObfField("field_70161_v");
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, notch);
+        Object value = ReflectionUtils.getFieldValue(playerObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 
     public boolean onGround() {
         // FD: pk/C net/minecraft/entity/Entity/field_70122_E
-        return (Boolean) ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_70122_E"));
+        return (Boolean) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70122_E"));
     }
 
     public void jump() {
-        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.getObfMethod("func_70664_aZ")); // jump()
+        ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_70664_aZ")); // jump()
     }
 
     public BlockPosWrapper getPos() {
@@ -82,13 +82,13 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
     public float getYaw() {
         // FD: pk/y net/minecraft/entity/Entity/field_70177_z
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_70177_z"));
+        Object value = ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70177_z"));
         return value == null ? 0.0f : (Float) value;
     }
 
     public float getPitch() {
         // FD: pk/z net/minecraft/entity/Entity/field_70125_A
-        Object value = ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_70125_A"));
+        Object value = ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70125_A"));
         return value == null ? 0.0f : (Float) value;
     }
 
@@ -166,7 +166,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public MovementInputWrapper getMovementInputObj() {
         if (movementInputObj == null) {
             try {
-                movementInputObj = new MovementInputWrapper(ReflectionUtils.getFieldValue(getClazz(), playerObj, Mappings.getObfField("field_71158_b")));
+                movementInputObj = new MovementInputWrapper(ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_71158_b")));
             } catch (Exception ignored) {
             }
         }
@@ -174,11 +174,11 @@ public class EntityPlayerSPWrapper extends Wrapper {
     }
 
     public void addChatMessage(Object chatComponentText) {
-        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.getObfMethod("func_145747_a"), new Class[]{chatComponentText.getClass()}, chatComponentText);
+        ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_145747_a"), new Class[]{chatComponentText.getClass()}, chatComponentText);
     }
 
     public void sendChatMessage(String message) {
-        ReflectionUtils.invokeMethod(getClazz(), playerObj, Mappings.getObfMethod("func_71165_d"), new Class[]{String.class}, message);
+        ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_71165_d"), new Class[]{String.class}, message);
     }
 
     public void setPlayerObj(Object playerObj) {

@@ -10,12 +10,11 @@ public class Dynamics {
 
     private static final List<Dynamic> dynamicClasses = new ArrayList<>();
 
-    public static void init() throws Exception {
+    public static void defineClasses() throws Exception {
         dynamicClasses.forEach(clazz -> {
             try {
                 byte[] bytes = clazz.dump();
                 ReflectionUtils.invokeMethod(
-                        ClassLoader.class,
                         ClassLoader.getSystemClassLoader(),
                         "defineClass",
                         new Class[]{

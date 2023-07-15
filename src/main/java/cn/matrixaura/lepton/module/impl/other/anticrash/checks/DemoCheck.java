@@ -14,7 +14,7 @@ public class DemoCheck extends CrashCheck {
     @Override
     public boolean handle(Object packet) {
         if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S2BPacketChangeGameState")) {
-            return (Integer) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_149138_c")) == 5 && (Integer) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_149137_d")) == 0;
+            return (Integer) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149138_c")) == 5 && (Integer) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149137_d")) == 0;
         }
 
         return false;

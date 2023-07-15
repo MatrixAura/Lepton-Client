@@ -30,13 +30,13 @@ public class Transformers {
     // LOL
     private static final List<Transformer> transformers = new ArrayList<>();
 
-    public static void init(Instrumentation inst) throws IOException {
+    public static void transform(Instrumentation inst) throws IOException {
         if (transformers.isEmpty()) {
-            logger.warn("No mixins were added");
+            logger.warn("No transformers were added");
             return;
         }
 
-        logger.info("{} mixins to load", transformers.size());
+        logger.info("{} transformers to load", transformers.size());
 
         for (Transformer mixin : transformers) {
             if (mixin.getClazz() == null) {

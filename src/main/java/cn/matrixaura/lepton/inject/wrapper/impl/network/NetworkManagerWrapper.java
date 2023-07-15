@@ -16,7 +16,6 @@ public class NetworkManagerWrapper extends Wrapper {
     public void processPacket(Object packet) {
         try {
             ReflectionUtils.invokeMethod(
-                    getClazz(),
                     networkManagerObj,
                     Mappings.getObfMethod("channelRead0"),
                     new Class[]{

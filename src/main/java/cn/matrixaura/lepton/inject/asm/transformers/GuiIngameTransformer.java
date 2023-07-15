@@ -6,6 +6,7 @@ import cn.matrixaura.lepton.inject.asm.api.Transformer;
 import cn.matrixaura.lepton.inject.asm.api.Transformers;
 import cn.matrixaura.lepton.listener.bus.EventBus;
 import cn.matrixaura.lepton.listener.events.render.EventRender2D;
+import cn.matrixaura.lepton.module.impl.visual.UIEffectsModule;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
@@ -46,6 +47,9 @@ public class GuiIngameTransformer extends Transformer {
             Transformers.logger.error("Failed to find last GlStateManager#color call in GuiInGame");
             return;
         }
+
+        list.add(new FieldInsnNode(GETSTATIC, Type.getInternalName(UIEffectsModule.class), "INSTANCE", "Lcn/matrixaura/lepton/module/impl/visual/UIEffectsModule;"));
+        list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(UIEffectsModule.class), "process", "()V", false));
 
         list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
         list.add(new TypeInsnNode(NEW, Type.getInternalName(EventRender2D.class)));

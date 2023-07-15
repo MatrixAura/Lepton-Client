@@ -13,8 +13,8 @@ public class RotationCheck extends CrashCheck {
     @Override
     public boolean handle(Object packet) {
         if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S08PacketPlayerPosLook")) {
-            float yaw = (Float) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_148931_f"));
-            float pitch = (Float) ReflectionUtils.invokeMethod(packet.getClass(), packet, Mappings.getObfMethod("func_148930_g"));
+            float yaw = (Float) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_148931_f"));
+            float pitch = (Float) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_148930_g"));
             return Math.abs(yaw) > 360f || Math.abs(pitch) > 90f;
         }
         return false;

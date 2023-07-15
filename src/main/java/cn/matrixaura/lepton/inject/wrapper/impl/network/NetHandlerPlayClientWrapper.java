@@ -26,6 +26,6 @@ public class NetHandlerPlayClientWrapper extends Wrapper {
     }
 
     public NetworkManagerWrapper getNetworkManager() {
-        return new NetworkManagerWrapper(ReflectionUtils.invokeMethod(getClazz(), netHandlerPlayClientObj, Mappings.getObfMethod("func_147298_b")));
+        return new NetworkManagerWrapper(ReflectionUtils.invokeMethod(netHandlerPlayClientObj, Mappings.getObfMethod("func_147298_b")));
     }
 }
