@@ -1,7 +1,5 @@
 package cn.matrixaura.lepton;
 
-import cn.matrixaura.lepton.inject.AgentMain;
-import cn.matrixaura.lepton.shellcode.impl.InjectShellcode;
 import cn.matrixaura.lepton.util.inject.InjectUtils;
 import cn.matrixaura.lepton.util.logger.ConsoleColors;
 import com.sun.tools.attach.VirtualMachine;
@@ -15,7 +13,6 @@ import java.net.URLClassLoader;
 public class Main {
 
     private static VirtualMachine vm;
-    public static InjectType injectType = InjectType.Shellcode;
 
     public static void main(String[] args) throws IOException, InterruptedException {
 
@@ -65,18 +62,9 @@ public class Main {
                 .getFile());
 
         try {
-            switch (injectType) {
-                case Agent: {
-                    vm = VirtualMachine.attach(String.valueOf(pid));
-                    vm.loadAgent(agentJarFile.getAbsolutePath());
-                    break;
-                }
-                case Shellcode: {
-                    AgentMain.agentmain(null, InjectShellcode.invoke(pid));
-                    break;
-                }
-                default: throw new RuntimeException("Invalid type");
-            }
+            vm = VirtualMachine.attach(String.valueOf(pid));
+            vm.loadAgent(agentJarFile.getAbsolutePath());
+
             info("Attach to " + pid);
         } catch (Exception e) {
             fail("Failed to attach");
@@ -99,10 +87,5 @@ public class Main {
 
     public static void version(String s) {
         System.out.printf("%sclient%s: Version %s%s%s\n", ConsoleColors.PURPLE, ConsoleColors.RESET, ConsoleColors.BLUE, s, ConsoleColors.RESET);
-    }
-
-    public enum InjectType {
-        Agent,
-        Shellcode
     }
 }
