@@ -8,7 +8,7 @@ public class Timer {
     }
 
     public boolean hasPassed(long time, boolean reset) {
-        boolean passed = getPassedTimeMs() >= time;
+        boolean passed = getPassedTime() >= time;
         if (passed && reset) {
             resetTime();
         }
@@ -21,15 +21,11 @@ public class Timer {
     }
 
     public void resetTime() {
-        lastTime = System.nanoTime();
-    }
-
-    public long getPassedTimeMs() {
-        return getPassedTime() / 1000000L;
+        lastTime = System.currentTimeMillis();
     }
 
     public long getPassedTime() {
-        return System.nanoTime() - lastTime;
+        return System.currentTimeMillis() - lastTime;
     }
 
 }
