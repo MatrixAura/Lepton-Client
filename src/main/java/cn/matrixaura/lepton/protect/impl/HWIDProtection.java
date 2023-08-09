@@ -14,7 +14,7 @@ public class HWIDProtection extends Protection {
     @Override
     public boolean verify() {
         String hwid = Lepton.INSTANCE.getHWID();
-        for (String str : FileUtils.readURLLines("Your HWID url")) { // TODO: HWID URL
+        for (String str : FileUtils.readURLLines(StringUtils.decode("Your HWID URL (base64-encrypted)"))) { // TODO: HWID URL
             if (str.equals(hwid)) return true;
         }
         return false;
