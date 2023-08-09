@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL14;
 
 public class Shadow {
 
-    private static final ShaderUtils shadowShader = new ShaderUtils(Shaders.Bloom);
+    private static final ShaderUtils shadowShader = new ShaderUtils(Shaders.Shadow);
     private static Object framebuffer;
 
     static {
@@ -41,10 +41,12 @@ public class Shadow {
 
         int framebufferTexture;
         for(framebufferTexture = 0; framebufferTexture <= radius; ++framebufferTexture) {
-            buffer.put(MathUtils.gaussianValue((float)framebufferTexture, (float)radius));
+            buffer.put(MathUtils.gaussianValue(framebufferTexture, radius));
         }
 
-        ((Buffer) buffer).flip();
+        // ----- WARNING WARNING WARNING WARNING WARNING ------ //
+        ((Buffer) buffer).flip(); // Don't change it
+        // ----- WARNING WARNING WARNING WARNING WARNING ------ //
         ReflectionUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147614_f"));
         ReflectionUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147610_a"), new Class[]{boolean.class}, true);
         shadowShader.init();

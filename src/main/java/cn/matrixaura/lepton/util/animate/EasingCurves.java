@@ -86,3 +86,12 @@ public class EasingCurves {
     };
 
 }
+/*
+public class LegitSpeed extends Module {
+
+    @Subscribe
+    public void onMoveInput(MoveInputEvent e) {
+
+    }
+}
+ */

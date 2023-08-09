@@ -13,10 +13,7 @@ public class CubicBezier extends Easing {
 
     public double solve(double process) {
         double inverseT = 1 - process;
-        return Math.pow(inverseT, 3) * p0 +
-                        3 * Math.pow(inverseT, 2) * process * p1 +
-                        3 * inverseT * Math.pow(process, 2) * p2 +
-                        Math.pow(process, 3) * p3;
+        return Math.pow(inverseT, 3) * p0 + 3 * Math.pow(inverseT, 2) * process * p1 + 3 * inverseT * Math.pow(process, 2) * p2 + Math.pow(process, 3) * p3;
     }
 
 }

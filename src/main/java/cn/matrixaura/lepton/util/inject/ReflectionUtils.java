@@ -71,6 +71,21 @@ public class ReflectionUtils {
         return null;
     }
 
+    public static Object invokeMethod(Class<?> clazz, String name, Class<?>[] desc, Object... args) {
+        Class<?> c = clazz;
+        while (c.getSuperclass() != null) {
+            try {
+                Method method = c.getDeclaredMethod(name, desc);
+                method.setAccessible(true);
+                return method.invoke(null, args);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
+            }
+
+            c = c.getSuperclass();
+        }
+        return null;
+    }
+
     public static Object invokeMethod(Object instance, String name) {
         Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {

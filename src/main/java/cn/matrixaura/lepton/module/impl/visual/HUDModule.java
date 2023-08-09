@@ -3,13 +3,12 @@ package cn.matrixaura.lepton.module.impl.visual;
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.render.EventRender2D;
-import cn.matrixaura.lepton.listener.events.render.EventShader;
 import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.util.render.ColorUtils;
+import cn.matrixaura.lepton.util.render.EffectUtils;
 import cn.matrixaura.lepton.util.render.RenderUtils;
-import com.sun.jna.Platform;
 
 import java.util.Comparator;
 import java.util.List;
@@ -41,6 +40,7 @@ public class HUDModule extends Module {
 
             }
         }
-
+        EffectUtils.drawShadow(() -> RenderUtils.drawRect(20, 20, 40, 40, 0));
+        RenderUtils.drawRect(20, 20, 40, 40, -1);
     }
 }

@@ -1,11 +1,12 @@
 package cn.matrixaura.lepton.util.render;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
+import cn.matrixaura.lepton.inject.wrapper.impl.render.FramebufferWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import org.lwjgl.opengl.EXTFramebufferObject;
+import org.lwjgl.opengl.EXTPackedDepthStencil;
 import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
 
 public class RenderUtils {
 
@@ -54,4 +55,52 @@ public class RenderUtils {
         }
     }
 
+    public static FramebufferWrapper createFramebuffer(FramebufferWrapper framebuffer) {
+        if (framebuffer == null || framebuffer.getFramebuffer() == null || framebuffer.getFramebufferWidth() != MinecraftWrapper.get().getDisplayWidth() || framebuffer.getFramebufferHeight() != MinecraftWrapper.get().getDisplayHeight()) {
+            if (framebuffer != null && framebuffer.getFramebuffer() != null) {
+                framebuffer.deleteFramebuffer();
+            }
+            return new FramebufferWrapper(FramebufferWrapper.newFramebuffer(MinecraftWrapper.get().getDisplayWidth(), MinecraftWrapper.get().getDisplayHeight(), true));
+        }
+        return framebuffer;
+    }
+
+
+    public static void checkAndSetupFBO(FramebufferWrapper fb) {
+        if (fb != null) {
+            if (fb.getDepthBuffer() > -1) {
+                setupFBO(fb);
+                fb.setDepthBuffer(-1);
+            }
+        }
+    }
+
+    public static void setupFBO(FramebufferWrapper fb) {
+        EXTFramebufferObject.glDeleteRenderbuffersEXT(fb.getDepthBuffer());
+        int stencilDepthBufferID = EXTFramebufferObject.glGenRenderbuffersEXT();
+        EXTFramebufferObject.glBindRenderbufferEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT, stencilDepthBufferID);
+        EXTFramebufferObject.glRenderbufferStorageEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT, EXTPackedDepthStencil.GL_DEPTH_STENCIL_EXT, MinecraftWrapper.get().getDisplayWidth(), MinecraftWrapper.get().getDisplayHeight());
+        EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_STENCIL_ATTACHMENT_EXT, EXTFramebufferObject.GL_RENDERBUFFER_EXT, stencilDepthBufferID);
+        EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT, EXTFramebufferObject.GL_RENDERBUFFER_EXT, stencilDepthBufferID);
+    }
+
+    public static void startStencil() {
+        MinecraftWrapper.get().getFramebuffer().bindFramebuffer(false);
+        checkAndSetupFBO(MinecraftWrapper.get().getFramebuffer());
+        GL11.glClear(GL11.GL_STENCIL_BUFFER_BIT);
+        GL11.glEnable(GL11.GL_STENCIL_TEST);
+        GL11.glStencilFunc(GL11.GL_ALWAYS, 1, 1);
+        GL11.glStencilOp(GL11.GL_REPLACE, GL11.GL_REPLACE, GL11.GL_REPLACE);
+        GL11.glColorMask(false, false, false, false);
+    }
+
+    public static void readStencil(int ref) {
+        GL11.glColorMask(true, true, true, true);
+        GL11.glStencilFunc(GL11.GL_EQUAL, ref, 1);
+        GL11.glStencilOp(GL11.GL_KEEP, GL11.GL_KEEP, GL11.GL_KEEP);
+    }
+
+    public static void stopStencil() {
+        GL11.glDisable(GL11.GL_STENCIL_TEST);
+    }
 }

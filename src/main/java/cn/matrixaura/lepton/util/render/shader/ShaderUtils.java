@@ -25,8 +25,13 @@ public class ShaderUtils {
                 vertexShaderID = createVertex(vertex);
                 break;
             }
-            case Bloom: {
+            case Shadow: {
                 fragmentShaderID = createFrag(shadow);
+                vertexShaderID = createVertex(shadow_vertex);
+                break;
+            }
+            case Blur: {
+                fragmentShaderID = createFrag(blur);
                 vertexShaderID = createVertex(vertex);
                 break;
             }
@@ -152,6 +157,15 @@ public class ShaderUtils {
             "        gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n" +
             "    }";
 
+    private static final String shadow_vertex = "#version 120\n" +
+            "varying vec2 f_Position;\n" +
+            "\n" +
+            "void main() {\n" +
+            "    f_Position = gl_Vertex.xy;\n" +
+            "    gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n" +
+            "    gl_FrontColor = gl_Color;\n" +
+            "}";
+
     private static final String roundedRect = "#version 120\n" +
             "\n" +
             "uniform vec2 location, rectSize;\n" +
@@ -208,9 +222,30 @@ public class ShaderUtils {
             "    gl_FragColor = vec4(0.0, 0.0, 0.0, pixel_color.a);\n" +
             "}\n";
 
+    private static final String blur = "#version 120\n" +
+            "\n" +
+            "uniform sampler2D textureIn;\n" +
+            "uniform vec2 texelSize, direction;\n" +
+            "uniform float radius;\n" +
+            "uniform float weights[256];\n" +
+            "\n" +
+            "#define offset texelSize * direction\n" +
+            "\n" +
+            "void main() {\n" +
+            "    vec3 blr = texture2D(textureIn, gl_TexCoord[0].st).rgb * weights[0];\n" +
+            "\n" +
+            "    for (float f = 1.0; f <= radius; f++) {\n" +
+            "        blr += texture2D(textureIn, gl_TexCoord[0].st + f * offset).rgb * (weights[int(abs(f))]);\n" +
+            "        blr += texture2D(textureIn, gl_TexCoord[0].st - f * offset).rgb * (weights[int(abs(f))]);\n" +
+            "    }\n" +
+            "\n" +
+            "    gl_FragColor = vec4(blr, 1.0);\n" +
+            "}\n";
+
     public enum Shaders {
         RoundedRect,
-        Bloom
+        Shadow,
+        Blur
     }
 
 }
