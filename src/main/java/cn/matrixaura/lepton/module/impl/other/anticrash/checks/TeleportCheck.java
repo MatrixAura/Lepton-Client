@@ -8,7 +8,7 @@ import cn.matrixaura.lepton.util.packet.PacketUtils;
 public class TeleportCheck extends CrashCheck {
 
     public TeleportCheck() {
-        super("Teleport Check", "Blocked an impossible teleport packet");
+        super("Teleport Check", "Blocked a S08PacketPlayerPosLook packet");
     }
 
     @Override

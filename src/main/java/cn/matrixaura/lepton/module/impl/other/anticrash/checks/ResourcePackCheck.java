@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class ResourcePackCheck extends CrashCheck {
 
     public ResourcePackCheck() {
-        super("Resource Pack Check", "Blocked an invalid resource-pack packet");
+        super("Resource Pack Check", "Blocked a S48PacketResourcePackSend packet");
     }
 
     @Override

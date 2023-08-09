@@ -8,7 +8,7 @@ import cn.matrixaura.lepton.util.packet.PacketUtils;
 public class DemoCheck extends CrashCheck {
 
     public DemoCheck() {
-        super("Demo Check", "Server attempted to prevent gameplay with a demo screen");
+        super("Demo Check", "Blocked a S2BPacketChangeGameState packet");
     }
 
     @Override

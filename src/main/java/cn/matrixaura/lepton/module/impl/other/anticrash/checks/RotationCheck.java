@@ -7,7 +7,7 @@ import cn.matrixaura.lepton.util.packet.PacketUtils;
 
 public class RotationCheck extends CrashCheck {
     public RotationCheck() {
-        super("Rotation Check", "Blocked a invalid rotation packet");
+        super("Rotation Check", "Blocked a S08PacketPlayerPosLook packet");
     }
 
     @Override
