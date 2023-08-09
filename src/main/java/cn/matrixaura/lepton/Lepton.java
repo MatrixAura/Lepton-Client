@@ -43,7 +43,8 @@ public class Lepton {
         }
 
         if (PROTECT_ENABLED) {
-            if (System.getProperty("os.name").toLowerCase().contains("windows")) throw new SystemNotSupportedException(System.getProperty("os.name"));
+            if (System.getProperty("os.name").toLowerCase().contains("windows"))
+                throw new SystemNotSupportedException(System.getProperty("os.name"));
             try {
                 HWID = HWIDUtils.getHWID();
             } catch (Exception e) {
