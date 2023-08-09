@@ -12,7 +12,7 @@ public class CSSHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        byte[] bytes = FileUtils.read("/assets/lepton/client/server/style.css").getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = FileUtils.readPath("/assets/lepton/client/server/style.css").getBytes(StandardCharsets.UTF_8);
 
         httpExchange.getResponseHeaders().set("Content-Type", "text/css");
         httpExchange.sendResponseHeaders(200, bytes.length);

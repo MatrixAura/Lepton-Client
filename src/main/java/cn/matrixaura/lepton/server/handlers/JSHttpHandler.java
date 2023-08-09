@@ -12,7 +12,7 @@ public class JSHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        byte[] bytes = FileUtils.read("/assets/lepton/client/server/script.css").getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = FileUtils.readPath("/assets/lepton/client/server/script.css").getBytes(StandardCharsets.UTF_8);
 
         httpExchange.getResponseHeaders().set("Content-Type", "application/javascript");
         httpExchange.sendResponseHeaders(200, bytes.length);

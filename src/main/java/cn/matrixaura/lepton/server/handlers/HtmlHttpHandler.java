@@ -12,7 +12,7 @@ public class HtmlHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        byte[] responseContentByte = FileUtils.read("/assets/lepton/client/server/index.html").getBytes(StandardCharsets.UTF_8);
+        byte[] responseContentByte = FileUtils.readPath("/assets/lepton/client/server/index.html").getBytes(StandardCharsets.UTF_8);
 
         httpExchange.getResponseHeaders().add("Content-Type:", "text/html;charset=utf-8");
         httpExchange.sendResponseHeaders(200, responseContentByte.length);

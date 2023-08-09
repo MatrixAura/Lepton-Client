@@ -6,13 +6,13 @@ import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 import cn.matrixaura.lepton.util.math.MathUtils;
 import cn.matrixaura.lepton.util.render.shader.ShaderUtils;
 import cn.matrixaura.lepton.util.render.shader.ShaderUtils.Shaders;
-
-import java.nio.Buffer;
-import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
+
+import java.nio.Buffer;
+import java.nio.FloatBuffer;
 
 public class Shadow {
 
@@ -29,7 +29,7 @@ public class Shadow {
     }
 
     public static void render(int sourceTexture, int radius, int offset) {
-        if ((Integer)ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147621_c")) != MinecraftWrapper.get().getDisplayWidth() || (Integer)ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147618_d")) != MinecraftWrapper.get().getDisplayHeight()) {
+        if ((Integer) ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147621_c")) != MinecraftWrapper.get().getDisplayWidth() || (Integer) ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147618_d")) != MinecraftWrapper.get().getDisplayHeight()) {
             initFramebuffers();
         }
 
@@ -40,7 +40,7 @@ public class Shadow {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(256);
 
         int framebufferTexture;
-        for(framebufferTexture = 0; framebufferTexture <= radius; ++framebufferTexture) {
+        for (framebufferTexture = 0; framebufferTexture <= radius; ++framebufferTexture) {
             buffer.put(MathUtils.gaussianValue(framebufferTexture, radius));
         }
 
@@ -58,7 +58,7 @@ public class Shadow {
         MinecraftWrapper.get().getFramebuffer().bindFramebuffer(true);
         shadowShader.init();
         setupUniforms(radius, 0, offset, buffer);
-        framebufferTexture = (Integer)ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147617_g"));
+        framebufferTexture = (Integer) ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147617_g"));
         GL13.glActiveTexture(34000);
         GL11.glBindTexture(3553, sourceTexture);
         GL13.glActiveTexture(33984);

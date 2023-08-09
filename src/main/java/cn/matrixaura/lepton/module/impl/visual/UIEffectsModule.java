@@ -13,7 +13,8 @@ public class UIEffectsModule extends Module {
 
     public static UIEffectsModule INSTANCE;
 
-    private FramebufferWrapper stencilFramebuffer = new FramebufferWrapper(FramebufferWrapper.newFramebuffer(1, 1, false));;
+    private FramebufferWrapper stencilFramebuffer = new FramebufferWrapper(FramebufferWrapper.newFramebuffer(1, 1, false));
+    ;
 
     public UIEffectsModule() {
         INSTANCE = this;

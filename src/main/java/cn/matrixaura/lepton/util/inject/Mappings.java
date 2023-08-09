@@ -20,7 +20,7 @@ public class Mappings {
     private static final Map<String, String> obfMethods = new HashMap<>();
 
     public static void readMappings(MinecraftVersion mcVer) {
-        String content = FileUtils.read(mcVer.getSrg());
+        String content = FileUtils.readPath(mcVer.getSrg());
         if (content.isEmpty())
             throw new RuntimeException("Failed to read mappings, cannot continue (null or empty srg)");
 

@@ -6,7 +6,6 @@ import cn.matrixaura.lepton.inject.asm.api.Transformer;
 import cn.matrixaura.lepton.inject.asm.api.Transformers;
 import cn.matrixaura.lepton.listener.bus.EventBus;
 import cn.matrixaura.lepton.listener.events.render.EventRender2D;
-import cn.matrixaura.lepton.module.impl.visual.UIEffectsModule;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;

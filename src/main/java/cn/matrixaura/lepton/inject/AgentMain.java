@@ -1,6 +1,7 @@
 package cn.matrixaura.lepton.inject;
 
 import cn.matrixaura.lepton.Lepton;
+import cn.matrixaura.lepton.exception.SystemNotSupportedException;
 import cn.matrixaura.lepton.inject.asm.api.Transformers;
 import cn.matrixaura.lepton.inject.dynamic.Dynamics;
 import cn.matrixaura.lepton.util.inject.Mappings;
