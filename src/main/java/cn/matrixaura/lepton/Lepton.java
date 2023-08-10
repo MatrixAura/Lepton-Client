@@ -1,13 +1,14 @@
 package cn.matrixaura.lepton;
 
 import cn.matrixaura.lepton.bind.BindManager;
-import cn.matrixaura.lepton.exception.SystemNotSupportedException;
 import cn.matrixaura.lepton.listener.bus.EventBus;
 import cn.matrixaura.lepton.module.Core;
 import cn.matrixaura.lepton.module.ModuleManager;
 import cn.matrixaura.lepton.protect.ProtectionManager;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
+import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 import cn.matrixaura.lepton.util.protect.HWIDUtils;
+import cn.matrixaura.lepton.util.string.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,9 +24,9 @@ public class Lepton {
     private final BindManager bindManager;
     private final ModuleManager moduleManager;
 
-    private final String HWID;
+    private final String HWID; // My HWID is 6a80d5b9-1dbc-37f7-9a69-ea600dcf5006 LOL - MatrixAura
 
-    private static final boolean PROTECT_ENABLED = false;
+    public static final boolean PROTECT_ENABLED = false;
 
     private Lepton() {
         INSTANCE = this;
@@ -43,15 +44,16 @@ public class Lepton {
         }
 
         if (PROTECT_ENABLED) {
-            if (System.getProperty("os.name").toLowerCase().contains("windows"))
-                throw new SystemNotSupportedException(System.getProperty("os.name"));
             try {
+                Class<?> systemClass = Class.forName(StringUtils.decode("amF2YS5sYW5nLlN5c3RlbQ=="));
+                String os = (String) ReflectionUtils.invokeMethod(systemClass, StringUtils.decode("Z2V0UHJvcGVydHk="), new Class[]{String.class}, StringUtils.decode("b3MubmFtZQ=="));
+                if (os.toLowerCase().contains(StringUtils.decode("d2luZG93cw==")))
+                    throw new RuntimeException(StringUtils.decode("T1MgTm90IFN1cHBvcnRlZDog") + System.getProperty("os.name"));
                 HWID = HWIDUtils.getHWID();
-            } catch (Exception e) {
-                logger.error("Failed to generate HWID");
-                throw new RuntimeException(e);
+                ProtectionManager.process();
+            } catch (Exception impossible) {
+                throw new RuntimeException(impossible);
             }
-            ProtectionManager.process();
         } else HWID = null;
 
         bus.subscribe(bindManager);
