@@ -1,13 +1,12 @@
 package cn.matrixaura.lepton.module;
 
+import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.reflections.Reflections;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class ModuleManager {
 
@@ -15,12 +14,7 @@ public class ModuleManager {
     private final Map<Class<? extends Module>, Module> classModuleMap = new HashMap<>();
 
     public ModuleManager() {
-
-        Reflections reflections = new Reflections("cn.matrixaura.lepton.module");
-
-        Set<Class<? extends Module>> classes = reflections.getSubTypesOf(Module.class);
-
-        for (Class<?> clazz : classes) {
+        for (Class<?> clazz : ReflectionUtils.getSubTypesOf("cn.matrixaura.lepton.module.impl", Module.class)) {
             try {
                 Module feature = (Module) clazz.newInstance();
                 classModuleMap.put(feature.getClass(), feature);

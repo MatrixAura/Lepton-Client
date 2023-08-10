@@ -4,6 +4,10 @@ An injectable 1.8 ghost client based on [Agent-Client](https://github.com/aesthe
 # Client Protection
 See ```TODO``` comments 
 
-All encrypted strings are base64-encrypted
+All encrypted strings are base64-encoded
 
-See [HWID Verify](src/main/java/cn/matrixaura/lepton/protect/impl/HWIDProtection.java), [Anti Attach](src/main/java/cn/matrixaura/lepton/protect/impl/AntiAttachProtection.java) and [String Encrypt](src/main/java/cn/matrixaura/lepton/util/string/StringUtils.java)
+See [PROTECT_ENABLED](src/main/java/cn/matrixaura/lepton/Lepton.java), [HWID Verify](src/main/java/cn/matrixaura/lepton/protect/impl/HWIDProtection.java), [Anti Attach](src/main/java/cn/matrixaura/lepton/protect/impl/AntiAttachProtection.java) and [String Encrypt](src/main/java/cn/matrixaura/lepton/util/string/StringUtils.java)
+
+OS Supports: Windows 11 - Windows 7 (x64)
+
+Windows 11 - Windows XP (x86)

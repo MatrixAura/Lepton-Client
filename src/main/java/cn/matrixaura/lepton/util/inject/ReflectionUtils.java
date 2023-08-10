@@ -1,9 +1,12 @@
 package cn.matrixaura.lepton.util.inject;
 
+import org.apache.logging.log4j.core.config.plugins.ResolverUtil;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 public class ReflectionUtils {
 
@@ -138,5 +141,20 @@ public class ReflectionUtils {
             c = c.getSuperclass();
         }
         return null;
+    }
+
+    public static Set<Class<?>> getSubTypesOf(String packagePath, Class<?> clazz) {
+        ResolverUtil resolver = new ResolverUtil();
+
+        resolver.setClassLoader(clazz.getClassLoader());
+
+        resolver.findInPackage(new ResolverUtil.ClassTest() {
+            @Override
+            public boolean matches(Class<?> aClass) {
+                return aClass.getSuperclass() == clazz;
+            }
+        }, packagePath);
+
+        return resolver.getClasses();
     }
 }
