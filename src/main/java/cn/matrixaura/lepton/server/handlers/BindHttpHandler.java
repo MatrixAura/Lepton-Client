@@ -20,7 +20,7 @@ public class BindHttpHandler implements HttpHandler {
         int key = Integer.parseInt(param[1].split("=")[1]);
 
         try {
-            int lwjglKey = BindTransformer.standToLwjglKey(key);
+            int lwjglKey = BindTransformer.stand2lwjgl(key);
             Lepton.INSTANCE.getModuleManager().get(module).getBind().setKeyCode(lwjglKey);
         } catch (NullPointerException ignored) {
             Lepton.INSTANCE.getModuleManager().get(module).getBind().setKeyCode(0);

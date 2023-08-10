@@ -54,7 +54,6 @@ dependencies {
     dependency 'net.sf.json-lib:json-lib:2.4:jdk15'
     dependency fileTree(dir: 'libs', includes: ['*.jar'])
 
-    implementation files("${System.properties['java.home']}/../lib/tools.jar")
     implementation fileTree("mclibs/")
 }
 
