@@ -22,8 +22,6 @@ public class WorldClientWrapper extends Wrapper {
     }
 
     public List<EntityWrapper> getLoadedEntities() {
-        // TODO: use like caching or some shit
-
         // FD: adm/f net/minecraft/world/World/field_72996_f
 
         try {
@@ -32,11 +30,10 @@ public class WorldClientWrapper extends Wrapper {
             if (value instanceof List) {
                 List<EntityWrapper> entities = new ArrayList<>();
 
-                List list = (List) value;
+                List<?> list = (List<?>) value;
                 for (Object entityObj : list) {
                     entities.add(new EntityWrapper(entityObj));
                 }
-
                 return entities;
             }
         } catch (Exception ignored) {
