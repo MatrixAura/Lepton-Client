@@ -1,6 +1,7 @@
 package cn.matrixaura.lepton.inject.asm.api;
 
 import cn.matrixaura.lepton.inject.asm.transformers.*;
+import cn.matrixaura.lepton.util.inject.InjectUtils;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
@@ -25,10 +26,9 @@ import static org.objectweb.asm.ClassWriter.COMPUTE_MAXS;
 
 public class Transformers {
 
-    public static final Logger logger = LogManager.getLogger("Mixins");
+    public static final Logger logger = LogManager.getLogger("Transformers");
 
-    // LOL
-    private static final List<Transformer> transformers = new ArrayList<>();
+    public static final List<Transformer> transformers = new ArrayList<>();
 
     public static void transform(Instrumentation inst) throws IOException {
         if (transformers.isEmpty()) {
@@ -38,20 +38,20 @@ public class Transformers {
 
         logger.info("{} transformers to load", transformers.size());
 
-        for (Transformer mixin : transformers) {
-            if (mixin.getClazz() == null) {
-                logger.warn("Class for {} ({}) is null", mixin.getObfName(), mixin.getName());
+        for (Transformer transformer : transformers) {
+            if (transformer.getClazz() == null) {
+                logger.warn("Class for {} ({}) is null", transformer.getObfName(), transformer.getName());
                 continue;
             }
 
-            byte[] bytes = getClassBytes(mixin.getClazz());
+            byte[] bytes = transformer.getOldBytes();
             ClassNode node = node(bytes);
             if (node == null) {
-                logger.error("Class node could not be created from {}", mixin.getClazz());
+                logger.error("Class node could not be created from {}", transformer.getClazz());
                 continue;
             }
 
-            for (Method method : mixin.getClass().getDeclaredMethods()) {
+            for (Method method : transformer.getClass().getDeclaredMethods()) {
                 if (!method.isAnnotationPresent(Inject.class)) continue;
 
                 if (method.getParameterCount() != 1 || !MethodNode.class.isAssignableFrom(method.getParameterTypes()[0]))
@@ -64,7 +64,7 @@ public class Transformers {
 
                 String obfName = Mappings.getObfMethod(methodToModify);
                 if (obfName == null || obfName.isEmpty()) {
-                    logger.error("Could not find {} in class {}", methodToModify, mixin.getName());
+                    logger.error("Could not find {} in class {}", methodToModify, transformer.getName());
                     continue;
                 }
 
@@ -72,7 +72,7 @@ public class Transformers {
                 for (MethodNode mNode : (List<MethodNode>) node.methods) {
                     if (mNode.name.equals(obfName) && mNode.desc.equals(desc)) {
                         try {
-                            method.invoke(mixin, mNode);
+                            method.invoke(transformer, mNode);
                         } catch (IllegalAccessException | InvocationTargetException e) {
                             logger.error("Failed to invoke method {} {}", e.getMessage(), e.getStackTrace()[0]);
                             e.printStackTrace();
@@ -85,17 +85,17 @@ public class Transformers {
             try {
                 bytes = rewriteClass(node);
             } catch (Exception e) {
-                logger.error("Could not rewrite class bytes for {} ({})", mixin.getClazz(), mixin.getName());
+                logger.error("Could not rewrite class bytes for {} ({})", transformer.getClazz(), transformer.getName());
                 logger.error(e.getMessage() + " -> " + e.getStackTrace()[0]);
             }
 
             if (bytes.length != 0) {
-                ClassDefinition classDef = new ClassDefinition(mixin.getClazz(), bytes);
+                ClassDefinition classDef = new ClassDefinition(transformer.getClazz(), bytes);
                 try {
-                    logger.info("Redefined class {} ({}) ({} bytes)", mixin.getObfName(), mixin.getName(), bytes.length);
+                    logger.info("Redefined class {} ({}) ({} bytes)", transformer.getObfName(), transformer.getName(), bytes.length);
                     inst.redefineClasses(classDef);
                 } catch (ClassNotFoundException | UnmodifiableClassException e) {
-                    logger.error("Failed to modify {} ({})", mixin.getObfName(), mixin.getName());
+                    logger.error("Failed to modify {} ({})", transformer.getObfName(), transformer.getName());
                     logger.error(e.getMessage() + " -> " + e.getStackTrace()[0]);
                     e.printStackTrace();
                 }
@@ -112,13 +112,6 @@ public class Transformers {
         }
 
         return null;
-    }
-
-    private static byte[] getClassBytes(Class<?> c) throws IOException {
-        String className = c.getName();
-        String classAsPath = className.replace('.', '/') + ".class";
-        InputStream stream = c.getClassLoader().getResourceAsStream(classAsPath);
-        return stream == null ? null : IOUtils.toByteArray(stream);
     }
 
     private static byte[] rewriteClass(ClassNode node) {

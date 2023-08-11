@@ -30,7 +30,7 @@ public class AgentMain {
             e.printStackTrace();
         }
 
-        Lepton.init();
+        Lepton.init(is);
 
         try {
             Transformers.transform(is);

@@ -1,8 +1,16 @@
 package cn.matrixaura.lepton.util.inject;
 
+import cn.matrixaura.lepton.Lepton;
+import cn.matrixaura.lepton.inject.asm.api.Transformers;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
+import org.apache.commons.io.IOUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.instrument.ClassDefinition;
+import java.lang.instrument.UnmodifiableClassException;
 
 public class InjectUtils {
 
@@ -24,6 +32,26 @@ public class InjectUtils {
             }
         } while (pid.getValue() == -1);
         return pid.getValue();
+    }
+
+    public static void redefineClass(Class<?> clazz, byte[] newByte) throws UnmodifiableClassException, ClassNotFoundException {
+        Lepton.INSTANCE.getInst().redefineClasses(new ClassDefinition(clazz, newByte));
+    }
+
+    public static void destroyClient() {
+        Transformers.transformers.forEach(it -> {
+            try {
+                InjectUtils.redefineClass(it.getClazz(), it.getOldBytes());
+            } catch (UnmodifiableClassException | ClassNotFoundException ignored) {
+            }
+        });
+    }
+
+    public static byte[] getClassBytes(Class<?> c) throws IOException {
+        String className = c.getName();
+        String classAsPath = className.replace('.', '/') + ".class";
+        InputStream stream = c.getClassLoader().getResourceAsStream(classAsPath);
+        return stream == null ? null : IOUtils.toByteArray(stream);
     }
 
 }

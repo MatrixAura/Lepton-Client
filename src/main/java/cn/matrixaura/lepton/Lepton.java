@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.lang.instrument.Instrumentation;
 
 public class Lepton {
 
@@ -22,12 +23,14 @@ public class Lepton {
     private final BindManager bindManager;
     private final ModuleManager moduleManager;
 
-    private final String HWID; // My HWID is 6a80d5b9-1dbc-37f7-9a69-ea600dcf5006 LOL - MatrixAura
+    private final String HWID;
+    private final Instrumentation inst;
 
     public static final boolean PROTECT_ENABLED = false;
 
-    private Lepton() {
+    private Lepton(Instrumentation inst) {
         INSTANCE = this;
+        this.inst = inst;
 
         logger.info("Loading Lepton v{}-{}/{}", BuildConfig.VERSION, BuildConfig.HASH, BuildConfig.BRANCH);
 
@@ -65,8 +68,8 @@ public class Lepton {
         return moduleManager;
     }
 
-    public static void init() {
-        if (INSTANCE == null) new Lepton();
+    public static void init(Instrumentation inst) {
+        if (INSTANCE == null) new Lepton(inst);
     }
 
     public static EventBus getEventBus() {
@@ -75,5 +78,9 @@ public class Lepton {
 
     public String getHWID() {
         return HWID;
+    }
+
+    public Instrumentation getInst() {
+        return inst;
     }
 }
