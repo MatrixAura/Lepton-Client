@@ -15,7 +15,7 @@ public enum MinecraftVersion {
     }
 
     public String getSrg() {
-        return "/assets/lepton/client/mappings/" + ver.replace(".", "_") + ".srg";
+        return "/assets/lepton/client/mappings/" + ver + ".srg";
     }
 
 }
