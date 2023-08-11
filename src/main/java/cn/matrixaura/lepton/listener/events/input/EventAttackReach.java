@@ -1,6 +1,8 @@
 package cn.matrixaura.lepton.listener.events.input;
 
-public class EventAttackReach {
+import cn.matrixaura.lepton.listener.bus.Event;
+
+public class EventAttackReach extends Event {
     private double reach;
 
     public EventAttackReach(double reach) {

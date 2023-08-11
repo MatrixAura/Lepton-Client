@@ -47,7 +47,7 @@ public class EntityRendererTransformer extends Transformer {
 
         InsnList list = new InsnList();
 
-        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
         list.add(new TypeInsnNode(NEW, Type.getInternalName(EventRender3D.class)));
         list.add(new InsnNode(DUP));
         list.add(new VarInsnNode(FLOAD, partialTicksVar));
@@ -70,7 +70,7 @@ public class EntityRendererTransformer extends Transformer {
         list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventAttackReach.class), "<init>", "(D)V", false));
         list.add(new VarInsnNode(ASTORE, 23));
 
-        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
         list.add(new VarInsnNode(ALOAD, 23));
         list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
         list.add(new InsnNode(POP));

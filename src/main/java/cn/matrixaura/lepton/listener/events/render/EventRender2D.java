@@ -1,6 +1,8 @@
 package cn.matrixaura.lepton.listener.events.render;
 
-public class EventRender2D {
+import cn.matrixaura.lepton.listener.bus.Event;
+
+public class EventRender2D extends Event {
     private final int width, height;
     private final float partialTicks;
 

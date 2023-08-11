@@ -1,8 +1,5 @@
 package cn.matrixaura.lepton.util.bind;
 
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
-import cn.matrixaura.lepton.util.protect.HWIDUtils;
-import cn.matrixaura.lepton.util.string.StringUtils;
 import org.lwjgl.input.Keyboard;
 
 import static cn.matrixaura.lepton.util.bind.WindowsKeycodes.*;
@@ -93,6 +90,7 @@ public class BindTransformer {
             case VK_OEM_7:
                 return Keyboard.KEY_APOSTROPHE;
             case VK_OEM_3:
+            case VK_OEM_8:
                 return Keyboard.KEY_GRAVE;
             case VK_LSHIFT:
                 return Keyboard.KEY_LSHIFT;

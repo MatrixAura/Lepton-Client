@@ -1,6 +1,8 @@
 package cn.matrixaura.lepton.listener.events.input;
 
-public class EventKeyInput {
+import cn.matrixaura.lepton.listener.bus.Event;
+
+public class EventKeyInput extends Event {
     private final int keyCode;
 
     public EventKeyInput(int keyCode) {

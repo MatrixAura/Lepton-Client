@@ -58,11 +58,11 @@ public class Module {
 
     public void toggle() {
         if (state) {
-            Lepton.getBus().unsubscribe(this);
+            Lepton.getEventBus().unsubscribe(this);
             onDisable();
         } else {
             onEnable();
-            Lepton.getBus().subscribe(this);
+            Lepton.getEventBus().subscribe(this);
         }
         state = !state;
     }

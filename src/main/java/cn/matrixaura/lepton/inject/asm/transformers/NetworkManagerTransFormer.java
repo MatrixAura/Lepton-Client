@@ -33,7 +33,7 @@ public class NetworkManagerTransFormer extends Transformer {
                 list.add(new VarInsnNode(ALOAD, 2)); // #2 Packet p_channelRead0_2_
                 list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventPacketReceive.class), "<init>", "(Ljava/lang/Object;)V", false));
                 list.add(new VarInsnNode(ASTORE, 3));
-                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new VarInsnNode(ALOAD, 3));
                 list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
                 list.add(new JumpInsnNode(IFEQ, label));
@@ -64,7 +64,7 @@ public class NetworkManagerTransFormer extends Transformer {
                 list.add(new VarInsnNode(ALOAD, 1)); // #1 Packet packetIn
                 list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventPacketSend.class), "<init>", "(Ljava/lang/Object;)V", false));
                 list.add(new VarInsnNode(ASTORE, 2));
-                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new VarInsnNode(ALOAD, 2));
                 list.add(new MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(EventBus.class), "dispatch", "(Ljava/lang/Object;)Z", false));
                 list.add(new JumpInsnNode(IFEQ, label));

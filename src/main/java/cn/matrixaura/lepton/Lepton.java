@@ -6,9 +6,7 @@ import cn.matrixaura.lepton.module.Core;
 import cn.matrixaura.lepton.module.ModuleManager;
 import cn.matrixaura.lepton.protect.ProtectionManager;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 import cn.matrixaura.lepton.util.protect.HWIDUtils;
-import cn.matrixaura.lepton.util.string.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,10 +43,9 @@ public class Lepton {
 
         if (PROTECT_ENABLED) {
             try {
-                Class<?> systemClass = Class.forName(StringUtils.decode("amF2YS5sYW5nLlN5c3RlbQ=="));
-                String os = (String) ReflectionUtils.invokeMethod(systemClass, StringUtils.decode("Z2V0UHJvcGVydHk="), new Class[]{String.class}, StringUtils.decode("b3MubmFtZQ=="));
-                if (os.toLowerCase().contains(StringUtils.decode("d2luZG93cw==")))
-                    throw new RuntimeException(StringUtils.decode("T1MgTm90IFN1cHBvcnRlZDog") + System.getProperty("os.name"));
+                String os = System.getProperty("os.name");
+                if (!os.toLowerCase().contains("windows"))
+                    throw new RuntimeException("OS Not Supported: " + System.getProperty("os.name"));
                 HWID = HWIDUtils.getHWID();
                 ProtectionManager.process();
             } catch (Exception impossible) {
@@ -72,7 +69,7 @@ public class Lepton {
         if (INSTANCE == null) new Lepton();
     }
 
-    public static EventBus getBus() {
+    public static EventBus getEventBus() {
         return bus;
     }
 

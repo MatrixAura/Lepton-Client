@@ -48,7 +48,7 @@ public class MinecraftTransformer extends Transformer {
 
                 // we're shooting for this:
                 // if (Keyboard.getEventKeyState()) {
-                //      Lepton.getBus().dispatch(new EventKeyInput(var1));
+                //      Lepton.getEventBus().dispatch(new EventKeyInput(var1));
                 // }
 
                 // get the result of "Keyboard.getEventKeyState()" and load into a var (var 2 ig)
@@ -61,7 +61,7 @@ public class MinecraftTransformer extends Transformer {
                 list.add(new JumpInsnNode(IFEQ, label));
 
                 // this is a mindfuck innit
-                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+                list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new TypeInsnNode(NEW, Type.getInternalName(EventKeyInput.class)));
                 list.add(new InsnNode(DUP));
                 list.add(new VarInsnNode(ILOAD, v.var));
@@ -100,7 +100,7 @@ public class MinecraftTransformer extends Transformer {
                     list.add(new JumpInsnNode(IFEQ, label));
 
                     // this is a mindfuck innit
-                    list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+                    list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                     list.add(new TypeInsnNode(NEW, Type.getInternalName(EventMouseInput.class)));
                     list.add(new InsnNode(DUP));
                     list.add(new VarInsnNode(ILOAD, 1));

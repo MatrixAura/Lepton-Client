@@ -1,6 +1,8 @@
 package cn.matrixaura.lepton.listener.events.input;
 
-public class EventMouseInput {
+import cn.matrixaura.lepton.listener.bus.Event;
+
+public class EventMouseInput extends Event {
     private final int button;
 
     public EventMouseInput(int button) {

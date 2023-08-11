@@ -31,9 +31,9 @@ public class EventBus {
      * Dispatches an event
      *
      * @param event the event to dispatch
-     * @return if the event was canceled (only if extended from CancelableEvent)
+     * @return if the event was canceled (only if extended from CancellableEvent)
      */
-    public boolean dispatch(Object event) {
+    public boolean dispatch(Event event) {
         List<Subscriber> subscribers = eventSubscriberMap.getOrDefault(event.getClass(), null);
         if (subscribers != null && !subscribers.isEmpty()) {
             boolean canceled = false;
@@ -49,8 +49,8 @@ public class EventBus {
                     e.printStackTrace();
                 }
 
-                if (CancelableEvent.class.isAssignableFrom(event.getClass().getSuperclass())) {
-                    canceled = ((CancelableEvent) event).isCanceled();
+                if (CancellableEvent.class.isAssignableFrom(event.getClass().getSuperclass())) {
+                    canceled = ((CancellableEvent) event).isCanceled();
                 }
             }
 

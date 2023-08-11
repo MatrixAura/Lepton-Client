@@ -47,7 +47,7 @@ public class GuiIngameTransformer extends Transformer {
             return;
         }
 
-        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
         list.add(new TypeInsnNode(NEW, Type.getInternalName(EventRender2D.class)));
         list.add(new InsnNode(DUP));
 

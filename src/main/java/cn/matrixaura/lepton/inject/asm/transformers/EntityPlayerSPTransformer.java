@@ -20,7 +20,7 @@ public class EntityPlayerSPTransformer extends Transformer {
     public void onUpdate(MethodNode methodNode) {
         InsnList list = new InsnList();
 
-        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
+        list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
         list.add(new TypeInsnNode(NEW, Type.getInternalName(EventUpdate.class)));
         list.add(new InsnNode(DUP));
         list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventUpdate.class), "<init>", "()V", false));
