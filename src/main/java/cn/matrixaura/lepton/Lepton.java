@@ -26,7 +26,7 @@ public class Lepton {
     private final String HWID;
     private final Instrumentation inst;
 
-    public static final boolean PROTECT_ENABLED = false;
+    private static final boolean PROTECT_STATUS = false;
 
     private Lepton(Instrumentation inst) {
         INSTANCE = this;
@@ -44,7 +44,7 @@ public class Lepton {
             e.printStackTrace();
         }
 
-        if (PROTECT_ENABLED) {
+        if (PROTECT_STATUS) {
             try {
                 String os = System.getProperty("os.name");
                 if (!os.toLowerCase().contains("windows"))
@@ -82,5 +82,9 @@ public class Lepton {
 
     public Instrumentation getInst() {
         return inst;
+    }
+
+    public boolean isProtectEnabled() {
+        return PROTECT_STATUS;
     }
 }
