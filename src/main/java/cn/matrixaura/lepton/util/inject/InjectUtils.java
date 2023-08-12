@@ -24,9 +24,7 @@ public class InjectUtils {
                 char[] buffer = new char[1024];
                 user32.GetWindowText(hWnd, buffer, buffer.length);
                 final String windowText = new String(buffer);
-                if (windowText.toLowerCase().contains("minecraft") || windowText.toLowerCase().contains("client")) {
-                    user32.GetWindowThreadProcessId(hWnd, pid);
-                }
+                user32.GetWindowThreadProcessId(hWnd, pid);
             } else {
                 Thread.sleep(100L);
             }
