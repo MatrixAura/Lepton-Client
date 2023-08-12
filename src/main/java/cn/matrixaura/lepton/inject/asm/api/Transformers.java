@@ -1,9 +1,7 @@
 package cn.matrixaura.lepton.inject.asm.api;
 
 import cn.matrixaura.lepton.inject.asm.transformers.*;
-import cn.matrixaura.lepton.util.inject.InjectUtils;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.objectweb.asm.ClassReader;
@@ -12,7 +10,6 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
