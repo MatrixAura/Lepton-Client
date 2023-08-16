@@ -35,6 +35,16 @@ public class ShaderUtils {
                 vertexShaderID = createVertex(vertex);
                 break;
             }
+            case RoundedOutline: {
+                fragmentShaderID = createFrag(roundRectOutline);
+                vertexShaderID = createVertex(vertex);
+                break;
+            }
+            case RoundedTexture: {
+                fragmentShaderID = createFrag(roundRectTexture);
+                vertexShaderID = createVertex(vertex);
+                break;
+            }
             default:
                 throw new RuntimeException("Unreachable case");
         }
@@ -242,8 +252,47 @@ public class ShaderUtils {
             "    gl_FragColor = vec4(blr, 1.0);\n" +
             "}\n";
 
+    private final String roundRectTexture = "#version 120\n" +
+            "\n" +
+            "uniform vec2 location, rectSize;\n" +
+            "uniform sampler2D textureIn;\n" +
+            "uniform float radius, alpha;\n" +
+            "\n" +
+            "float roundedBoxSDF(vec2 centerPos, vec2 size, float radius) {\n" +
+            "    return length(max(abs(centerPos) -size, 0.)) - radius;\n" +
+            "}\n" +
+            "\n" +
+            "\n" +
+            "void main() {\n" +
+            "    float distance = roundedBoxSDF((rectSize * .5) - (gl_TexCoord[0].st * rectSize), (rectSize * .5) - radius - 1., radius);\n" +
+            "    float smoothedAlpha =  (1.0-smoothstep(0.0, 2.0, distance)) * alpha;\n" +
+            "    gl_FragColor = vec4(texture2D(textureIn, gl_TexCoord[0].st).rgb, smoothedAlpha);\n" +
+            "}";
+
+    private final String roundRectOutline = "#version 120\n" +
+            "\n" +
+            "uniform vec2 location, rectSize;\n" +
+            "uniform vec4 color, outlineColor;\n" +
+            "uniform float radius, outlineThickness;\n" +
+            "\n" +
+            "float roundedSDF(vec2 centerPos, vec2 size, float radius) {\n" +
+            "    return length(max(abs(centerPos) - size + radius, 0.0)) - radius;\n" +
+            "}\n" +
+            "\n" +
+            "void main() {\n" +
+            "    float distance = roundedSDF(gl_FragCoord.xy - location - (rectSize * .5), (rectSize * .5) + (outlineThickness *.5) - 1.0, radius);\n" +
+            "\n" +
+            "    float blendAmount = smoothstep(0., 2., abs(distance) - (outlineThickness * .5));\n" +
+            "\n" +
+            "    vec4 insideColor = (distance < 0.) ? color : vec4(outlineColor.rgb,  0.0);\n" +
+            "    gl_FragColor = mix(outlineColor, insideColor, blendAmount);\n" +
+            "\n" +
+            "}";
+
     public enum Shaders {
         RoundedRect,
+        RoundedOutline,
+        RoundedTexture,
         Shadow,
         Blur
     }

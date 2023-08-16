@@ -1,14 +1,88 @@
 package cn.matrixaura.lepton.util.render;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
+import cn.matrixaura.lepton.inject.wrapper.impl.gui.ScaledResolutionWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.render.FramebufferWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.render.shader.ShaderUtils;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+
+import static org.lwjgl.opengl.GL11.*;
+
 public class RenderUtils {
+
+    private static final ShaderUtils roundedShader = new ShaderUtils(ShaderUtils.Shaders.RoundedRect);
+    private static final ShaderUtils roundedOutlineShader = new ShaderUtils(ShaderUtils.Shaders.RoundedOutline);
+    private static final ShaderUtils roundedTexturedShader = new ShaderUtils(ShaderUtils.Shaders.RoundedTexture);
+
+    public static void drawRoundedRect(float x, float y, float width, float height, float radius, Color color) {
+        drawRoundedRect(x, y, width, height, radius, false, color);
+    }
+
+    public static void drawRoundedRect(float x, float y, float width, float height, float radius, boolean blur, Color color) {
+        glColor4f(1, 1, 1, 1);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0);
+        roundedShader.init();
+
+        setupRoundedShaderUniforms(x, y, width, height, radius, roundedShader);
+        roundedShader.setUniformi("blur", blur ? 1 : 0);
+        roundedShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+
+        ShaderUtils.drawQuads(x - 1, y - 1, width + 2, height + 2);
+        roundedShader.unload();
+        glDisable(GL_BLEND);
+    }
+
+    public static void drawRoundedOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
+        glColor4f(1, 1, 1, 1);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0);
+        roundedOutlineShader.init();
+
+        ScaledResolutionWrapper sr = new ScaledResolutionWrapper(MinecraftWrapper.get());
+        setupRoundedShaderUniforms(x, y, width, height, radius, roundedOutlineShader);
+        roundedOutlineShader.setUniformf("outlineThickness", outlineThickness * sr.getScaleFactor());
+        roundedOutlineShader.setUniformf("color", color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, color.getAlpha() / 255f);
+        roundedOutlineShader.setUniformf("outlineColor", outlineColor.getRed() / 255f, outlineColor.getGreen() / 255f, outlineColor.getBlue() / 255f, outlineColor.getAlpha() / 255f);
+
+
+        ShaderUtils.drawQuads(x - (2 + outlineThickness), y - (2 + outlineThickness), width + (4 + outlineThickness * 2), height + (4 + outlineThickness * 2));
+        roundedOutlineShader.unload();
+        glDisable(GL_BLEND);
+    }
+
+    public static void drawRoundedTexture(float x, float y, float width, float height, float radius, float alpha) {
+        glColor4f(1, 1, 1, 1);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_ALPHA_TEST);
+        glAlphaFunc(GL_GREATER, 0);
+        roundedTexturedShader.init();
+        roundedTexturedShader.setUniformi("textureIn", 0);
+        setupRoundedShaderUniforms(x, y, width, height, radius, roundedTexturedShader);
+        roundedTexturedShader.setUniformf("alpha", alpha);
+        ShaderUtils.drawQuads(x - 1, y - 1, width + 2, height + 2);
+        roundedTexturedShader.unload();
+        glDisable(GL_BLEND);
+    }
+
+    private static void setupRoundedShaderUniforms(float x, float y, float width, float height, float radius, ShaderUtils roundedTexturedShader) {
+        ScaledResolutionWrapper sr = new ScaledResolutionWrapper(MinecraftWrapper.get());
+        roundedTexturedShader.setUniformf("location", x * sr.getScaleFactor(),
+                (MinecraftWrapper.get().getDisplayHeight() - (height * sr.getScaleFactor())) - (y * sr.getScaleFactor()));
+        roundedTexturedShader.setUniformf("rectSize", width * sr.getScaleFactor(), height * sr.getScaleFactor());
+        roundedTexturedShader.setUniformf("radius", radius * sr.getScaleFactor());
+    }
 
     public static void color(int rgb) {
         float a = (float) (rgb >> 24 & 0xFF) / 255.0f;
