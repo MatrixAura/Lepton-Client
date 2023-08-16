@@ -33,7 +33,7 @@ public class EventBus {
      * @param event the event to dispatch
      * @return if the event was canceled (only if extended from CancellableEvent)
      */
-    public boolean dispatch(Event event) {
+    public boolean dispatch(Object event) {
         List<Subscriber> subscribers = eventSubscriberMap.getOrDefault(event.getClass(), null);
         if (subscribers != null && !subscribers.isEmpty()) {
             boolean canceled = false;

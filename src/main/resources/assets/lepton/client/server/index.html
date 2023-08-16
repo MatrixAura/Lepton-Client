@@ -11,10 +11,14 @@
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
     <link
             rel="stylesheet"
-            href="/files/style.css"
+            href="https://fastly.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
+            crossorigin="anonymous"
     />
     <script
-            src="/files/script.js"
+            src="https://fastly.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
+            integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
+            crossorigin="anonymous"
     ></script>
     <title>Lepton - Home</title>
 </head>
@@ -43,7 +47,7 @@
         </a>
         <ul class="mdui-menu" id="menu">
             <li class="mdui-menu-item">
-               
+
             </li>
         </ul>
     </div>
@@ -64,20 +68,28 @@
 
 <script>
 
-        category = "Combat"
+    category = "Combat"
 
-        $.ajax({
-            url: "/api/categoriesList",
-            type: "GET",
-            dataType: "json",
-            success: function(data) {
-                if (data.success) {
-                    Object.keys(data.result).forEach(str => {
-                        addCategory(str, data.result[str]);
-                    })
-                } else {
-                    alert(data.reason);
-                }
+    $.ajax({
+        url: "/api/categoriesList",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            if (data.success) {
+                Object.keys(data.result).forEach(str => {
+                    addCategory(str, data.result[str]);
+                })
+            } else {
+                alert(data.reason);
+            }
+            if(location.hash) {
+                category = location.hash.substr(1);
+                if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
+            }
+            if(!Object.keys(data.result).includes(category)) {
+                location.hash = "#" + (category = Object.keys(data.result)[0]);
+            }
+            window.onhashchange = () => {
                 if(location.hash) {
                     category = location.hash.substr(1);
                     if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
@@ -85,216 +97,208 @@
                 if(!Object.keys(data.result).includes(category)) {
                     location.hash = "#" + (category = Object.keys(data.result)[0]);
                 }
-                window.onhashchange = () => {
-                    if(location.hash) {
-                        category = location.hash.substr(1);
-                        if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
-                    }
-                    if(!Object.keys(data.result).includes(category)) {
-                        location.hash = "#" + (category = Object.keys(data.result)[0]);
-                    }
-                    $.ajax({
-                        url: "/api/modulesList?category=" + category,
-                        type: "GET",
-                        dataType: "json",
-                        success: data => {
-                            $("#point").children().remove();
-                            if (data.success) {
-                                Object.keys(data.result).forEach(module => {
-                                    addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings, data.result[module].binding, data.result[module].canToggle);
-                                })
-                            } else {
-                                alert(data.reason);
-                            }
-                        }
-                    })
-                }
-                window.updatemodules = () => {
-                    if(location.hash) {
-                        category = location.hash.substr(1);
-                        if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
-                    }
-                    if(!Object.keys(data.result).includes(category)) {
-                        location.hash = "#" + (category = Object.keys(data.result)[0]);
-                    }
-                    $.ajax({
-                        url: "/api/updateModulesInfo?category="+category,
-                        type: "GET",
-                        dataType: "json",
-                        success: data => {
-                            if (data.success) {
-                                Object.keys(data.result).forEach(module => {
-                                    updateModuleInfo(module, data.result[module]);
-                                })
-                            } else {
-                                alert(data.reason);
-                            }
-                        }
-                    })
-                }
-                window.updatemodules()
-                window.onhashchange()
-                setInterval(window.updatemodules, 1000)
-            },
-            error: function(data) {
-                alert("Error");
-            }
-        });
-
-        function updateModuleInfo(name,state) {
-            var module = document.getElementById(name+'-checkbox')
-            module.checked = state
-        }
-
-        function addModule(name,desc,state,settings,bind,canToggle) {
-            if (state) {
-                state = "checked"
-            } else {
-                state = ""
-            }
-            $("#point").append([
-                '<div class="mdui-col-xs-12 mdui-col-sm-6 mdui-col-md-4">',
-                '<div class="mdui-card">',
-                '<div class="mdui-card-primary">',
-                '<div class="mdui-card-primary-title">'+name+'</div>',
-                '<div class="mdui-card-primary-subtitle">'+desc+'</div>',
-                '</div>',
-                '<div class="mdui-card-content">',
-                canToggle ? '<label class="mdui-switch"><input type="checkbox" id="'+name+'-checkbox" onclick="onswitch(this)" '+state+'/><i class="mdui-switch-icon"></i></label>' : '',
-                settings ? '<button class="mdui-btn mdui-ripple mdui-float-right" id="'+name+'-button" onclick="opensetting(this)"><i class="mdui-icon material-icons">settings</i></button>' : '',
-                canToggle ? '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeypress="onkey(this,event.keyCode)">BOUND TO '+getKeyName(bind)+'</button>' : '',
-                '</div>',
-                '</div>',
-                '</div>'
-            ].join('\n'));
-        }
-        function getKeyName(bind) {
-            var binds = ["NONE", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "RETURN", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "SPACE", "null", "null", "null", "null", "null", "null", "APOSTROPHE", "null", "null", "MULTIPLY", "ADD", "COMMA", "MINUS", "PERIOD", "SLASH", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "null", "SEMICOLON", "null", "EQUALS", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "LMENU", "BACKSLASH", "RMENU", "null", "null", "GRAVE", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"]
-            return binds[bind]
-        }
-        function addCategory(name,icon) {
-            $("#category").append([
-                '<a href="#'+name+'">',
-                '<li class="mdui-list-item mdui-ripple">',
-                '<i class="mdui-list-item-icon mdui-icon material-icons">'+icon+'</i>',
-                '<div class="mdui-list-item-content">'+name+'</div>',
-                '</li>',
-                '</a>'
-            ].join('\n'));
-        }
-        function onbind(element) {
-            if (element.innerText != "LISTENING") element.innerText = "LISTENING"
-            else onkey(element,0)
-        }
-        function onkey(element,code) {
-            if (element.innerText == "LISTENING") {
                 $.ajax({
-                    url: "/api/setBind?module=" + element.id.split("-")[0] + "&keycode=" + code,
+                    url: "/api/modulesList?category=" + category,
+                    type: "GET",
+                    dataType: "json",
+                    success: data => {
+                        $("#point").children().remove();
+                        if (data.success) {
+                            Object.keys(data.result).forEach(module => {
+                                addModule(module, data.result[module].desc, data.result[module].state, data.result[module].settings, data.result[module].binding, data.result[module].canToggle);
+                            })
+                        } else {
+                            alert(data.reason);
+                        }
+                    }
+                })
+            }
+            window.updatemodules = () => {
+                if(location.hash) {
+                    category = location.hash.substr(1);
+                    if(category.indexOf("?") != -1) category = category.substr(0, category.indexOf("?"))
+                }
+                if(!Object.keys(data.result).includes(category)) {
+                    location.hash = "#" + (category = Object.keys(data.result)[0]);
+                }
+                $.ajax({
+                    url: "/api/updateModulesInfo?category="+category,
                     type: "GET",
                     dataType: "json",
                     success: data => {
                         if (data.success) {
-                            element.innerText = "BOUND TO " + getKeyName(data.result)
+                            Object.keys(data.result).forEach(module => {
+                                updateModuleInfo(module, data.result[module]);
+                            })
                         } else {
                             alert(data.reason);
                         }
-                    },
-                    error: function (data) {
-                        console.log(data)
-                        alert("Error");
                     }
                 })
             }
+            window.updatemodules()
+            window.onhashchange()
+            setInterval(window.updatemodules, 1000)
+        },
+        error: function(data) {
+            alert("Error");
         }
-        function onswitch(element) {
+    });
+
+    function updateModuleInfo(name,state) {
+        var module = document.getElementById(name+'-checkbox')
+        module.checked = state
+    }
+
+    function addModule(name,desc,state,settings,bind,canToggle) {
+        if (state) {
+            state = "checked"
+        } else {
+            state = ""
+        }
+        $("#point").append([
+            '<div class="mdui-col-xs-12 mdui-col-sm-6 mdui-col-md-4">',
+            '<div class="mdui-card">',
+            '<div class="mdui-card-primary">',
+            '<div class="mdui-card-primary-title">'+name+'</div>',
+            '<div class="mdui-card-primary-subtitle">'+desc+'</div>',
+            '</div>',
+            '<div class="mdui-card-content">',
+            canToggle ? '<label class="mdui-switch"><input type="checkbox" id="'+name+'-checkbox" onclick="onswitch(this)" '+state+'/><i class="mdui-switch-icon"></i></label>' : '',
+            settings ? '<button class="mdui-btn mdui-ripple mdui-float-right" id="'+name+'-button" onclick="opensetting(this)"><i class="mdui-icon material-icons">settings</i></button>' : '',
+            canToggle ? '<button class="mdui-btn" id="'+name+'-bind" onclick="onbind(this)" onkeypress="onkey(this,event.which)">BOUND TO '+getKeyName(bind)+'</button>' : '',
+            '</div>',
+            '</div>',
+            '</div>'
+        ].join('\n'));
+    }
+    function getKeyName(bind) {
+        var binds = ["NONE", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "RETURN", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "SPACE", "null", "null", "null", "null", "null", "null", "APOSTROPHE", "null", "null", "MULTIPLY", "ADD", "COMMA", "MINUS", "PERIOD", "SLASH", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "null", "SEMICOLON", "null", "EQUALS", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "LMENU", "BACKSLASH", "RMENU", "null", "null", "GRAVE", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null", "null"]
+        return binds[bind]
+    }
+    function addCategory(name,icon) {
+        $("#category").append([
+            '<a href="#'+name+'">',
+            '<li class="mdui-list-item mdui-ripple">',
+            '<i class="mdui-list-item-icon mdui-icon material-icons">'+icon+'</i>',
+            '<div class="mdui-list-item-content">'+name+'</div>',
+            '</li>',
+            '</a>'
+        ].join('\n'));
+    }
+    function onbind(element) {
+        if (element.innerText != "LISTENING") element.innerText = "LISTENING"
+        else onkey(element,0)
+    }
+    function onkey(element,code) {
+        if (element.innerText == "LISTENING") {
             $.ajax({
-                url: "/api/setStatus?module="+element.id.split("-")[0]+"&state="+element.checked,
+                url: "/api/setBind?module=" + element.id.split("-")[0] + "&keycode=" + code,
                 type: "GET",
                 dataType: "json",
                 success: data => {
-                    if(data.success) {
-                        element.checked = data.result;
+                    if (data.success) {
+                        element.innerText = "BOUND TO " + getKeyName(data.result)
                     } else {
                         alert(data.reason);
                     }
                 },
-                error: function(data) {
+                error: function (data) {
                     console.log(data)
                     alert("Error");
-                    element.checked = !element.checked;
                 }
             })
         }
-        function opensetting(element) {
-            let module = element.id.split("-")[0];
-            $.ajax({
-                url: "/api/getModuleSetting?module="+module,
-                type: "GET",
-                dataType: "json",
-                success: data => {
-                    if(data.success) {
-                        let panel = $("#setting > div.mdui-dialog-content");
-                        panel.children().remove();
-                        data.result.forEach(setting => {
-                            switch(setting.type) {
-                                case "checkbox":
-                                    panel.append('<label class="mdui-checkbox"><input type="checkbox" onchange=valuechange(this) id="'+module+"-"+setting.name+'"'+(setting.value ? " checked>" : ">")+'<i class="mdui-checkbox-icon"></i>'+setting.name+"</label><br>");
-                                    break;
-                                case "slider":
-                                    panel.append("<span>"+setting.name+'</span><br><label class="mdui-slider mdui-slider-discrete"><input type="range" onchange=valuechange(this) id="'+module+"-"+setting.name+'" value="'+setting.value+'" max="'+setting.max+'" min="'+setting.min+'" step="'+setting.step+'"/>'+"</label><br>");
-                                    break;
-                                case "selection":
-                                    str = "<span>"+setting.name+'</span><br><select class="mdui-select" onchange=valuechange(this) id="'+module+"-"+setting.name+'" mdui-select="{position: \'bottom\'}">';
-                                    setting.values.forEach(val => {
-                                        str += "<option"+(val == setting.value ? " selected" : "")+">"+val+"</option>"
-                                    });
-                                    str += '</select><br/>';
-                                    panel.append(str);
-                                    break;
-                                case "input":
-                                    panel.append("<div class=\"mdui-textfield mdui-textfield-floating-label\"><label class=\"mdui-textfield-label\">" + setting.name + "</label><input class=\"mdui-textfield-input\" type=\"text\" onchange=valuechange(this) id=\"" + module + "-" + setting.name + "\" value=" + setting.value + "/></div>");
-                                    break;
-                            }
-                            panel.append('<br><br>')
-                        });
-                        mdui.$("#setting > div.mdui-dialog-content").mutation();
-                        let dialog = new mdui.Dialog('#setting');
-                        dialog.open();
-                    } else {
-                        alert(data.reason);
-                    }
-                },
-                error: function(data) {
-                    console.log(data)
-                    alert("Error");
-                    element.checked = !element.checked;
+    }
+    function onswitch(element) {
+        $.ajax({
+            url: "/api/setStatus?module="+element.id.split("-")[0]+"&state="+element.checked,
+            type: "GET",
+            dataType: "json",
+            success: data => {
+                if(data.success) {
+                    element.checked = data.result;
+                } else {
+                    alert(data.reason);
                 }
-            })
-        }
-        function valuechange(element) {
-            let array = element.id.split('-')
-            $.ajax({
-                url: "/api/setModuleSettingValue?module="+array[0]+"&name="+array[1]+"&value="+(element.type == "checkbox" ? element.checked : element.value),
-                type: "GET",
-                dataType: "json",
-                success: data => {
-                    if(data.success) {
-                        if(element.type == "checkbox") {
-                            element.checked == data.result;
-                        } else {
-                            element.value = data.result;
+            },
+            error: function(data) {
+                console.log(data)
+                alert("Error");
+                element.checked = !element.checked;
+            }
+        })
+    }
+    function opensetting(element) {
+        let module = element.id.split("-")[0];
+        $.ajax({
+            url: "/api/getModuleSetting?module="+module,
+            type: "GET",
+            dataType: "json",
+            success: data => {
+                if(data.success) {
+                    let panel = $("#setting > div.mdui-dialog-content");
+                    panel.children().remove();
+                    data.result.forEach(setting => {
+                        switch(setting.type) {
+                            case "checkbox":
+                                panel.append('<label class="mdui-checkbox"><input type="checkbox" onchange=valuechange(this) id="'+module+"-"+setting.name+'"'+(setting.value ? " checked>" : ">")+'<i class="mdui-checkbox-icon"></i>'+setting.name+"</label><br>");
+                                break;
+                            case "slider":
+                                panel.append("<span>"+setting.name+'</span><br><label class="mdui-slider mdui-slider-discrete"><input type="range" onchange=valuechange(this) id="'+module+"-"+setting.name+'" value="'+setting.value+'" max="'+setting.max+'" min="'+setting.min+'" step="'+setting.step+'"/>'+"</label><br>");
+                                break;
+                            case "selection":
+                                str = "<span>"+setting.name+'</span><br><select class="mdui-select" onchange=valuechange(this) id="'+module+"-"+setting.name+'" mdui-select="{position: \'bottom\'}">';
+                                setting.values.forEach(val => {
+                                    str += "<option"+(val == setting.value ? " selected" : "")+">"+val+"</option>"
+                                });
+                                str += '</select><br/>';
+                                panel.append(str);
+                                break;
+                            case "input":
+                                panel.append("<div class=\"mdui-textfield mdui-textfield-floating-label\"><label class=\"mdui-textfield-label\">" + setting.name + "</label><input class=\"mdui-textfield-input\" type=\"text\" onchange=valuechange(this) id=\"" + module + "-" + setting.name + "\" value=" + setting.value + "/></div>");
+                                break;
                         }
-                    } else {
-                        alert(data.reason);
-                    }
-                },
-                error: function(data) {
-                    console.log(data)
-                    alert("Error");
+                        panel.append('<br><br>')
+                    });
+                    mdui.$("#setting > div.mdui-dialog-content").mutation();
+                    let dialog = new mdui.Dialog('#setting');
+                    dialog.open();
+                } else {
+                    alert(data.reason);
                 }
-            })
-        }
-    </script>
+            },
+            error: function(data) {
+                console.log(data)
+                alert("Error");
+                element.checked = !element.checked;
+            }
+        })
+    }
+    function valuechange(element) {
+        let array = element.id.split('-')
+        $.ajax({
+            url: "/api/setModuleSettingValue?module="+array[0]+"&name="+array[1]+"&value="+(element.type == "checkbox" ? element.checked : element.value),
+            type: "GET",
+            dataType: "json",
+            success: data => {
+                if(data.success) {
+                    if(element.type == "checkbox") {
+                        element.checked == data.result;
+                    } else {
+                        element.value = data.result;
+                    }
+                } else {
+                    alert(data.reason);
+                }
+            },
+            error: function(data) {
+                console.log(data)
+                alert("Error");
+            }
+        })
+    }
+</script>
 </body>
 
 </html>

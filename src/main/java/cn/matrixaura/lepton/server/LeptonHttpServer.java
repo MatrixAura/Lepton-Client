@@ -20,8 +20,6 @@ public class LeptonHttpServer {
         server.createContext("/api/getModuleSetting", new SettingsHttpHandler());
         server.createContext("/api/setModuleSettingValue", new SetSettingHttpHandler());
         server.createContext("/api/setBind", new BindHttpHandler());
-        server.createContext("/files/style.css", new CSSHttpHandler());
-        server.createContext("/files/script.js", new JSHttpHandler());
         server.setExecutor(Executors.newFixedThreadPool(10));
         server.start();
         Lepton.logger.info("Server started on port 8080");

@@ -21,8 +21,7 @@ public class EffectUtils {
         runnable.run();
 
         buffer.unbindFramebuffer();
-        int framebufferTexture = buffer.getFramebufferTexture();
-        Shadow.render(framebufferTexture, 6, 2);
+        Shadow.render(buffer.getFramebufferTexture(), 6, 2);
     }
 
 }

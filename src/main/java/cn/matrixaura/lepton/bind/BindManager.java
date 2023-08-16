@@ -18,6 +18,7 @@ public class BindManager {
     public void onKeyInput(EventKeyInput event) {
         // if the key is not known, do not try to handle it
         if (event.getKeyCode() == KEY_NONE || mc.getCurrentScreen() != null) return;
+        System.out.println(event.getKeyCode());
 
         for (KeyBind bind : binds) {
 

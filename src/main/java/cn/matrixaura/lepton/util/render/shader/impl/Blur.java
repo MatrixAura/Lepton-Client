@@ -19,11 +19,10 @@ public class Blur {
 
     public static ShaderUtils blurShader = new ShaderUtils(ShaderUtils.Shaders.Blur);
 
-    public static FramebufferWrapper framebufferIn = new FramebufferWrapper(FramebufferWrapper.newFramebuffer(1, 1, false));
-    public static FramebufferWrapper framebufferOut = new FramebufferWrapper(FramebufferWrapper.newFramebuffer(1, 1, false));
+    public static FramebufferWrapper framebuffer = new FramebufferWrapper(FramebufferWrapper.newFramebuffer(1, 1, false));
 
-    public static void setupUniforms(int texture, float dir1, float dir2, float radius) {
-        blurShader.setUniformi("textureIn", texture);
+    public static void setupUniforms(float dir1, float dir2, float radius) {
+        blurShader.setUniformi("textureIn", 0);
         blurShader.setUniformf("texelSize", 1.0F / (float) MinecraftWrapper.get().getDisplayWidth(), 1.0F / (float) MinecraftWrapper.get().getDisplayHeight());
         blurShader.setUniformf("direction", dir1, dir2);
         blurShader.setUniformf("radius", radius);
@@ -36,7 +35,7 @@ public class Blur {
         // ----- WARNING WARNING WARNING WARNING WARNING ------ //
         ((Buffer) weightBuffer).flip(); // Don't change it
         // ----- WARNING WARNING WARNING WARNING WARNING ------ //
-        glUniform1(blurShader.getUniform("weights"), weightBuffer);
+        blurShader.setUniformb("weights", weightBuffer);
     }
 
     public static void renderBlur(Runnable func, float radius) {
@@ -48,24 +47,24 @@ public class Blur {
         GL11.glColor4f(1, 1, 1, 1);
         GL14.glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ZERO);
 
-        framebufferOut = RenderUtils.createFramebuffer(framebufferOut);
+        framebuffer = RenderUtils.createFramebuffer(framebuffer);
 
-        framebufferOut.framebufferClear();
-        framebufferOut.bindFramebuffer(true);
+        framebuffer.framebufferClear();
+        framebuffer.bindFramebuffer(true);
         blurShader.init();
-        setupUniforms(0, 1, 0, radius);
+        setupUniforms(1, 0, radius);
 
         GL11.glBindTexture(GL_TEXTURE_2D, MinecraftWrapper.get().getFramebuffer().getFramebufferTexture());
 
         ShaderUtils.drawQuads();
-        framebufferOut.unbindFramebuffer();
+        framebuffer.unbindFramebuffer();
         blurShader.unload();
 
         MinecraftWrapper.get().getFramebuffer().bindFramebuffer(true);
         blurShader.init();
-        setupUniforms(0, 0, 1, radius);
+        setupUniforms(0, 1, radius);
 
-        GL11.glBindTexture(GL_TEXTURE_2D, framebufferOut.getFramebufferTexture());
+        GL11.glBindTexture(GL_TEXTURE_2D, framebuffer.getFramebufferTexture());
         ShaderUtils.drawQuads();
         blurShader.unload();
 

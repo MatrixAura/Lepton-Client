@@ -10,6 +10,7 @@ import cn.matrixaura.lepton.util.render.ColorUtils;
 import cn.matrixaura.lepton.util.render.EffectUtils;
 import cn.matrixaura.lepton.util.render.RenderUtils;
 
+import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class HUDModule extends Module {
 
             }
         }
-        EffectUtils.drawShadow(() -> RenderUtils.drawRect(20, 20, 40, 40, 0));
-        RenderUtils.drawRect(20, 20, 40, 40, -1);
+        EffectUtils.drawBlur(() -> RenderUtils.drawRect(20, 20, 40, 40, 1), 10);
+        //RenderUtils.drawRect(20, 20, 40, 40, -1);
     }
 }
