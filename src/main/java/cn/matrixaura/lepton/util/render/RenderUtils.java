@@ -41,7 +41,7 @@ public class RenderUtils {
         glDisable(GL_BLEND);
     }
 
-    public static void drawRoundedOutline(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
+    public static void drawRoundedOutlineRect(float x, float y, float width, float height, float radius, float outlineThickness, Color color, Color outlineColor) {
         glColor4f(1, 1, 1, 1);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
