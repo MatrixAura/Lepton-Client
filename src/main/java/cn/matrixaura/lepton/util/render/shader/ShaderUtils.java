@@ -1,8 +1,9 @@
 package cn.matrixaura.lepton.util.render.shader;
 
 import cn.matrixaura.lepton.Lepton;
+import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
+import cn.matrixaura.lepton.inject.wrapper.impl.gui.ScaledResolutionWrapper;
 import cn.matrixaura.lepton.util.file.FileUtils;
-import cn.matrixaura.lepton.util.render.RenderUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -124,17 +125,18 @@ public class ShaderUtils {
     }
 
     public static void drawQuads() {
-        double width = RenderUtils.getScaledWidth();
-        double height = RenderUtils.getScaledHeight();
+        ScaledResolutionWrapper sr = new ScaledResolutionWrapper(MinecraftWrapper.get());
+        float width = (float) sr.getScaledWidth_double();
+        float height = (float) sr.getScaledHeight_double();
         glBegin(GL_QUADS);
         glTexCoord2f(0, 1);
         glVertex2f(0, 0);
         glTexCoord2f(0, 0);
-        glVertex2f(0, (float) height);
+        glVertex2f(0, height);
         glTexCoord2f(1, 0);
-        glVertex2f((float) width, (float) height);
+        glVertex2f(width, height);
         glTexCoord2f(1, 1);
-        glVertex2f((float) width, 0);
+        glVertex2f(width, 0);
         glEnd();
     }
 

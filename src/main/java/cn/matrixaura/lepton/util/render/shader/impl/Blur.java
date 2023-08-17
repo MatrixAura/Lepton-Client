@@ -13,7 +13,6 @@ import java.nio.Buffer;
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.glUniform1;
 
 public class Blur {
 
