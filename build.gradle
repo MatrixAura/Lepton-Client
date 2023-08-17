@@ -47,6 +47,16 @@ configurations {
     implementation.extendsFrom dependency
 }
 
+task runGeneratedJar(dependsOn: ['jar']) {
+    doLast {
+        String generatedJarName = jar.archiveFileName.get()
+        exec {
+            // 运行JAR文件
+            commandLine 'java', '-jar', "build/libs/${generatedJarName}"
+        }
+    }
+}
+
 dependencies {
     dependency 'org.ow2.asm:asm-all:5.2'
     dependency 'net.java.dev.jna:jna:5.13.0'

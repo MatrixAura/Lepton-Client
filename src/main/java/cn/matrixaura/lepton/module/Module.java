@@ -38,11 +38,9 @@ public class Module {
 
         bind = new KeyBind(
                 info.key(),
-                () -> {
-                    if (canToggle) toggle();
-                }
+                this::toggle
         );
-        setState(info.enabled());
+        if (info.enabled()) switchState();
         Lepton.INSTANCE.getBindManager().addBind(bind);
     }
 
@@ -57,14 +55,20 @@ public class Module {
     }
 
     public void toggle() {
-        if (state) {
+        if (canToggle) {
+            switchState();
+        }
+    }
+
+    private void switchState() {
+        state = !state;
+        if (!state) {
             Lepton.getEventBus().unsubscribe(this);
             onDisable();
         } else {
             onEnable();
             Lepton.getEventBus().subscribe(this);
         }
-        state = !state;
     }
 
     public String getName() {
