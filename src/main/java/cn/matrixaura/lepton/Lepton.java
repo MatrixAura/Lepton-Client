@@ -32,8 +32,6 @@ public class Lepton {
         INSTANCE = this;
         this.inst = inst;
 
-        logger.info("Loading Lepton v{}-{}/{}", BuildConfig.VERSION, BuildConfig.HASH, BuildConfig.BRANCH);
-
         bindManager = new BindManager();
         moduleManager = new ModuleManager();
 
