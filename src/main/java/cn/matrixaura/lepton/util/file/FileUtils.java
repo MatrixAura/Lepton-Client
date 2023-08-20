@@ -45,7 +45,7 @@ public class FileUtils {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             while ((line = bufferedReader.readLine()) != null)
-                stringBuilder.append(line).append('\n');
+                stringBuilder.append(line).append(System.lineSeparator());
 
         } catch (Exception e) {
             e.printStackTrace();

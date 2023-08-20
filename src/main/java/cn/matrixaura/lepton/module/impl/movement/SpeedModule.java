@@ -18,14 +18,14 @@ public class SpeedModule extends Module {
         switch (mode.getValue()) {
             case "Legit": {
                 if (mc.getPlayer().onGround() && PlayerUtils.isMoving()) {
-                    mc.getGameSettings().getKey("jump").setPressed(false);
+                    mc.getGameSettings().getKey("key.jump").setPressed(false);
                     mc.getPlayer().jump();
                 }
                 break;
             }
             case "Intave": {
                 if (mc.getPlayer().onGround() && PlayerUtils.isMoving()) {
-                    mc.getGameSettings().getKey("jump").setPressed(false);
+                    mc.getGameSettings().getKey("key.jump").setPressed(false);
                     mc.getPlayer().jump();
                 }
                 if (!mc.getPlayer().onGround() && mc.getPlayer().getFallDistance() <= 0.1f) {

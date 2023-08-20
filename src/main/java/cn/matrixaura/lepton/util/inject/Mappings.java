@@ -24,7 +24,7 @@ public class Mappings {
         if (content.isEmpty())
             throw new RuntimeException("Failed to read mappings, cannot continue (null or empty srg)");
 
-        for (String line : content.split("\n")) {
+        for (String line : content.split(System.lineSeparator())) {
             String[] parts = line
                     .substring(4)
                     .split(" ");
