@@ -53,6 +53,22 @@ public class EntityPlayerSPWrapper extends Wrapper {
         return (Boolean) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70122_E"));
     }
 
+    public float getFallDistance() {
+        return (Float) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70143_R"));
+    }
+
+    public void setFallDistance(float fallDistance) {
+        ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_70143_R"), fallDistance);
+    }
+
+    public float getSpeedInAir() {
+        return (Float) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_71102_ce"));
+    }
+
+    public void setSpeedInAir(float speedInAir) {
+        ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_71102_ce"), speedInAir);
+    }
+
     public void jump() {
         ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_70664_aZ")); // jump()
     }
