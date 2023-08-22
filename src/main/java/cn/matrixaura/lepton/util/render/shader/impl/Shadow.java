@@ -23,7 +23,8 @@ public class Shadow {
 
         try {
             framebuffer = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/shader/Framebuffer")), new Class[]{int.class, int.class, boolean.class}, 1, 1, false);
-        } catch (ClassNotFoundException ignored) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
     }

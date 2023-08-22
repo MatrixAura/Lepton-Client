@@ -19,7 +19,8 @@ public class EntityRendererWrapper extends Wrapper {
             Method method = getClazz().getDeclaredMethod(Mappings.getObfMethod("func_78467_g"), float.class);
             method.setAccessible(true);
             method.invoke(entityRendererObj, partialTicks);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
     }

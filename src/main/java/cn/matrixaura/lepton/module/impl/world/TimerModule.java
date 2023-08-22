@@ -13,7 +13,7 @@ public class TimerModule extends Module {
     private Setting<Number> timer = setting("Timer", 2, 0, 10, 0.1);
 
     @Listener
-    public void onUpdate(EventUpdate ignored) {
+    public void onUpdate(EventUpdate event) {
         mc.getTimer().setTimerSpeed(timer.getValue().floatValue());
     }
 

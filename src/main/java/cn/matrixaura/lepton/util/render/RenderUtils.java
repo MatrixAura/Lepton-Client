@@ -114,7 +114,8 @@ public class RenderUtils {
             Object mc = MinecraftWrapper.get().getMinecraftObj();
             Object sr = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
             return (Double) ReflectionUtils.invokeMethod(sr, Mappings.getObfMethod("func_78327_c"));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -124,7 +125,8 @@ public class RenderUtils {
             Object mc = MinecraftWrapper.get().getMinecraftObj();
             Object sr = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
             return (Double) ReflectionUtils.invokeMethod(sr, Mappings.getObfMethod("func_78324_d"));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

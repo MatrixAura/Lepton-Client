@@ -25,7 +25,8 @@ public class NetworkManagerWrapper extends Wrapper {
                     null,
                     packet
             );
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

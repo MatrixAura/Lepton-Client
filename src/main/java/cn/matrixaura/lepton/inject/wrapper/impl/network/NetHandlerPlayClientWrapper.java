@@ -21,7 +21,8 @@ public class NetHandlerPlayClientWrapper extends Wrapper {
             Class<?> packetClass = Class.forName(Mappings.getObfClass("net/minecraft/network/Packet"));
             Method method = getClass().getMethod(notch, packetClass);
             method.invoke(netHandlerPlayClientObj, packet);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

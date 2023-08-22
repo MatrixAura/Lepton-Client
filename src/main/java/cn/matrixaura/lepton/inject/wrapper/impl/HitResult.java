@@ -11,7 +11,8 @@ public class HitResult {
         try {
             Object value = ReflectionUtils.getFieldValue(objectMouseOverObj, Mappings.getObfField("field_72313_a"));
             type = Type.valueOf(((Enum<?>) value).name());
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

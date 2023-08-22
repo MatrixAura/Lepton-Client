@@ -21,7 +21,8 @@ public class MaterialWrapper extends Wrapper {
             field.setAccessible(true);
             Object value = field.get(materialObj);
             return value != null && (Boolean) value;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 

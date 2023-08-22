@@ -17,7 +17,8 @@ public class Transformer {
             try {
                 clazz = Class.forName(obfName);
                 oldBytes = InjectUtils.getClassBytes(clazz);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

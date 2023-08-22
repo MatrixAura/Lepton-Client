@@ -27,7 +27,8 @@ public class BlockWrapper extends Wrapper {
             field.setAccessible(true);
             material = new MaterialWrapper(field.get(blockObj));
             field.setAccessible(false);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 

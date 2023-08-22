@@ -20,7 +20,8 @@ public class IBlockStateWrapper extends Wrapper {
             Method method = getClazz().getMethod(Mappings.getObfMethod("func_177230_c"));
             Object value = method.invoke(iBlockStateObj);
             block.setBlockObj(value);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 

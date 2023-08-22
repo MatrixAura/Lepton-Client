@@ -41,7 +41,8 @@ public class InjectUtils {
         Transformers.transformers.forEach(it -> {
             try {
                 InjectUtils.redefineClass(it.getClazz(), it.getOldBytes());
-            } catch (UnmodifiableClassException | ClassNotFoundException ignored) {
+            } catch (UnmodifiableClassException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
         });
         LeptonHttpServer.stop();

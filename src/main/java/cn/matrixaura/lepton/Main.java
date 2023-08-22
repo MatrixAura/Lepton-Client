@@ -32,7 +32,8 @@ public class Main {
         try {
             Class.forName("com.sun.tools.attach.VirtualMachine");
             debug("tools.jar found");
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
             debug("tools.jar not found, adding dynamically");
             try {
                 Method addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
@@ -43,9 +44,7 @@ public class Main {
                         new URL("file:///" + System.getenv("JAVA_HOME") + sep + "lib" + sep + "tools.jar"));
 
                 debug("Added tools.jar");
-            } catch (Exception e) {
-                e.printStackTrace();
-
+            } catch (Exception exception) {
                 fail("Could not add tools.jar to class loader. Exiting now");
                 return;
             }

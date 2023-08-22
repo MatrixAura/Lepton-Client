@@ -1,5 +1,6 @@
 package cn.matrixaura.lepton.module.impl.movement;
 
+import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.player.EventUpdate;
 import cn.matrixaura.lepton.module.Category;
@@ -14,7 +15,7 @@ public class SpeedModule extends Module {
     public Setting<String> mode = setting("Mode", "Legit", "Legit", "Intave");
 
     @Listener
-    public void onUpdate(EventUpdate ignored) {
+    public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
             case "Legit": {
                 if (mc.getPlayer().onGround() && PlayerUtils.isMoving()) {
@@ -24,21 +25,18 @@ public class SpeedModule extends Module {
                 break;
             }
             case "Intave": {
-                if (mc.getPlayer().onGround() && PlayerUtils.isMoving()) {
+                if (mc.getPlayer().onGround()) {
                     mc.getGameSettings().getKey("key.jump").setPressed(false);
                     mc.getPlayer().jump();
                 }
                 if (!mc.getPlayer().onGround() && mc.getPlayer().getFallDistance() <= 0.1f) {
-                    mc.getPlayer().setSpeedInAir(0.02f);
                     mc.getTimer().setTimerSpeed(1.4f);
                 }
                 if (mc.getPlayer().getFallDistance() > 0.1f && mc.getPlayer().getFallDistance() < 1.3f) {
-                    mc.getPlayer().setSpeedInAir(0.0205f);
-                    mc.getTimer().setTimerSpeed(0.73f);
+                    mc.getTimer().setTimerSpeed(0.7f);
                 }
                 if (mc.getPlayer().getFallDistance() >= 1.3f) {
                     mc.getTimer().setTimerSpeed(1f);
-                    mc.getPlayer().setSpeedInAir(0.02f);
                 }
                 break;
             }
@@ -49,7 +47,6 @@ public class SpeedModule extends Module {
     public void onDisable() {
         if (mode.getValue().equals("Intave")) {
             mc.getTimer().setTimerSpeed(1f);
-            mc.getPlayer().setSpeedInAir(0.02f);
         }
     }
 }

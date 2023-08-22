@@ -52,13 +52,14 @@ public class ResourcePackCheck extends CrashCheck {
             }
 
             return false;
-        } catch (final Exception e) {
+        } catch (Exception e) {
             try {
                 Class<?> clazz = Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C19PacketResourcePackStatus"));
                 Class<?> actionClass = Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C19PacketResourcePackStatus$Action"));
                 Object failedDownload = ReflectionUtils.getFieldValue(null, Mappings.getObfField("FAILED_DOWNLOAD"));
                 MinecraftWrapper.get().getNetHandler().addToSendQueue(ReflectionUtils.newInstance(clazz, new Class[]{String.class, actionClass}, hash, failedDownload));
-            } catch (ClassNotFoundException ignored) {
+            } catch (ClassNotFoundException classNotFoundException) {
+                e.printStackTrace();
             }
             return true;
         }

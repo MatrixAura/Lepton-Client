@@ -22,7 +22,8 @@ public class FontRendererWrapper extends Wrapper {
             if (notch == null || notch.isEmpty()) return;
             Method m = getClazz().getMethod(notch, String.class, int.class, int.class, int.class);
             m.invoke(fontRendererObj, s, x, y, color);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -32,7 +33,8 @@ public class FontRendererWrapper extends Wrapper {
             if (notch == null || notch.isEmpty()) return;
             Method m = getClazz().getMethod(notch, String.class, float.class, float.class, int.class);
             m.invoke(fontRendererObj, s, x, y, color);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -43,7 +45,8 @@ public class FontRendererWrapper extends Wrapper {
             Method m = getClazz().getMethod(notch, String.class);
             Object value = m.invoke(fontRendererObj, s);
             return value == null ? 0 : (Integer) value;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return 0;
@@ -57,7 +60,8 @@ public class FontRendererWrapper extends Wrapper {
                 Field f = getClazz().getField(notch);
                 Object value = f.get(fontRendererObj);
                 heightCache = value == null ? 0 : (Integer) value;
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

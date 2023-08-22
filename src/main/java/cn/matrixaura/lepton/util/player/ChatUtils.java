@@ -15,7 +15,8 @@ public class ChatUtils {
                     },
                     message
             ));
-        } catch (ClassNotFoundException ignored) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

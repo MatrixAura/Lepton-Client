@@ -1,5 +1,6 @@
 package cn.matrixaura.lepton.inject.dynamic;
 
+import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.dynamic.impl.gui.GuiScreenDynamic;
 import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 
@@ -28,6 +29,7 @@ public class Dynamics {
                         0,
                         bytes.length
                 );
+                Lepton.logger.info("Successful define dynamic class: {}", clazz.getName());
             } catch (Exception e) {
                 e.printStackTrace();
             }

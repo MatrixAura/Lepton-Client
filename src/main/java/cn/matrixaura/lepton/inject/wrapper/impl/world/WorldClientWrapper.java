@@ -36,7 +36,8 @@ public class WorldClientWrapper extends Wrapper {
                 }
                 return entities;
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 
@@ -59,7 +60,8 @@ public class WorldClientWrapper extends Wrapper {
 
                 return entities;
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 
@@ -75,7 +77,8 @@ public class WorldClientWrapper extends Wrapper {
             Method method = getClazz().getMethod(Mappings.getObfMethod("func_180495_p"), BlockPosWrapper.getBlockPosClass());
             Object object = method.invoke(worldObj, blockPosObj);
             return new IBlockStateWrapper(object);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 
@@ -89,7 +92,8 @@ public class WorldClientWrapper extends Wrapper {
             Method method = getClazz().getMethod(Mappings.getObfMethod("func_175623_d"), BlockPosWrapper.getBlockPosClass());
             Object value = method.invoke(worldObj, blockPosObj);
             return value != null && (Boolean) value;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 

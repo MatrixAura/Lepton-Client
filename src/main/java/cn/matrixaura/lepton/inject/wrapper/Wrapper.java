@@ -14,8 +14,8 @@ public class Wrapper {
         if (obfName != null) {
             try {
                 clazz = Class.forName(obfName);
-            } catch (Exception ignored) {
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

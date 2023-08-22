@@ -15,10 +15,16 @@ public class ReflectionUtils {
         while (c.getSuperclass() != null) {
 
             try {
-                Field field = c.getDeclaredField(name);
+                Field field;
+                try {
+                    field = c.getDeclaredField(name);
+                } catch (NoSuchFieldException | SecurityException e) {
+                    field = c.getField(name);
+                }
                 field.setAccessible(true);
                 return field.get(instance);
-            } catch (IllegalAccessException | NoSuchFieldException ignored) {
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                e.printStackTrace();
             }
 
             c = c.getSuperclass();
@@ -30,12 +36,17 @@ public class ReflectionUtils {
     public static Object getFieldValue(Class<?> clazz, String name) {
         Class<?> c = clazz;
         while (c.getSuperclass() != null) {
-
             try {
-                Field field = c.getDeclaredField(name);
+                Field field;
+                try {
+                    field = c.getDeclaredField(name);
+                } catch (NoSuchFieldException | SecurityException e) {
+                    field = c.getField(name);
+                }
                 field.setAccessible(true);
                 return field.get(null);
-            } catch (IllegalAccessException | NoSuchFieldException ignored) {
+            } catch (IllegalAccessException | NoSuchFieldException e) {
+                e.printStackTrace();
             }
 
             c = c.getSuperclass();
@@ -47,9 +58,13 @@ public class ReflectionUtils {
     public static void setFieldValue(Object instance, String name, Object value) {
         Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
-
             try {
-                Field field = c.getDeclaredField(name);
+                Field field;
+                try {
+                    field = c.getDeclaredField(name);
+                } catch (NoSuchFieldException | SecurityException e) {
+                    field = c.getField(name);
+                }
                 field.setAccessible(true);
                 field.set(instance, value);
             } catch (IllegalAccessException | NoSuchFieldException ignored) {
@@ -63,7 +78,12 @@ public class ReflectionUtils {
         Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
             try {
-                Method method = c.getDeclaredMethod(name, desc);
+                Method method;
+                try {
+                    method = c.getDeclaredMethod(name, desc);
+                } catch (NoSuchMethodException | SecurityException exception) {
+                    method = c.getMethod(name, desc);
+                }
                 method.setAccessible(true);
                 return method.invoke(instance, args);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
@@ -78,7 +98,12 @@ public class ReflectionUtils {
         Class<?> c = clazz;
         while (c.getSuperclass() != null) {
             try {
-                Method method = c.getDeclaredMethod(name, desc);
+                Method method;
+                try {
+                    method = c.getDeclaredMethod(name, desc);
+                } catch (NoSuchMethodException | SecurityException exception) {
+                    method = c.getMethod(name, desc);
+                }
                 method.setAccessible(true);
                 return method.invoke(null, args);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
@@ -93,7 +118,12 @@ public class ReflectionUtils {
         Class<?> c = instance.getClass();
         while (c.getSuperclass() != null) {
             try {
-                Method method = c.getDeclaredMethod(name);
+                Method method;
+                try {
+                    method = c.getDeclaredMethod(name);
+                } catch (NoSuchMethodException | SecurityException exception) {
+                    method = c.getMethod(name);
+                }
                 method.setAccessible(true);
                 return method.invoke(instance);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
@@ -108,7 +138,12 @@ public class ReflectionUtils {
         Class<?> c = clazz;
         while (c.getSuperclass() != null) {
             try {
-                Method method = c.getDeclaredMethod(name);
+                Method method;
+                try {
+                    method = c.getDeclaredMethod(name);
+                } catch (NoSuchMethodException | SecurityException exception) {
+                    method = c.getMethod(name);
+                }
                 method.setAccessible(true);
                 return method.invoke(null);
             } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
@@ -131,11 +166,16 @@ public class ReflectionUtils {
         Class<?> c = clazz;
         while (c.getSuperclass() != null) {
             try {
-                Constructor<?> method = c.getDeclaredConstructor(desc);
-                method.setAccessible(true);
-                return method.newInstance(args);
-            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException ignored) {
-
+                Constructor<?> constructor;
+                try {
+                    constructor = c.getDeclaredConstructor(desc);
+                } catch (NoSuchMethodException | SecurityException exception) {
+                    constructor = c.getConstructor(desc);
+                }
+                constructor.setAccessible(true);
+                return constructor.newInstance(args);
+            } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException |
+                     InstantiationException ignored) {
             }
 
             c = c.getSuperclass();

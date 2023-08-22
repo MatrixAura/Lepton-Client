@@ -25,7 +25,8 @@ public class GameSettingsWrapper extends Wrapper {
                 bindings.put(wrapper.getKeyName(), wrapper);
             }
 
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

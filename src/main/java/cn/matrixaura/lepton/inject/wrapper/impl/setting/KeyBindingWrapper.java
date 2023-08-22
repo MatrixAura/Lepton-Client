@@ -24,7 +24,8 @@ public class KeyBindingWrapper extends Wrapper {
                 Method method = getClazz().getMethod(Mappings.getObfMethod("func_151464_g"));
                 Object value = method.invoke(keyBindingObj);
                 return value == null ? null : (String) value;
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
 
             }
         }
@@ -40,7 +41,8 @@ public class KeyBindingWrapper extends Wrapper {
             field.setAccessible(true);
             field.set(keyBindingObj, pressed);
             field.setAccessible(false);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
     }
@@ -55,7 +57,8 @@ public class KeyBindingWrapper extends Wrapper {
             field.setAccessible(false);
 
             return value != null && (Boolean) value;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 

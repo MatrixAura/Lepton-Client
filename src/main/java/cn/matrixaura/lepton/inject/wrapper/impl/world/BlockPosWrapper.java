@@ -37,7 +37,8 @@ public class BlockPosWrapper extends Wrapper {
             field.setAccessible(true);
 
             z = (Integer) field.get(blockPosObj);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
     }
@@ -70,7 +71,8 @@ public class BlockPosWrapper extends Wrapper {
             try {
                 Object blockPosObj = getBlockPosClass().getConstructors()[4].newInstance(x, y, z);
                 blockPosCache.put(hash, blockPosObj);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
 
             }
         }
@@ -84,7 +86,8 @@ public class BlockPosWrapper extends Wrapper {
             try {
                 Object blockPosObj = getBlockPosClass().getConstructors()[4].newInstance((int) x, (int) y, (int) z);
                 blockPosCache.put(hash, blockPosObj);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
 
             }
         }
@@ -96,7 +99,8 @@ public class BlockPosWrapper extends Wrapper {
         if (blockPosClass == null) {
             try {
                 blockPosClass = Class.forName(Mappings.getObfClass("net/minecraft/util/BlockPos"));
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 

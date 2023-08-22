@@ -128,7 +128,8 @@ public class EntityPlayerSPWrapper extends Wrapper {
         try {
             Method m = getClazz().getMethod(notch, boolean.class);
             m.invoke(playerObj, value);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
     }
@@ -143,7 +144,8 @@ public class EntityPlayerSPWrapper extends Wrapper {
             Method m = getClazz().getDeclaredMethod(notch);
             Object value = m.invoke(playerObj);
             return value != null && (Boolean) value;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 
@@ -160,7 +162,8 @@ public class EntityPlayerSPWrapper extends Wrapper {
             Method m = getClazz().getDeclaredMethod(notch);
             Object value = m.invoke(playerObj);
             return value != null && (Boolean) value;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
 
         }
 
@@ -173,7 +176,8 @@ public class EntityPlayerSPWrapper extends Wrapper {
                 String notch = Mappings.getObfField("field_71174_a"); // sendQueue
                 Field field = getClazz().getField(notch);
                 sendQueueObj = field.get(playerObj);
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return sendQueueObj;
@@ -183,7 +187,8 @@ public class EntityPlayerSPWrapper extends Wrapper {
         if (movementInputObj == null) {
             try {
                 movementInputObj = new MovementInputWrapper(ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_71158_b")));
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return movementInputObj;

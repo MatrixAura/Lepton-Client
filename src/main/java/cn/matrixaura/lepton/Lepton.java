@@ -38,8 +38,7 @@ public class Lepton {
         try {
             LeptonHttpServer.start();
         } catch (IOException e) {
-            logger.error("Failed to initialize server");
-            e.printStackTrace();
+            logger.error("Failed to initialize server {}, {}", e.getMessage(), e.getStackTrace()[0]);
         }
 
         if (PROTECT_STATUS) {

@@ -56,7 +56,8 @@ public class FramebufferWrapper extends Wrapper {
     public static Object newFramebuffer(int width, int height, boolean useDepth) {
         try {
             return ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/shader/Framebuffer")), new Class[]{int.class, int.class, boolean.class}, width, height, useDepth);
-        } catch (ClassNotFoundException ignored) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
             return null;
         }
     }
