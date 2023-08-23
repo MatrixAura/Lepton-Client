@@ -1,7 +1,6 @@
 package cn.matrixaura.lepton.inject.wrapper.impl.entity;
 
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
-import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.other.MovementInputWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.world.BlockPosWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;

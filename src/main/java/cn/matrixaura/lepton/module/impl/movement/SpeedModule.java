@@ -1,6 +1,5 @@
 package cn.matrixaura.lepton.module.impl.movement;
 
-import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.listener.bus.Listener;
 import cn.matrixaura.lepton.listener.events.player.EventUpdate;
 import cn.matrixaura.lepton.module.Category;
