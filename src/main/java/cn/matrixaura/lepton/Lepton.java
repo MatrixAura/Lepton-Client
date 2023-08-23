@@ -47,6 +47,7 @@ public class Lepton {
                 if (!os.toLowerCase().contains("windows"))
                     throw new RuntimeException("OS Not Supported: " + System.getProperty("os.name"));
                 HWID = HWIDUtils.getHWID();
+                Lepton.logger.info("Your HWID is: {}", HWID);
                 ProtectionManager.process();
             } catch (Exception impossible) {
                 throw new RuntimeException(impossible);
