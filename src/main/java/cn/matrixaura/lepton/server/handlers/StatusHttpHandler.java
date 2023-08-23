@@ -14,9 +14,9 @@ public class StatusHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String[] param = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("&");
-        String module = param[0].split("=")[1];
-        boolean state = param[1].split("=")[1].equals("true");
+        String[] param = URLUtils.getValues(httpExchange);
+        String module = param[0];
+        boolean state = param[1].equals("true");
 
         Lepton.INSTANCE.getModuleManager().get(module).setState(state);
 

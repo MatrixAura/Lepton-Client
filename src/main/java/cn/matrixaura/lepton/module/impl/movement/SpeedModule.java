@@ -11,9 +11,10 @@ import cn.matrixaura.lepton.setting.Setting;
 @ModuleInfo(name = "Speed", description = "Make you move faster", category = Category.Movement)
 public class SpeedModule extends Module {
 
-    public Setting<String> mode = setting("Mode", "Legit", "Legit", "Intave", "Multi Jumps");
+    public Setting<String> mode = setting("Mode", "Legit", "Legit", "Intave & Matrix", "Multi Jumps");
     public Setting<Boolean> noFluid = setting("No Fluid", true);
     public Setting<Number> jumps = setting("Jumps", 2, 1, 5, 1).whenAtMode(mode, "Multi Jumps");
+    public Setting<String> ab = setting("ab", "I love u($$$)");
 
     private boolean shouldJump() {
         return mc.getPlayer().onGround() && mc.getPlayer().isMoving() && (!noFluid.getValue() || !mc.getPlayer().isInFluid());
@@ -31,11 +32,12 @@ public class SpeedModule extends Module {
             }
             case "Multi Jumps": {
                 if (shouldJump()) {
+                    mc.getGameSettings().getKey("key.jump").setPressed(false);
                     for (int i = 0; i < jumps.getValue().intValue(); i++) mc.getPlayer().jump();
                 }
                 break;
             }
-            case "Intave": {
+            case "Intave & Matrix": {
                 if (shouldJump()) {
                     mc.getGameSettings().getKey("key.jump").setPressed(false);
                     mc.getPlayer().jump();
@@ -56,7 +58,7 @@ public class SpeedModule extends Module {
 
     @Override
     public void onDisable() {
-        if (mode.getValue().equals("Intave")) {
+        if (mode.getValue().equals("Intave & Matrix")) {
             mc.getTimer().setTimerSpeed(1f);
         }
     }

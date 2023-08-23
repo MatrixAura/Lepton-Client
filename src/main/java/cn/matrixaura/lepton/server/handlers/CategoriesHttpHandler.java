@@ -18,7 +18,7 @@ public class CategoriesHttpHandler implements HttpHandler {
         JSONObject result = new JSONObject();
 
         for (Category category : Category.values()) {
-            result.put(URLUtils.encode(category.name()), URLUtils.encode(category.getIcon()));
+            result.put(URLUtils.encode(category.name()), category.getIcon());
         }
 
         jsonObject.put("result", result);

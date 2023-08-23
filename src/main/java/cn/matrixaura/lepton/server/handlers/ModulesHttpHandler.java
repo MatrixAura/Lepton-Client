@@ -16,7 +16,7 @@ public class ModulesHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String category = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("=")[1];
+        String category = URLUtils.getValues(httpExchange)[0];
 
         JSONObject jsonObject = new JSONObject();
         JSONObject result = new JSONObject();
@@ -25,7 +25,7 @@ public class ModulesHttpHandler implements HttpHandler {
             if (module.getCategory().name().equals(category)) {
                 JSONObject moduleJsonObj = new JSONObject();
                 moduleJsonObj.put("state", module.isToggled());
-                moduleJsonObj.put("desc", URLUtils.encode(module.getDescription()));
+                moduleJsonObj.put("desc", module.getDescription());
                 moduleJsonObj.put("binding", BindTransformer.lwjgl2stand(module.getBind().getKeyCode()));
                 moduleJsonObj.put("settings", !module.getSettings().isEmpty());
                 moduleJsonObj.put("canToggle", module.canToggle());

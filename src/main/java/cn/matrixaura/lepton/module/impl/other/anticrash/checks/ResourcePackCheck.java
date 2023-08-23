@@ -1,5 +1,6 @@
 package cn.matrixaura.lepton.module.impl.other.anticrash.checks;
 
+import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.module.impl.other.anticrash.CrashCheck;
 import cn.matrixaura.lepton.util.inject.Mappings;
@@ -46,7 +47,7 @@ public class ResourcePackCheck extends CrashCheck {
             url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
 
             if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
-                System.out.println("Server tried to access the path: " + url);
+                Lepton.logger.info("Server tried to access the path: {}", url);
 
                 throw new URISyntaxException(url, "Invalid levelstorage resource pack path");
             }

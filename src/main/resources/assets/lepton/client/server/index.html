@@ -98,7 +98,7 @@
                     location.hash = "#" + (category = Object.keys(data.result)[0]);
                 }
                 $.ajax({
-                    url: "/api/modulesList?category=" + category,
+                    url: "/api/modulesList?category=" + encodeURIComponent(category),
                     type: "GET",
                     dataType: "json",
                     success: data => {
@@ -122,7 +122,7 @@
                     location.hash = "#" + (category = Object.keys(data.result)[0]);
                 }
                 $.ajax({
-                    url: "/api/updateModulesInfo?category="+category,
+                    url: "/api/updateModulesInfo?category="+encodeURIComponent(category),
                     type: "GET",
                     dataType: "json",
                     success: data => {
@@ -193,7 +193,7 @@
     function onkey(element,code) {
         if (element.innerText == "LISTENING") {
             $.ajax({
-                url: "/api/setBind?module=" + element.id.split("-")[0] + "&keycode=" + code,
+                url: "/api/setBind?module=" + encodeURIComponent(element.id.split("-")[0]) + "&keycode=" + code,
                 type: "GET",
                 dataType: "json",
                 success: data => {
@@ -212,7 +212,7 @@
     }
     function onswitch(element) {
         $.ajax({
-            url: "/api/setStatus?module="+element.id.split("-")[0]+"&state="+element.checked,
+            url: "/api/setStatus?module="+encodeURIComponent(element.id.split("-")[0])+"&state="+element.checked,
             type: "GET",
             dataType: "json",
             success: data => {
@@ -232,7 +232,7 @@
     function opensetting(element) {
         let module = element.id.split("-")[0];
         $.ajax({
-            url: "/api/getModuleSetting?module="+module,
+            url: "/api/getModuleSetting?module="+encodeURIComponent(module),
             type: "GET",
             dataType: "json",
             success: data => {
@@ -256,7 +256,7 @@
                                 panel.append(str);
                                 break;
                             case "input":
-                                panel.append("<div class=\"mdui-textfield mdui-textfield-floating-label\"><label class=\"mdui-textfield-label\">" + setting.name + "</label><input class=\"mdui-textfield-input\" type=\"text\" onchange=valuechange(this) id=\"" + module + "-" + setting.name + "\" value=" + setting.value + "/></div>");
+                                panel.append("<div class=\"mdui-textfield mdui-textfield-floating-label\"><label class=\"mdui-textfield-label\">" + setting.name + "</label><input class=\"mdui-textfield-input\" type=\"text\" onchange=valuechange(this) id=\"" + module + "-" + setting.name + "\" value=\"" + setting.value + "\"/></div>");
                                 break;
                         }
                         panel.append('<br><br>')
@@ -278,7 +278,7 @@
     function valuechange(element) {
         let array = element.id.split('-')
         $.ajax({
-            url: "/api/setModuleSettingValue?module="+array[0]+"&name="+array[1]+"&value="+(element.type == "checkbox" ? element.checked : element.value),
+            url: "/api/setModuleSettingValue?module="+encodeURIComponent(array[0])+"&name="+encodeURIComponent(array[1])+"&value="+(element.type == "checkbox" ? element.checked : encodeURIComponent(element.value)),
             type: "GET",
             dataType: "json",
             success: data => {

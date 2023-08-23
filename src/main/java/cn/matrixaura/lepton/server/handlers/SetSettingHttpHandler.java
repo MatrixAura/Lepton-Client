@@ -20,10 +20,10 @@ public class SetSettingHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String[] param = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("&");
-        String moduleName = param[0].split("=")[1];
-        String name = param[1].split("=")[1];
-        String value = param[2].split("=")[1];
+        String[] param = URLUtils.getValues(httpExchange);
+        String moduleName = param[0];
+        String name = param[1];
+        String value = param[2];
 
         Module module = Lepton.INSTANCE.getModuleManager().get(moduleName);
         JSONObject jsonObject = new JSONObject();
@@ -38,9 +38,9 @@ public class SetSettingHttpHandler implements HttpHandler {
                     jsonObject.put("result", Double.valueOf(value));
                 } else if (setting instanceof StringSetting) {
                     ((StringSetting) setting).setValue(value);
-                    jsonObject.put("result", URLUtils.encode(value));
+                    jsonObject.put("result", value);
                 } else if (setting instanceof ModeSetting) {
-                    ((ModeSetting) setting).setValue(value);
+                    ((ModeSetting) setting).setValue(URLUtils.decode(value));
                     jsonObject.put("result", URLUtils.encode(value));
                 }
             }

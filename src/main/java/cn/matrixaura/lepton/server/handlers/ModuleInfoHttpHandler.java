@@ -14,7 +14,7 @@ public class ModuleInfoHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String category = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("=")[1];
+        String category = URLUtils.getValues(httpExchange)[0];
 
         JSONObject jsonObject = new JSONObject();
         JSONObject result = new JSONObject();

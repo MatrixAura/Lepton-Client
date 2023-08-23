@@ -15,9 +15,9 @@ public class BindHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String[] param = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("&");
-        String module = param[0].split("=")[1];
-        int key = Integer.parseInt(param[1].split("=")[1]);
+        String[] param = URLUtils.getValues(httpExchange);
+        String module = param[0];
+        int key = Integer.parseInt(param[1]);
 
         try {
             int lwjglKey = BindTransformer.stand2lwjgl(key);

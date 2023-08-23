@@ -22,7 +22,7 @@ public class SettingsHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String moduleName = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("=")[1];
+        String moduleName = URLUtils.getValues(httpExchange)[0];
 
         JSONObject jsonObject = new JSONObject();
         boolean isFound = false;
@@ -34,25 +34,25 @@ public class SettingsHttpHandler implements HttpHandler {
                 for (Setting<?> setting : module.getSettings()) {
                     JSONObject moduleSet = new JSONObject();
                     if (setting instanceof StringSetting) {
-                        moduleSet.put("name", URLUtils.encode(setting.getName()));
+                        moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "input");
-                        moduleSet.put("value", URLUtils.encode(((StringSetting) setting).getValue()));
+                        moduleSet.put("value", ((StringSetting) setting).getValue());
                     } else if (setting instanceof NumberSetting) {
-                        moduleSet.put("name", URLUtils.encode(setting.getName()));
+                        moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "slider");
                         moduleSet.put("min", ((NumberSetting) setting).getMin().doubleValue());
                         moduleSet.put("max", ((NumberSetting) setting).getMax().doubleValue());
                         moduleSet.put("step", ((NumberSetting) setting).getInc().doubleValue());
                         moduleSet.put("value", ((NumberSetting) setting).getValue().doubleValue());
                     } else if (setting instanceof ModeSetting) {
-                        moduleSet.put("name", URLUtils.encode(setting.getName()));
+                        moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "selection");
                         JSONArray values = new JSONArray();
                         values.addAll(Arrays.asList(((ModeSetting) setting).getValues()));
                         moduleSet.put("values", values);
                         moduleSet.put("value", URLUtils.encode(((ModeSetting) setting).getValue()));
                     } else if (setting instanceof BooleanSetting) {
-                        moduleSet.put("name", URLUtils.encode(setting.getName()));
+                        moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "checkbox");
                         moduleSet.put("value", ((BooleanSetting) setting).getValue());
                     }
