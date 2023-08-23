@@ -3,20 +3,20 @@ package cn.matrixaura.lepton.server.handlers;
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.util.bind.BindTransformer;
+import cn.matrixaura.lepton.util.string.URLUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 public class ModulesHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String category = URLDecoder.decode(httpExchange.getRequestURI().getQuery(), "utf-8").split("=")[1];
+        String category = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("=")[1];
 
         JSONObject jsonObject = new JSONObject();
         JSONObject result = new JSONObject();
@@ -25,7 +25,7 @@ public class ModulesHttpHandler implements HttpHandler {
             if (module.getCategory().name().equals(category)) {
                 JSONObject moduleJsonObj = new JSONObject();
                 moduleJsonObj.put("state", module.isToggled());
-                moduleJsonObj.put("desc", module.getDescription());
+                moduleJsonObj.put("desc", URLUtils.encode(module.getDescription()));
                 moduleJsonObj.put("binding", BindTransformer.lwjgl2stand(module.getBind().getKeyCode()));
                 moduleJsonObj.put("settings", !module.getSettings().isEmpty());
                 moduleJsonObj.put("canToggle", module.canToggle());

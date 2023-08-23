@@ -1,6 +1,7 @@
 package cn.matrixaura.lepton.inject.wrapper.impl.entity;
 
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
+import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.other.MovementInputWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.world.BlockPosWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
@@ -69,8 +70,20 @@ public class EntityPlayerSPWrapper extends Wrapper {
         ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_71102_ce"), speedInAir);
     }
 
+    public boolean isInWater() {
+        return (Boolean) ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_70090_H"));
+    }
+
+    public boolean isInLava() {
+        return (Boolean) ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_180799_ab"));
+    }
+
+    public boolean isMoving() {
+        return this.getMovementInputObj().getMoveForward() != 0 || this.getMovementInputObj().getMoveStrafe() != 0;
+    }
+
     public void jump() {
-        ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_70664_aZ")); // jump()
+        ReflectionUtils.invokeMethod(playerObj, Mappings.getObfMethod("func_70664_aZ"));
     }
 
     public BlockPosWrapper getPos() {
@@ -208,5 +221,9 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
     public Object getPlayerObj() {
         return playerObj;
+    }
+
+    public boolean isInFluid() {
+        return isInWater() || isInLava();
     }
 }

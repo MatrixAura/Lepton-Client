@@ -7,20 +7,20 @@ import cn.matrixaura.lepton.setting.settings.BooleanSetting;
 import cn.matrixaura.lepton.setting.settings.ModeSetting;
 import cn.matrixaura.lepton.setting.settings.NumberSetting;
 import cn.matrixaura.lepton.setting.settings.StringSetting;
+import cn.matrixaura.lepton.util.string.URLUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.sf.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 public class SetSettingHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        String[] param = URLDecoder.decode(httpExchange.getRequestURI().getQuery(), "utf-8").split("&");
+        String[] param = URLUtils.decode(httpExchange.getRequestURI().getQuery()).split("&");
         String moduleName = param[0].split("=")[1];
         String name = param[1].split("=")[1];
         String value = param[2].split("=")[1];
@@ -38,10 +38,10 @@ public class SetSettingHttpHandler implements HttpHandler {
                     jsonObject.put("result", Double.valueOf(value));
                 } else if (setting instanceof StringSetting) {
                     ((StringSetting) setting).setValue(value);
-                    jsonObject.put("result", value);
+                    jsonObject.put("result", URLUtils.encode(value));
                 } else if (setting instanceof ModeSetting) {
                     ((ModeSetting) setting).setValue(value);
-                    jsonObject.put("result", value);
+                    jsonObject.put("result", URLUtils.encode(value));
                 }
             }
         }

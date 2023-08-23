@@ -1,6 +1,7 @@
 package cn.matrixaura.lepton.server.handlers;
 
 import cn.matrixaura.lepton.module.Category;
+import cn.matrixaura.lepton.util.string.URLUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import net.sf.json.JSONObject;
@@ -17,7 +18,7 @@ public class CategoriesHttpHandler implements HttpHandler {
         JSONObject result = new JSONObject();
 
         for (Category category : Category.values()) {
-            result.put(category.name(), category.getIcon());
+            result.put(URLUtils.encode(category.name()), URLUtils.encode(category.getIcon()));
         }
 
         jsonObject.put("result", result);
