@@ -197,4 +197,8 @@ public class ReflectionUtils {
 
         return resolver.getClasses();
     }
+
+    public static boolean isInstanceOf(Object obj, Class<?> cls) {
+        return cls.isAssignableFrom(obj.getClass());
+    }
 }

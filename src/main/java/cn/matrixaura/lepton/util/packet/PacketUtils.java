@@ -5,9 +5,8 @@ import cn.matrixaura.lepton.util.inject.Mappings;
 public class PacketUtils {
 
     public static boolean isPacketInstanceof(Object packet, String packetName) {
-        String[] spilt = Mappings.getUnobfClass(packet).split("/");
-        String packetDeobfName = spilt[spilt.length - 1];
-        return packetDeobfName.equals(packetName);
+        String unobfClass = Mappings.getUnobfClass(packet);
+        return unobfClass.contains(packetName);
     }
 
     public static boolean isPacketInbound(Object packet) {
@@ -18,10 +17,6 @@ public class PacketUtils {
 
     public static boolean isPacketOutbound(Object packet) {
         return !isPacketInbound(packet);
-    }
-
-    public static boolean isMovingPacket(Object packet) {
-        return packet.getClass().getName().replace(".", "/").startsWith(Mappings.getObfClass("net/minecraft/network/play/client/C03PacketPlayer"));
     }
 
 }
