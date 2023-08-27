@@ -1,7 +1,7 @@
 package cn.matrixaura.lepton.module.impl.combat;
 
 import cn.matrixaura.lepton.listener.bus.Listener;
-import cn.matrixaura.lepton.listener.events.packet.EventPacketReceive;
+import cn.matrixaura.lepton.listener.events.packet.EventPacket;
 import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
@@ -20,7 +20,7 @@ public class VelocityModule extends Module {
     }
 
     @Listener
-    public void onPacket(EventPacketReceive event) {
+    public void onPacket(EventPacket event) {
         if (PacketUtils.isPacketInstanceof(event.getPacket(), "S12PacketEntityVelocity")) {
             switch (mode.getValue()) {
                 case "Cancel": {

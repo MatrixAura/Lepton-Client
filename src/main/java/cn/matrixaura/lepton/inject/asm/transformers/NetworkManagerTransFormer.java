@@ -4,8 +4,7 @@ import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.asm.api.Inject;
 import cn.matrixaura.lepton.inject.asm.api.Transformer;
 import cn.matrixaura.lepton.listener.bus.EventBus;
-import cn.matrixaura.lepton.listener.events.packet.EventPacketReceive;
-import cn.matrixaura.lepton.listener.events.packet.EventPacketSend;
+import cn.matrixaura.lepton.listener.events.packet.EventPacket;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
@@ -28,10 +27,11 @@ public class NetworkManagerTransFormer extends Transformer {
 
             if (node instanceof FieldInsnNode && ((FieldInsnNode) node).name.equals(Mappings.getObfField("field_150744_m"))) {
 
-                list.add(new TypeInsnNode(NEW, Type.getInternalName(EventPacketReceive.class)));
+                list.add(new TypeInsnNode(NEW, Type.getInternalName(EventPacket.class)));
                 list.add(new InsnNode(DUP));
                 list.add(new VarInsnNode(ALOAD, 2)); // #2 Packet p_channelRead0_2_
-                list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventPacketReceive.class), "<init>", "(Ljava/lang/Object;)V", false));
+                list.add(new InsnNode(ICONST_1));
+                list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventPacket.class), "<init>", "(Ljava/lang/Object;Z)V", false));
                 list.add(new VarInsnNode(ASTORE, 3));
                 list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new VarInsnNode(ALOAD, 3));
@@ -59,10 +59,11 @@ public class NetworkManagerTransFormer extends Transformer {
             AbstractInsnNode node = mn.instructions.get(i);
 
             if (node instanceof MethodInsnNode && ((MethodInsnNode) node).name.equals(Mappings.getObfMethod("func_150733_h"))) {
-                list.add(new TypeInsnNode(NEW, Type.getInternalName(EventPacketSend.class)));
+                list.add(new TypeInsnNode(NEW, Type.getInternalName(EventPacket.class)));
                 list.add(new InsnNode(DUP));
                 list.add(new VarInsnNode(ALOAD, 1)); // #1 Packet packetIn
-                list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventPacketSend.class), "<init>", "(Ljava/lang/Object;)V", false));
+                list.add(new InsnNode(ICONST_0));
+                list.add(new MethodInsnNode(INVOKESPECIAL, Type.getInternalName(EventPacket.class), "<init>", "(Ljava/lang/Object;Z)V", false));
                 list.add(new VarInsnNode(ASTORE, 2));
                 list.add(new MethodInsnNode(INVOKESTATIC, Type.getInternalName(Lepton.class), "getEventBus", "()Lcn/matrixaura/lepton/listener/bus/EventBus;", false));
                 list.add(new VarInsnNode(ALOAD, 2));

@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.module.impl.other.anticrash;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.listener.bus.Listener;
-import cn.matrixaura.lepton.listener.events.packet.EventPacketReceive;
+import cn.matrixaura.lepton.listener.events.packet.EventPacket;
 import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
@@ -29,7 +29,7 @@ public class AntiCrashModule extends Module {
     }
 
     @Listener
-    public void onPacketReceive(EventPacketReceive event) {
+    public void onPacketReceive(EventPacket event) {
         checks.forEach(crashCheck -> {
             if (crashCheck.handle(event.getPacket())) {
                 event.cancel();
