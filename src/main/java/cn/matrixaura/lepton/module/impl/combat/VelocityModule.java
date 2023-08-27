@@ -11,20 +11,34 @@ import cn.matrixaura.lepton.util.packet.PacketUtils;
 @ModuleInfo(name = "Velocity", description = "Reduces your velocity", category = Category.Combat)
 public class VelocityModule extends Module {
 
-    public Setting<String> mode = setting("Mode", "Vanilla", "Vanilla");
+    public Setting<String> mode = setting("Mode", "Cancel", "Cancel", "Old GrimAC");
+    private int oldGrimCancelFlag;
+
+    @Override
+    public void onEnable() {
+        oldGrimCancelFlag = 0;
+    }
 
     @Listener
-    public void onVelocity(EventPacketReceive event) {
+    public void onPacket(EventPacketReceive event) {
         if (PacketUtils.isPacketInstanceof(event.getPacket(), "S12PacketEntityVelocity")) {
             switch (mode.getValue()) {
-                case "Vanilla": {
+                case "Cancel": {
                     event.cancel();
                     break;
                 }
-                default: { // Not happen
-                    mode.reset();
+                case "Old GrimAC": {
+                    oldGrimCancelFlag = 6;
+                    event.cancel();
+                    if (mc.getPlayer().onGround() && !mc.getPlayer().isInFluid()) {
+                        mc.getGameSettings().getKey("key.jump").setPressed(false);
+                        mc.getPlayer().jump();
+                    }
                 }
             }
+        } else if (PacketUtils.isPacketInstanceof(event.getPacket(), "C0FPacketConfirmTransaction") && oldGrimCancelFlag != 0) {
+            oldGrimCancelFlag--;
+            event.cancel();
         }
     }
 
