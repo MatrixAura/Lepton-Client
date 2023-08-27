@@ -6,7 +6,6 @@ import cn.matrixaura.lepton.inject.wrapper.impl.world.BlockPosWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 import cn.matrixaura.lepton.util.math.Vec3D;
-import net.minecraft.client.Minecraft;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -56,9 +55,11 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public double getMotionX() {
         return (Double) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70159_w"));
     }
+
     public double getMotionY() {
         return (Double) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70181_x"));
     }
+
     public double getMotionZ() {
         return (Double) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70179_y"));
     }
@@ -66,9 +67,11 @@ public class EntityPlayerSPWrapper extends Wrapper {
     public void setMotionX(double motionX) {
         ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_70159_w"), motionX);
     }
+
     public void setMotionY(double motionY) {
         ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_70181_x"), motionY);
     }
+
     public void setMotionZ(double motionZ) {
         ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_70179_y"), motionZ);
     }

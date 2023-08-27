@@ -8,7 +8,6 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.util.packet.PacketUtils;
-import net.minecraft.client.Minecraft;
 
 @ModuleInfo(name = "Velocity", description = "Reduces your velocity", category = Category.Combat)
 public class VelocityModule extends Module {
