@@ -25,7 +25,7 @@ public class WorldClientWrapper extends Wrapper {
         // FD: adm/f net/minecraft/world/World/field_72996_f
 
         try {
-            Field field = getClazz().getDeclaredField(Mappings.getObfField("field_72996_f"));
+            Field field = getClazz().getField(Mappings.getObfField("field_72996_f"));
             Object value = field.get(worldObj);
             if (value instanceof List) {
                 List<EntityWrapper> entities = new ArrayList<>();

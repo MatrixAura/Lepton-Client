@@ -36,11 +36,8 @@ public class Module {
         this.category = info.category();
         this.canToggle = info.canToggle();
 
-        bind = new KeyBind(
-                info.key(),
-                this::toggle
-        );
         if (info.enabled()) switchState();
+        bind = new KeyBind(info.key(), this::toggle);
         Lepton.INSTANCE.getBindManager().addBind(bind);
     }
 
@@ -55,9 +52,7 @@ public class Module {
     }
 
     public void toggle() {
-        if (canToggle) {
-            switchState();
-        }
+        if (canToggle) switchState();
     }
 
     private void switchState() {

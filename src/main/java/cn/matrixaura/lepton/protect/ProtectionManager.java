@@ -12,7 +12,7 @@ public class ProtectionManager {
     private static final List<Protection> protections = new ArrayList<>();
 
     static {
-        //protections.add(new HWIDProtection());
+        protections.add(new HWIDProtection());
         protections.add(new AntiAttachProtection());
     }
 

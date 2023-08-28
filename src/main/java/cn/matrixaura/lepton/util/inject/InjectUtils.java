@@ -51,16 +51,6 @@ public class InjectUtils {
             }
         });
         LeptonHttpServer.stop();
-        Lepton.INSTANCE.getModuleManager().get().forEach(Module::toggle);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "bindManager", null);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "moduleManager", null);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "HWID", null);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "inst", null);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "bus", null);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "logger", null);
-        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "PROTECT_STATUS", null);
-        Lepton.INSTANCE = null;
-        System.gc();
     }
 
     public static byte[] getClassBytes(Class<?> c) throws IOException {
