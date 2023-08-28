@@ -26,7 +26,7 @@ public class Lepton {
     private final String HWID;
     private final Instrumentation inst;
 
-    private static final boolean PROTECT_STATUS = false;
+    private static final boolean PROTECT_STATUS = true;
 
     private Lepton(Instrumentation inst) {
         INSTANCE = this;

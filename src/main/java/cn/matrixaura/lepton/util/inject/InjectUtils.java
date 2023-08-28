@@ -2,6 +2,7 @@ package cn.matrixaura.lepton.util.inject;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.asm.api.Transformers;
+import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
@@ -14,6 +15,10 @@ import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.UnmodifiableClassException;
 
 public class InjectUtils {
+
+    public static String getSrg(MinecraftVersion ver, MinecraftType type) {
+        return "/assets/lepton/client/mappings/" + type.getType() + "_" + ver.getVer() + ".srg";
+    }
 
     public static int getMinecraftProcessId() throws InterruptedException {
         User32 user32 = User32.INSTANCE;
@@ -46,6 +51,16 @@ public class InjectUtils {
             }
         });
         LeptonHttpServer.stop();
+        Lepton.INSTANCE.getModuleManager().get().forEach(Module::toggle);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "bindManager", null);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "moduleManager", null);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "HWID", null);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "inst", null);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "bus", null);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "logger", null);
+        ReflectionUtils.setFieldValue(Lepton.INSTANCE, "PROTECT_STATUS", null);
+        Lepton.INSTANCE = null;
+        System.gc();
     }
 
     public static byte[] getClassBytes(Class<?> c) throws IOException {
