@@ -6,7 +6,7 @@ import cn.matrixaura.lepton.util.packet.PacketUtils;
 
 public class EntityCheck extends CrashCheck {
     public EntityCheck() {
-        super("Entity Check", "Blocked a S0FPacketSpawnMob packet");
+        super("Entity Check");
     }
 
     @Override

@@ -33,7 +33,7 @@ public class AntiCrashModule extends Module {
         checks.forEach(crashCheck -> {
             if (crashCheck.handle(event.getPacket())) {
                 event.cancel();
-                Lepton.logger.info("[Anti-Crash] {} was detected. Message: {}", crashCheck.getName(), crashCheck.getMessage());
+                Lepton.logger.info("[Anti-Crash] {} was detected.", crashCheck.getName());
             }
         });
     }

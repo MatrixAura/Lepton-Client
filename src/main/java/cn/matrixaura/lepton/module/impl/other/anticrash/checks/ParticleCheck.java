@@ -10,7 +10,7 @@ public class ParticleCheck extends CrashCheck {
     private int particles;
 
     public ParticleCheck() {
-        super("ParticleCheck", "Blocked a S2APacketParticles packet");
+        super("Particle Check");
     }
 
     @Override

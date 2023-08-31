@@ -8,7 +8,7 @@ import cn.matrixaura.lepton.util.packet.PacketUtils;
 public class ExplosionCheck extends CrashCheck {
 
     public ExplosionCheck() {
-        super("Explosion Check", "Blocked aS27PacketExplosion packet");
+        super("Explosion Check");
     }
 
     @Override

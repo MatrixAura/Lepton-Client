@@ -12,7 +12,7 @@ public class LoggerRCECheck extends CrashCheck {
     private static final Pattern PATTERN = Pattern.compile(".*\\$\\{[^}]*\\}.*");
 
     public LoggerRCECheck() {
-        super("Log4J RCE Check", "Blocked a S29PacketSoundEffect / S02PacketChat packet");
+        super("Log4J RCE Check");
     }
 
     @Override
