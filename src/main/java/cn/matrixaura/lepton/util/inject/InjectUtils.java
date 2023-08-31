@@ -2,7 +2,6 @@ package cn.matrixaura.lepton.util.inject;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.asm.api.Transformers;
-import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;

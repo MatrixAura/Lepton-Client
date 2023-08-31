@@ -65,7 +65,7 @@ public class ReflectionUtils {
                 field.setAccessible(true);
                 Field modifiersField = Field.class.getDeclaredField("modifiers");
                 modifiersField.setAccessible(true);
-                modifiersField.setInt(field, field.getModifiers() &~ Modifier.FINAL);
+                modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
                 field.set(instance, value);
             } catch (IllegalAccessException | NoSuchFieldException ignored) {
             }
