@@ -18,24 +18,11 @@ public class BlinkUtils {
     public static void stopBlink() {
         blinking = false;
         if (!blockedPackets.isEmpty()) {
-            switch (type) {
-                case INBOUND: {
-                    blockedPackets.forEach(MinecraftWrapper.get().getNetHandler().getNetworkManager()::processPacket);
-                    break;
-                }
-                case OUTBOUND: {
-                    blockedPackets.forEach(MinecraftWrapper.get().getNetHandler()::addToSendQueue);
-                    break;
-                }
-                case BOTH: {
-                    blockedPackets.forEach(packet -> {
-                        if (PacketUtils.isPacketInbound(packet)) {
-                            MinecraftWrapper.get().getNetHandler().getNetworkManager().processPacket(packet);
-                        } else MinecraftWrapper.get().getNetHandler().addToSendQueue(packet);
-                    });
-                    break;
-                }
-            }
+            blockedPackets.forEach(packet -> {
+                if (PacketUtils.isPacketInbound(packet)) {
+                    MinecraftWrapper.get().getNetHandler().getNetworkManager().processPacket(packet);
+                } else MinecraftWrapper.get().getNetHandler().addToSendQueue(packet);
+            });
         }
         blockedPackets.clear();
     }
@@ -52,11 +39,7 @@ public class BlinkUtils {
         type = type1;
     }
 
-    public static void blockOutboundPacket(Object packet) {
-        blockedPackets.add(packet);
-    }
-
-    public static void blockInboundPacket(Object packet) {
+    public static void blockPacket(Object packet) {
         blockedPackets.add(packet);
     }
 

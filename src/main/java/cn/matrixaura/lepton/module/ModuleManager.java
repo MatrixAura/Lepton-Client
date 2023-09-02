@@ -18,7 +18,7 @@ public class ModuleManager {
             try {
                 Module feature = (Module) clazz.newInstance();
                 classModuleMap.put(feature.getClass(), feature);
-            } catch (InstantiationException | IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException | RuntimeException e) {
                 logger.error("Failed to load module {}", e.getStackTrace()[0]);
             }
         }
