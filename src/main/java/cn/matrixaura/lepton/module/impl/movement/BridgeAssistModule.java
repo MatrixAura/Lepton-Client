@@ -16,7 +16,6 @@ public class BridgeAssistModule extends Module {
         if (sneakOverride) {
             mc.getGameSettings().getKey("key.sneak").setPressed(false);
         }
-
         sneakOverride = false;
     }
 

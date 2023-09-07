@@ -26,6 +26,10 @@ public class Setting<T> {
         return value;
     }
 
+    public boolean is(T value) {
+        return value == this.value;
+    }
+
     public void reset() {
         value = defaultValue;
     }

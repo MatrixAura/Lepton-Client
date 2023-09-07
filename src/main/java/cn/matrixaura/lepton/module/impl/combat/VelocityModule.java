@@ -7,13 +7,14 @@ import cn.matrixaura.lepton.module.Category;
 import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.setting.Setting;
+import cn.matrixaura.lepton.util.inject.Mappings;
+import cn.matrixaura.lepton.util.inject.ReflectionUtils;
 import cn.matrixaura.lepton.util.packet.PacketUtils;
 
 @ModuleInfo(name = "Velocity", description = "Reduces your velocity", category = Category.Combat)
 public class VelocityModule extends Module {
 
-    public Setting<String> mode = setting("Mode", "Cancel", "Cancel", "Cancel C0F", "Cancel C00", "Freeze When Hurt");
-    public Setting<Number> hurtTime = setting("Min Hurt Time", 5, 1, 10, 1);
+    public Setting<String> mode = setting("Mode", "Cancel", "Cancel", "Cancel C0F", "Cancel C00", "Intave Freeze");
     private int cancelPackets;
 
     @Override
@@ -24,8 +25,8 @@ public class VelocityModule extends Module {
     @Listener
     public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
-            case "Freeze When Hurt": {
-                if (mc.getPlayer().getHurtTime() >= hurtTime.getValue().intValue()) {
+            case "Intave Freeze": {
+                if (mc.getPlayer().getHurtTime() > 7 && mc.getPlayer().onGround()) {
                     mc.getPlayer().setMotionX(0);
                     mc.getPlayer().setMotionY(0);
                     mc.getPlayer().setMotionZ(0);
@@ -64,13 +65,34 @@ public class VelocityModule extends Module {
                         event.cancel();
                     }
                 }
-                case "Freeze When Hurt": {
-                    if (PacketUtils.isPacketInstanceof(event.getPacket(), "C03PacketPlayer") && mc.getPlayer().getHurtTime() >= hurtTime.getValue().intValue()) {
-                        event.cancel();
-                    }
+            }
+        }
+        if (mode.is("Intave Freeze") && mc.getPlayer().getHurtTime() > 7 && mc.getPlayer().onGround()) {
+            if (PacketUtils.isPacketInstanceof(event.getPacket(), "C06PacketPlayerPosLook")) {
+                event.cancel();
+                try {
+                    mc.getNetHandler().addToSendQueue(ReflectionUtils.newInstance(
+                            Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C03PacketPlayer$C05PacketPlayerLook")),
+                            new Class[]{float.class, float.class, boolean.class},
+                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149462_g")),
+                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149470_h")),
+                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149465_i"))
+                    ));
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (PacketUtils.isPacketInstanceof(event.getPacket(), "C04PacketPlayerPosition")) {
+                event.cancel();
+                try {
+                    mc.getNetHandler().addToSendQueue(ReflectionUtils.newInstance(
+                            Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C03PacketPlayer")),
+                            new Class[]{boolean.class},
+                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149465_i"))
+                    ));
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
                 }
             }
-
         }
     }
 
