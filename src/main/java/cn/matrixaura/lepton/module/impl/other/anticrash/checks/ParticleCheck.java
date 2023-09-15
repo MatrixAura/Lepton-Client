@@ -15,7 +15,7 @@ public class ParticleCheck extends CrashCheck {
 
     @Override
     public boolean handle(Object packet) {
-        if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S2APacketParticles")) {
+        if (PacketUtils.isPacketInstanceof(packet, "S2APacketParticles")) {
             int particleCount = (Integer) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149222_k"));
             int particleSpeed = (Integer) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149227_j"));
 

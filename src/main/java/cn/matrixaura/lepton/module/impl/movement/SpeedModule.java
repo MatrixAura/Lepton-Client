@@ -16,7 +16,7 @@ public class SpeedModule extends Module {
     public Setting<String> ab = setting("ab", "I love u($$$)");
 
     private boolean shouldJump() {
-        return mc.getPlayer().onGround() && mc.getPlayer().isMoving() && (!noFluid.getValue() || !mc.getPlayer().isInFluid());
+        return mc.getPlayer().isOnGround() && mc.getPlayer().isMoving() && (!noFluid.getValue() || !mc.getPlayer().isInFluid());
     }
 
     @Listener
@@ -41,7 +41,7 @@ public class SpeedModule extends Module {
                     mc.getGameSettings().getKey("key.jump").setPressed(false);
                     mc.getPlayer().jump();
                 }
-                if (!mc.getPlayer().onGround() && mc.getPlayer().getFallDistance() <= 0.1f) {
+                if (!mc.getPlayer().isOnGround() && mc.getPlayer().getFallDistance() <= 0.1f) {
                     mc.getTimer().setTimerSpeed(1.4f);
                 }
                 if (mc.getPlayer().getFallDistance() > 0.1f && mc.getPlayer().getFallDistance() < 1.3f) {

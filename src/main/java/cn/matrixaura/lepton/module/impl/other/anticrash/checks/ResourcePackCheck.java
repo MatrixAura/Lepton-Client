@@ -20,7 +20,7 @@ public class ResourcePackCheck extends CrashCheck {
 
     @Override
     public boolean handle(Object packet) {
-        if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S48PacketResourcePackSend")) {
+        if (PacketUtils.isPacketInstanceof(packet, "S48PacketResourcePackSend")) {
 
             final String url = (String) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_179783_a"));
             final String hash = (String) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_179784_b"));

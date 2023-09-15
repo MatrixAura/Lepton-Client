@@ -13,7 +13,7 @@ public class ExplosionCheck extends CrashCheck {
 
     @Override
     public boolean handle(Object packet) {
-        if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S27PacketExplosion")) {
+        if (PacketUtils.isPacketInstanceof(packet, "S27PacketExplosion")) {
             return (Byte) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149149_c")) >= Byte.MAX_VALUE
                     || (Byte) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149144_d")) >= Byte.MAX_VALUE
                     || (Byte) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_149147_e")) >= Byte.MAX_VALUE;

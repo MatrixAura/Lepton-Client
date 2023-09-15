@@ -13,7 +13,7 @@ public class TeleportCheck extends CrashCheck {
 
     @Override
     public boolean handle(Object packet) {
-        if (PacketUtils.isPacketInstanceof(packet, "net/minecraft/network/play/server/S08PacketPlayerPosLook")) {
+        if (PacketUtils.isPacketInstanceof(packet, "S08PacketPlayerPosLook")) {
             double x = (Double) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_148932_c"));
             double y = (Double) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_148928_d"));
             double z = (Double) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_148933_e"));

@@ -76,7 +76,7 @@ public class EntityPlayerSPWrapper extends Wrapper {
         ReflectionUtils.setFieldValue(playerObj, Mappings.getObfField("field_70179_y"), motionZ);
     }
 
-    public boolean onGround() {
+    public boolean isOnGround() {
         // FD: pk/C net/minecraft/entity/Entity/field_70122_E
         return (Boolean) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_70122_E"));
     }
@@ -252,5 +252,9 @@ public class EntityPlayerSPWrapper extends Wrapper {
 
     public boolean isInFluid() {
         return isInWater() || isInLava();
+    }
+
+    public int getEntityID() {
+        return (Integer) ReflectionUtils.getFieldValue(playerObj, Mappings.getObfField("field_145783_c"));
     }
 }
