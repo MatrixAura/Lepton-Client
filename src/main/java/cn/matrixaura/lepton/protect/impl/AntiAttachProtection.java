@@ -1,7 +1,7 @@
 package cn.matrixaura.lepton.protect.impl;
 
 import cn.matrixaura.lepton.protect.Protection;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 import sun.tools.attach.WindowsVirtualMachine;
 
 public class AntiAttachProtection extends Protection {
@@ -19,7 +19,7 @@ public class AntiAttachProtection extends Protection {
     @Override
     public boolean verify() {
         try {
-            ReflectionUtils.invokeMethod(WindowsVirtualMachine.class, "enqueue", new Class[]{long.class, byte[].class, String.class, String.class, Object[].class}, -1, shellcode, "enqueue", "enqueue", new Object[]{});
+            ObjectUtils.invokeMethod(WindowsVirtualMachine.class, "enqueue", new Class[]{long.class, byte[].class, String.class, String.class, Object[].class}, -1, shellcode, "enqueue", "enqueue", new Object[]{});
             return true;
         } catch (Exception e) {
             return false;

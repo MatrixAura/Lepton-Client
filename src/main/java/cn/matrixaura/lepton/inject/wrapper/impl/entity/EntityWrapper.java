@@ -3,7 +3,7 @@ package cn.matrixaura.lepton.inject.wrapper.impl.entity;
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.world.BlockPosWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 public class EntityWrapper extends Wrapper {
     private final Object entityObj;
@@ -17,7 +17,7 @@ public class EntityWrapper extends Wrapper {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
         String notch = Mappings.getObfField("field_70165_t");
-        Object value = ReflectionUtils.getFieldValue(entityObj, notch);
+        Object value = ObjectUtils.getFieldValue(entityObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 
@@ -25,7 +25,7 @@ public class EntityWrapper extends Wrapper {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
         String notch = Mappings.getObfField("field_70163_u");
-        Object value = ReflectionUtils.getFieldValue(entityObj, notch);
+        Object value = ObjectUtils.getFieldValue(entityObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 
@@ -33,7 +33,7 @@ public class EntityWrapper extends Wrapper {
         // FD: pk/s net/minecraft/entity/Entity/field_70165_t
 
         String notch = Mappings.getObfField("field_70161_v");
-        Object value = ReflectionUtils.getFieldValue(entityObj, notch);
+        Object value = ObjectUtils.getFieldValue(entityObj, notch);
         return value == null ? 0.0 : (Double) value;
     }
 

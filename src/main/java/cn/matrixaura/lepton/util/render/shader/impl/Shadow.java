@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.util.render.shader.impl;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 import cn.matrixaura.lepton.util.math.MathUtils;
 import cn.matrixaura.lepton.util.render.shader.ShaderUtils;
 import cn.matrixaura.lepton.util.render.shader.ShaderUtils.Shaders;
@@ -22,7 +22,7 @@ public class Shadow {
     static {
 
         try {
-            framebuffer = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/shader/Framebuffer")), new Class[]{int.class, int.class, boolean.class}, 1, 1, false);
+            framebuffer = ObjectUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/shader/Framebuffer")), new Class[]{int.class, int.class, boolean.class}, 1, 1, false);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -30,7 +30,7 @@ public class Shadow {
     }
 
     public static void render(int sourceTexture, int radius, int offset) {
-        if ((Integer) ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147621_c")) != MinecraftWrapper.get().getDisplayWidth() || (Integer) ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147618_d")) != MinecraftWrapper.get().getDisplayHeight()) {
+        if ((Integer) ObjectUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147621_c")) != MinecraftWrapper.get().getDisplayWidth() || (Integer) ObjectUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147618_d")) != MinecraftWrapper.get().getDisplayHeight()) {
             initFramebuffers();
         }
 
@@ -48,18 +48,18 @@ public class Shadow {
         // ----- WARNING WARNING WARNING WARNING WARNING ------ //
         ((Buffer) buffer).flip(); // Don't change it
         // ----- WARNING WARNING WARNING WARNING WARNING ------ //
-        ReflectionUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147614_f"));
-        ReflectionUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147610_a"), new Class[]{boolean.class}, true);
+        ObjectUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147614_f"));
+        ObjectUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147610_a"), new Class[]{boolean.class}, true);
         shadowShader.init();
         setupUniforms(radius, offset, 0, buffer);
         GL11.glBindTexture(3553, sourceTexture);
         ShaderUtils.drawQuads();
         shadowShader.unload();
-        ReflectionUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147609_e"));
+        ObjectUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147609_e"));
         MinecraftWrapper.get().getFramebuffer().bindFramebuffer(true);
         shadowShader.init();
         setupUniforms(radius, 0, offset, buffer);
-        framebufferTexture = (Integer) ReflectionUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147617_g"));
+        framebufferTexture = (Integer) ObjectUtils.getFieldValue(framebuffer, Mappings.getObfField("field_147617_g"));
         GL13.glActiveTexture(34000);
         GL11.glBindTexture(3553, sourceTexture);
         GL13.glActiveTexture(33984);
@@ -71,8 +71,8 @@ public class Shadow {
     }
 
     private static void initFramebuffers() {
-        ReflectionUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147608_a"));
-        framebuffer = ReflectionUtils.newInstance(framebuffer.getClass(), new Class[]{int.class, int.class, boolean.class}, MinecraftWrapper.get().getDisplayWidth(), MinecraftWrapper.get().getDisplayHeight(), true);
+        ObjectUtils.invokeMethod(framebuffer, Mappings.getObfMethod("func_147608_a"));
+        framebuffer = ObjectUtils.newInstance(framebuffer.getClass(), new Class[]{int.class, int.class, boolean.class}, MinecraftWrapper.get().getDisplayWidth(), MinecraftWrapper.get().getDisplayHeight(), true);
     }
 
     public static void setupUniforms(int radius, int directionX, int directionY, FloatBuffer buffer) {

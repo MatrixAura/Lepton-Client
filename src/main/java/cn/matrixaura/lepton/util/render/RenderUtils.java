@@ -4,7 +4,7 @@ import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.gui.ScaledResolutionWrapper;
 import cn.matrixaura.lepton.inject.wrapper.impl.render.FramebufferWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 import cn.matrixaura.lepton.util.render.shader.ShaderUtils;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
@@ -112,8 +112,8 @@ public class RenderUtils {
     public static Double getScaledWidth() {
         try {
             Object mc = MinecraftWrapper.get().getMinecraftObj();
-            Object sr = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
-            return (Double) ReflectionUtils.invokeMethod(sr, Mappings.getObfMethod("func_78327_c"));
+            Object sr = ObjectUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
+            return (Double) ObjectUtils.invokeMethod(sr, Mappings.getObfMethod("func_78327_c"));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -123,8 +123,8 @@ public class RenderUtils {
     public static Double getScaledHeight() {
         try {
             Object mc = MinecraftWrapper.get().getMinecraftObj();
-            Object sr = ReflectionUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
-            return (Double) ReflectionUtils.invokeMethod(sr, Mappings.getObfMethod("func_78324_d"));
+            Object sr = ObjectUtils.newInstance(Class.forName(Mappings.getObfClass("net/minecraft/client/gui/ScaledResolution")), new Class[]{mc.getClass()}, mc);
+            return (Double) ObjectUtils.invokeMethod(sr, Mappings.getObfMethod("func_78324_d"));
         } catch (Exception e) {
             e.printStackTrace();
             return null;

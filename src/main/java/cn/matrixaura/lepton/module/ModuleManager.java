@@ -1,6 +1,6 @@
 package cn.matrixaura.lepton.module;
 
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,7 @@ public class ModuleManager {
     private final Map<Class<? extends Module>, Module> classModuleMap = new HashMap<>();
 
     public ModuleManager() {
-        for (Class<?> clazz : ReflectionUtils.getSubTypesOf("cn.matrixaura.lepton.module.impl", Module.class)) {
+        for (Class<?> clazz : ObjectUtils.getSubTypesOf("cn.matrixaura.lepton.module.impl", Module.class)) {
             try {
                 Module feature = (Module) clazz.newInstance();
                 classModuleMap.put(feature.getClass(), feature);

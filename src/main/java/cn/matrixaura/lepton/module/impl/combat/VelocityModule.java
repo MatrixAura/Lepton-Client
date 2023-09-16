@@ -8,13 +8,16 @@ import cn.matrixaura.lepton.module.Module;
 import cn.matrixaura.lepton.module.ModuleInfo;
 import cn.matrixaura.lepton.setting.Setting;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 import cn.matrixaura.lepton.util.packet.PacketUtils;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 @ModuleInfo(name = "Velocity", description = "Reduces your velocity", category = Category.Combat)
 public class VelocityModule extends Module {
 
-    public Setting<String> mode = setting("Mode", "Cancel", "Cancel", "Old GrimAC", "Cancel C00", "Intave Freeze", "Latest GrimAC");
+    public Setting<String> mode = setting("Mode", "Cancel", "Cancel", "Intave Test", "Intave Test2", "Old GrimAC", "Cancel C00", "Freeze", "Latest GrimAC");
     private int cancelPackets;
 
     @Override
@@ -25,7 +28,7 @@ public class VelocityModule extends Module {
     @Listener
     public void onUpdate(EventUpdate event) {
         switch (mode.getValue()) {
-            case "Intave Freeze": {
+            case "Freeze": {
                 if (mc.getPlayer().getHurtTime() > 7 && mc.getPlayer().isOnGround()) {
                     mc.getPlayer().setMotionX(0);
                     mc.getPlayer().setMotionY(0);
@@ -38,11 +41,27 @@ public class VelocityModule extends Module {
     @Listener
     public void onPacket(EventPacket event) {
         if (PacketUtils.isPacketInstanceof(event.getPacket(), "S12PacketEntityVelocity") &&
-                (Integer) ReflectionUtils.getFieldValue(event.getPacket(), Mappings.getObfField("field_149417_a")) == mc.getPlayer().getEntityID()) {
+                (Integer) ObjectUtils.getFieldValue(event.getPacket(), Mappings.getObfField("field_149417_a")) == mc.getPlayer().getEntityID()) {
             switch (mode.getValue()) {
                 case "Cancel": {
                     event.cancel();
                     break;
+                }
+                case "Intave Test": {
+                    event.cancel();
+                    mc.getTimer().setTimerSpeed(0F);
+                    new Timer().schedule(new TimerTask() {
+                        public void run() {
+                            mc.getTimer().setTimerSpeed(1F);
+                        }
+                    }, 100);
+                }
+                case "Intave Test2": {
+                    if (mc.getPlayer().isOnGround()) {
+                        ObjectUtils.setFieldValue(event.getPacket(), Mappings.getObfField("field_149415_b"), (Float) ObjectUtils.getFieldValue(event.getPacket(), Mappings.getObfField("field_149415_b")) * 0.6f);
+                        ObjectUtils.setFieldValue(event.getPacket(), Mappings.getObfField("field_149416_c"), (Float) ObjectUtils.getFieldValue(event.getPacket(), Mappings.getObfField("field_149415_b")) * 0.6f);
+                        ObjectUtils.setFieldValue(event.getPacket(), Mappings.getObfField("field_149414_d"), (Float) ObjectUtils.getFieldValue(event.getPacket(), Mappings.getObfField("field_149415_b")) * 0.6f);
+                    }
                 }
                 case "Cancel C00":
                 case "Old GrimAC": {
@@ -56,12 +75,12 @@ public class VelocityModule extends Module {
                     try {
                         Class<?> action = Class.forName("net/minecraft/network/play/client/C07PacketPlayerDigging$Action");
                         Class<?> ef = Class.forName("net/minecraft/util/EnumFacing");
-                        diggingPacket = ReflectionUtils.newInstance(
+                        diggingPacket = ObjectUtils.newInstance(
                                 Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C07PacketPlayerDigging")),
                                 new Class[]{action, Class.forName("net/minecraft/util/BlockPos"), ef},
-                                ReflectionUtils.getFieldValue(action, Mappings.getObfField("net/minecraft/network/play/client/C07PacketPlayerDigging$Action/STOP_DESTROY_BLOCK")),
+                                ObjectUtils.getFieldValue(action, Mappings.getObfField("net/minecraft/network/play/client/C07PacketPlayerDigging$Action/STOP_DESTROY_BLOCK")),
                                 mc.getPlayer().getPosObj(),
-                                ReflectionUtils.getFieldValue(ef, Mappings.getObfField("net/minecraft/util/EnumFacing/UP"))
+                                ObjectUtils.getFieldValue(ef, Mappings.getObfField("net/minecraft/util/EnumFacing/UP"))
                         );
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeException(e);
@@ -87,16 +106,16 @@ public class VelocityModule extends Module {
                 }
             }
         }
-        if (mode.is("Intave Freeze") && mc.getPlayer().getHurtTime() > 7 && mc.getPlayer().isOnGround()) {
+        if (mode.is("Freeze") && mc.getPlayer().getHurtTime() > 7 && mc.getPlayer().isOnGround()) {
             if (PacketUtils.isPacketInstanceof(event.getPacket(), "C06PacketPlayerPosLook")) {
                 event.cancel();
                 try {
-                    mc.getNetHandler().addToSendQueue(ReflectionUtils.newInstance(
+                    mc.getNetHandler().addToSendQueue(ObjectUtils.newInstance(
                             Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C03PacketPlayer$C05PacketPlayerLook")),
                             new Class[]{float.class, float.class, boolean.class},
-                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149462_g")),
-                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149470_h")),
-                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149465_i"))
+                            ObjectUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149462_g")),
+                            ObjectUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149470_h")),
+                            ObjectUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149465_i"))
                     ));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);
@@ -104,10 +123,10 @@ public class VelocityModule extends Module {
             } else if (PacketUtils.isPacketInstanceof(event.getPacket(), "C04PacketPlayerPosition")) {
                 event.cancel();
                 try {
-                    mc.getNetHandler().addToSendQueue(ReflectionUtils.newInstance(
+                    mc.getNetHandler().addToSendQueue(ObjectUtils.newInstance(
                             Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C03PacketPlayer")),
                             new Class[]{boolean.class},
-                            ReflectionUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149465_i"))
+                            ObjectUtils.invokeMethod(event.getPacket(), Mappings.getObfMethod("func_149465_i"))
                     ));
                 } catch (ClassNotFoundException e) {
                     throw new RuntimeException(e);

@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.inject.dynamic;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.dynamic.impl.gui.GuiScreenDynamic;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class Dynamics {
         dynamicClasses.forEach(clazz -> {
             try {
                 byte[] bytes = clazz.dump();
-                ReflectionUtils.invokeMethod(
+                ObjectUtils.invokeMethod(
                         ClassLoader.getSystemClassLoader(),
                         "defineClass",
                         new Class[]{

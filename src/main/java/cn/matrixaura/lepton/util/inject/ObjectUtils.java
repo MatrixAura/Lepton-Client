@@ -5,7 +5,7 @@ import org.apache.logging.log4j.core.config.plugins.ResolverUtil;
 import java.lang.reflect.*;
 import java.util.Set;
 
-public class ReflectionUtils {
+public class ObjectUtils {
 
     public static Object getFieldValue(Object instance, String name) {
         Class<?> c = instance.getClass();

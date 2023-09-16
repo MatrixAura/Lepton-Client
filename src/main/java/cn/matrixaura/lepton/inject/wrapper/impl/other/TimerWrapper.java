@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.inject.wrapper.impl.other;
 
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 public class TimerWrapper extends Wrapper {
     private final Object timerObj;
@@ -13,11 +13,11 @@ public class TimerWrapper extends Wrapper {
     }
 
     public float getTimerSpeed() {
-        return (Float) ReflectionUtils.getFieldValue(timerObj, Mappings.getObfField("field_74278_d"));
+        return (Float) ObjectUtils.getFieldValue(timerObj, Mappings.getObfField("field_74278_d"));
     }
 
     public void setTimerSpeed(Float speed) {
-        ReflectionUtils.setFieldValue(timerObj, Mappings.getObfField("field_74278_d"), speed);
+        ObjectUtils.setFieldValue(timerObj, Mappings.getObfField("field_74278_d"), speed);
     }
 
 }

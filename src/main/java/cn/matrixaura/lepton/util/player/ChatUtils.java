@@ -2,13 +2,13 @@ package cn.matrixaura.lepton.util.player;
 
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 public class ChatUtils {
 
     public static void addChatMessage(String message) {
         try {
-            MinecraftWrapper.get().getPlayer().addChatMessage(ReflectionUtils.newInstance(
+            MinecraftWrapper.get().getPlayer().addChatMessage(ObjectUtils.newInstance(
                     Class.forName(Mappings.getObfClass("net/minecraft/util/ChatComponentText")),
                     new Class[]{
                             String.class

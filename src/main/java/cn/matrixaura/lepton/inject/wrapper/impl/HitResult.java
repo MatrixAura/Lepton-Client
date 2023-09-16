@@ -1,7 +1,7 @@
 package cn.matrixaura.lepton.inject.wrapper.impl;
 
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 public class HitResult {
 
@@ -9,7 +9,7 @@ public class HitResult {
 
     public HitResult(Object objectMouseOverObj) {
         try {
-            Object value = ReflectionUtils.getFieldValue(objectMouseOverObj, Mappings.getObfField("field_72313_a"));
+            Object value = ObjectUtils.getFieldValue(objectMouseOverObj, Mappings.getObfField("field_72313_a"));
             type = Type.valueOf(((Enum<?>) value).name());
         } catch (Exception e) {
             e.printStackTrace();

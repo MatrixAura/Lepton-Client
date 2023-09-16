@@ -4,7 +4,7 @@ import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.module.impl.other.anticrash.CrashCheck;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 import cn.matrixaura.lepton.util.packet.PacketUtils;
 
 import java.net.URI;
@@ -22,8 +22,8 @@ public class ResourcePackCheck extends CrashCheck {
     public boolean handle(Object packet) {
         if (PacketUtils.isPacketInstanceof(packet, "S48PacketResourcePackSend")) {
 
-            final String url = (String) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_179783_a"));
-            final String hash = (String) ReflectionUtils.invokeMethod(packet, Mappings.getObfMethod("func_179784_b"));
+            final String url = (String) ObjectUtils.invokeMethod(packet, Mappings.getObfMethod("func_179783_a"));
+            final String hash = (String) ObjectUtils.invokeMethod(packet, Mappings.getObfMethod("func_179784_b"));
 
             if (url.toLowerCase().startsWith("level://")) {
                 return check(url, hash);
@@ -57,8 +57,8 @@ public class ResourcePackCheck extends CrashCheck {
             try {
                 Class<?> clazz = Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C19PacketResourcePackStatus"));
                 Class<?> actionClass = Class.forName(Mappings.getObfClass("net/minecraft/network/play/client/C19PacketResourcePackStatus$Action"));
-                Object failedDownload = ReflectionUtils.getFieldValue(null, Mappings.getObfField("FAILED_DOWNLOAD"));
-                MinecraftWrapper.get().getNetHandler().addToSendQueue(ReflectionUtils.newInstance(clazz, new Class[]{String.class, actionClass}, hash, failedDownload));
+                Object failedDownload = ObjectUtils.getFieldValue(null, Mappings.getObfField("FAILED_DOWNLOAD"));
+                MinecraftWrapper.get().getNetHandler().addToSendQueue(ObjectUtils.newInstance(clazz, new Class[]{String.class, actionClass}, hash, failedDownload));
             } catch (ClassNotFoundException classNotFoundException) {
                 e.printStackTrace();
             }

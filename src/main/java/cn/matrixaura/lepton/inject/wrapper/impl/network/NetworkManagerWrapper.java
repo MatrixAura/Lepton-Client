@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.inject.wrapper.impl.network;
 
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 public class NetworkManagerWrapper extends Wrapper {
 
@@ -15,7 +15,7 @@ public class NetworkManagerWrapper extends Wrapper {
 
     public void processPacket(Object packet) {
         try {
-            ReflectionUtils.invokeMethod(
+            ObjectUtils.invokeMethod(
                     networkManagerObj,
                     Mappings.getObfMethod("channelRead0"),
                     new Class[]{

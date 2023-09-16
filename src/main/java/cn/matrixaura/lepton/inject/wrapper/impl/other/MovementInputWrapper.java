@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.inject.wrapper.impl.other;
 
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 public class MovementInputWrapper extends Wrapper {
 
@@ -14,10 +14,10 @@ public class MovementInputWrapper extends Wrapper {
     }
 
     public float getMoveForward() {
-        return (Float) ReflectionUtils.getFieldValue(movementInputObj, Mappings.getObfField("field_78900_b"));
+        return (Float) ObjectUtils.getFieldValue(movementInputObj, Mappings.getObfField("field_78900_b"));
     }
 
     public float getMoveStrafe() {
-        return (Float) ReflectionUtils.getFieldValue(movementInputObj, Mappings.getObfField("field_78902_a"));
+        return (Float) ObjectUtils.getFieldValue(movementInputObj, Mappings.getObfField("field_78902_a"));
     }
 }

@@ -2,7 +2,7 @@ package cn.matrixaura.lepton.inject.wrapper.impl.network;
 
 import cn.matrixaura.lepton.inject.wrapper.Wrapper;
 import cn.matrixaura.lepton.util.inject.Mappings;
-import cn.matrixaura.lepton.util.inject.ReflectionUtils;
+import cn.matrixaura.lepton.util.inject.ObjectUtils;
 
 import java.lang.reflect.Method;
 
@@ -27,6 +27,6 @@ public class NetHandlerPlayClientWrapper extends Wrapper {
     }
 
     public NetworkManagerWrapper getNetworkManager() {
-        return new NetworkManagerWrapper(ReflectionUtils.invokeMethod(netHandlerPlayClientObj, Mappings.getObfMethod("func_147298_b")));
+        return new NetworkManagerWrapper(ObjectUtils.invokeMethod(netHandlerPlayClientObj, Mappings.getObfMethod("func_147298_b")));
     }
 }
