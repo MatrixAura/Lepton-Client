@@ -3,6 +3,8 @@ package cn.matrixaura.lepton.util.animate;
 @SuppressWarnings("unused")
 public class EasingCurves {
 
+    public static Easing easeHuman_like = new CubicBezier(0.33, -0.05, 0.67, 0.9);
+
     public static Easing easeNaturel = new CubicBezier(0.25, 0.1, 0.25, 1);
 
     public static Easing easeInSine = new CubicBezier(0.12, 0, 0.39, 0);
@@ -86,12 +88,3 @@ public class EasingCurves {
     };
 
 }
-/*
-public class LegitSpeed extends Module {
-
-    @Subscribe
-    public void onMoveInput(MoveInputEvent e) {
-
-    }
-}
- */
