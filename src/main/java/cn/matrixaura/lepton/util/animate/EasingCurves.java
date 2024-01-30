@@ -3,7 +3,7 @@ package cn.matrixaura.lepton.util.animate;
 @SuppressWarnings("unused")
 public class EasingCurves {
 
-    public static final Easing easeHuman_like = new CubicBezier(0.33, -0.05, 0.67, 0.9); // 不可直接使用
+    public static final Easing easeHuman_like = new CubicBezier(0.33, 0, 0.67, 0.9); // 不可直接使用
 
     public static final Easing easeNaturel = new CubicBezier(0.25, 0.1, 0.25, 1);
 

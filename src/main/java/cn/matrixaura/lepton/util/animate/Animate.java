@@ -2,9 +2,10 @@ package cn.matrixaura.lepton.util.animate;
 
 import cn.matrixaura.lepton.util.time.Timer;
 
+@SuppressWarnings("unused")
 public class Animate {
 
-    private Easing easing;
+    private final Easing easing;
     private double start, end, time;
     private final Timer timer = new Timer();
 
@@ -15,9 +16,6 @@ public class Animate {
         this.time = time;
     }
 
-    public void setEasing(Easing easing) {
-        this.easing = easing;
-    }
 
     public void setStart(double start) {
         this.start = start;
