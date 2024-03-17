@@ -1,11 +1,11 @@
-##lait_version=2.0##  <- api version (Must be written)
-Default_Node_Desc:
+LAIT_API_VERSION: 1.0 # api version (Must be written)
+Default_Node_Desc: # 解析器会忽略这个
     id: null # It can be null or not written
     body: null # It can be null or not written
     type: your_node_type # It can't be null, and it must be written
 
-Program:
-    id: null # It can be null or not written
+LAIT_PROGRAM: # 解析入口点
+    id: Example # It can't be null, and it must be written
     body:
         -   id: null
             type: Rectangle

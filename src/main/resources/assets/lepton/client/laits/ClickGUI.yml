@@ -1,5 +1,5 @@
-##lait_version=2.0##
-Program:
+LAIT_API_VERSION: 2.0
+LAIT_PROGRAM:
     id: ClickGui
     body:
         -   id: null
