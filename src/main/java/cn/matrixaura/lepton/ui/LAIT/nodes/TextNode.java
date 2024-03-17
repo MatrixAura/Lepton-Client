@@ -1,12 +1,15 @@
 package cn.matrixaura.lepton.ui.LAIT.nodes;
 
-import cn.matrixaura.lepton.ui.LAIT.Node;
+import cn.matrixaura.lepton.ui.LAIT.RenderNode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
-public class TextNode extends Node {
-    public String text;
-    public Color color;
+@Getter
+@Setter
+public class TextNode extends RenderNode {
+    private String text;
 
     public TextNode() {
         super("Text");

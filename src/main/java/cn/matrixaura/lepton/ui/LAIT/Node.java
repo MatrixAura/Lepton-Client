@@ -10,10 +10,7 @@ import java.util.ArrayList;
 public class Node {
     private final String type;
     private String id = "";
-    private Integer[] align = {0, 0};
-    private Double[] offset = {0D, 0D};
-    private ArrayList<Node> body = new ArrayList<>();
-    private Boolean shown = true;
+    private final ArrayList<Node> body = new ArrayList<>();
 
     public Node(String type) {
         this.type = type;
