@@ -1,4 +1,4 @@
-package cn.matrixaura.lepton.ui.AMIT;
+package cn.matrixaura.lepton.ui.LAIT;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package cn.matrixaura.lepton.ui.AMIT.nodes;
+package cn.matrixaura.lepton.ui.LAIT.nodes;
 
-import cn.matrixaura.lepton.ui.AMIT.Node;
+import cn.matrixaura.lepton.ui.LAIT.Node;
 
 public class GroupNode extends Node {
     public GroupNode() {
