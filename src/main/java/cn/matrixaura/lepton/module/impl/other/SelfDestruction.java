@@ -11,5 +11,6 @@ public class SelfDestruction extends Module {
     @Override
     public void onEnable() {
         InjectUtils.destroyClient();
+        this.toggle();
     }
 }

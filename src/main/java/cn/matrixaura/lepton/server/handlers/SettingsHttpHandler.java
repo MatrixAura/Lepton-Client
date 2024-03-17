@@ -10,8 +10,8 @@ import cn.matrixaura.lepton.setting.settings.StringSetting;
 import cn.matrixaura.lepton.util.string.URLUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -48,7 +48,7 @@ public class SettingsHttpHandler implements HttpHandler {
                         moduleSet.put("name", setting.getName());
                         moduleSet.put("type", "selection");
                         JSONArray values = new JSONArray();
-                        values.addAll(Arrays.asList(((ModeSetting) setting).getValues()));
+                        values.putAll(Arrays.asList(((ModeSetting) setting).getValues()));
                         moduleSet.put("values", values);
                         moduleSet.put("value", URLUtils.encode(((ModeSetting) setting).getValue()));
                     } else if (setting instanceof BooleanSetting) {
@@ -56,7 +56,7 @@ public class SettingsHttpHandler implements HttpHandler {
                         moduleSet.put("type", "checkbox");
                         moduleSet.put("value", ((BooleanSetting) setting).getValue());
                     }
-                    moduleJsonArray.add(moduleSet);
+                    moduleJsonArray.put(moduleSet);
                 }
                 jsonObject.put("result", moduleJsonArray);
             }

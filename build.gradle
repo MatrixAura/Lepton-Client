@@ -61,7 +61,9 @@ dependencies {
     dependency 'org.ow2.asm:asm-all:5.2'
     dependency 'net.java.dev.jna:jna:5.13.0'
     dependency 'net.java.dev.jna:jna-platform:5.13.0'
-    dependency 'net.sf.json-lib:json-lib:2.4:jdk15'
+    dependency 'org.json:json:20240303'
+    dependency 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.0'
+
     dependency fileTree(dir: 'libs', includes: ['*.jar'])
 
     implementation fileTree("mclibs/")

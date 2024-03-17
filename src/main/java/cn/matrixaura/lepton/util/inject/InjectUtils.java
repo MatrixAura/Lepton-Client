@@ -28,7 +28,6 @@ public class InjectUtils {
             if (findWindow != null && findWindow.getPointer() != null) {
                 char[] buffer = new char[1024];
                 user32.GetWindowText(hWnd, buffer, buffer.length);
-                final String windowText = new String(buffer);
                 user32.GetWindowThreadProcessId(hWnd, pid);
             } else {
                 Thread.sleep(100L);

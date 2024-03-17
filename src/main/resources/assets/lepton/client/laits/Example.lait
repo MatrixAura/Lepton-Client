@@ -1,0 +1,6 @@
+Default_Node_Desc:
+    id: null # It can be null or not written
+    body: null # It can be null or not written
+    type: your_node_type # It can't be null, and it must be written
+    align: [0, 0] # It can be null or not written. [xAlign, yAlign] 0: left/top 1: middle 2: right/bottom
+    offset: [0, 0] # It can be null or not written. [xOffset, yOffset]
