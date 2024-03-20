@@ -2,9 +2,9 @@ package cn.matrixaura.lepton.server.handlers;
 
 import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.util.string.URLUtils;
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,9 +21,9 @@ public class StatusHttpHandler implements HttpHandler {
         Lepton.INSTANCE.getModuleManager().get(module).setState(state);
 
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", state);
-        jsonObject.put("success", true);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("result", state);
+        jsonObject.addProperty("success", true);
 
         byte[] response = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
 

@@ -2,7 +2,7 @@ package cn.matrixaura.lepton;
 
 import cn.matrixaura.lepton.bind.BindManager;
 import cn.matrixaura.lepton.listener.bus.EventBus;
-import cn.matrixaura.lepton.module.Core;
+import cn.matrixaura.lepton.module.NonModuleBus;
 import cn.matrixaura.lepton.module.ModuleManager;
 import cn.matrixaura.lepton.protect.ProtectionManager;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
@@ -55,7 +55,7 @@ public class Lepton {
         } else HWID = null;
 
         bus.subscribe(bindManager);
-        bus.subscribe(new Core());
+        bus.subscribe(new NonModuleBus());
     }
 
     public BindManager getBindManager() {

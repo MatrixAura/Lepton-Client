@@ -8,9 +8,9 @@ import cn.matrixaura.lepton.setting.settings.ModeSetting;
 import cn.matrixaura.lepton.setting.settings.NumberSetting;
 import cn.matrixaura.lepton.setting.settings.StringSetting;
 import cn.matrixaura.lepton.util.string.URLUtils;
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -26,27 +26,27 @@ public class SetSettingHttpHandler implements HttpHandler {
         String value = param[2];
 
         Module module = Lepton.INSTANCE.getModuleManager().get(moduleName);
-        JSONObject jsonObject = new JSONObject();
+        JsonObject jsonObject = new JsonObject();
 
         for (Setting<?> setting : module.getSettings()) {
             if (setting.getName().equals(name)) {
                 if (setting instanceof BooleanSetting) {
                     ((BooleanSetting) setting).setValue(value.equals("true"));
-                    jsonObject.put("result", value.equals("true"));
+                    jsonObject.addProperty("result", value.equals("true"));
                 } else if (setting instanceof NumberSetting) {
                     ((NumberSetting) setting).setValue(Double.valueOf(value));
-                    jsonObject.put("result", Double.valueOf(value));
+                    jsonObject.addProperty("result", Double.valueOf(value));
                 } else if (setting instanceof StringSetting) {
                     ((StringSetting) setting).setValue(value);
-                    jsonObject.put("result", value);
+                    jsonObject.addProperty("result", value);
                 } else if (setting instanceof ModeSetting) {
                     ((ModeSetting) setting).setValue(URLUtils.decode(value));
-                    jsonObject.put("result", URLUtils.encode(value));
+                    jsonObject.addProperty("result", URLUtils.encode(value));
                 }
             }
         }
 
-        jsonObject.put("success", true);
+        jsonObject.addProperty("success", true);
 
         byte[] response = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
 

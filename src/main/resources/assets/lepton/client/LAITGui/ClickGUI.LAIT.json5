@@ -1,0 +1,15 @@
+{
+    "api_version": 1.0,
+    "body": [
+        {
+            "id": null,
+            "body": null,
+            "type": "Rectangle",
+            "align": [1, 1],
+            "offset": [0, 0],
+            "width": 1200,
+            "height": 800,
+            "color": 3223857
+        }
+    ]
+}

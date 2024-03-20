@@ -7,11 +7,14 @@ import cn.matrixaura.lepton.setting.settings.BooleanSetting;
 import cn.matrixaura.lepton.setting.settings.ModeSetting;
 import cn.matrixaura.lepton.setting.settings.NumberSetting;
 import cn.matrixaura.lepton.setting.settings.StringSetting;
+import cn.matrixaura.lepton.util.json.JsonUtils;
 import cn.matrixaura.lepton.util.string.URLUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -24,46 +27,46 @@ public class SettingsHttpHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         String moduleName = URLUtils.getValues(httpExchange)[0];
 
-        JSONObject jsonObject = new JSONObject();
+        JsonObject jsonObject = new JsonObject();
         boolean isFound = false;
 
         for (Module module : Lepton.INSTANCE.getModuleManager().get()) {
             if (module.getName().equals(moduleName)) {
-                JSONArray moduleJsonArray = new JSONArray();
+                JsonArray moduleJsonArray = new JsonArray();
                 isFound = true;
                 for (Setting<?> setting : module.getSettings()) {
-                    JSONObject moduleSet = new JSONObject();
+                    JsonObject moduleSet = new JsonObject();
                     if (setting instanceof StringSetting) {
-                        moduleSet.put("name", setting.getName());
-                        moduleSet.put("type", "input");
-                        moduleSet.put("value", ((StringSetting) setting).getValue());
+                        moduleSet.addProperty("name", setting.getName());
+                        moduleSet.addProperty("type", "input");
+                        moduleSet.addProperty("value", ((StringSetting) setting).getValue());
                     } else if (setting instanceof NumberSetting) {
-                        moduleSet.put("name", setting.getName());
-                        moduleSet.put("type", "slider");
-                        moduleSet.put("min", ((NumberSetting) setting).getMin().doubleValue());
-                        moduleSet.put("max", ((NumberSetting) setting).getMax().doubleValue());
-                        moduleSet.put("step", ((NumberSetting) setting).getInc().doubleValue());
-                        moduleSet.put("value", ((NumberSetting) setting).getValue().doubleValue());
+                        moduleSet.addProperty("name", setting.getName());
+                        moduleSet.addProperty("type", "slider");
+                        moduleSet.addProperty("min", ((NumberSetting) setting).getMin().doubleValue());
+                        moduleSet.addProperty("max", ((NumberSetting) setting).getMax().doubleValue());
+                        moduleSet.addProperty("step", ((NumberSetting) setting).getInc().doubleValue());
+                        moduleSet.addProperty("value", ((NumberSetting) setting).getValue().doubleValue());
                     } else if (setting instanceof ModeSetting) {
-                        moduleSet.put("name", setting.getName());
-                        moduleSet.put("type", "selection");
-                        JSONArray values = new JSONArray();
-                        values.putAll(Arrays.asList(((ModeSetting) setting).getValues()));
-                        moduleSet.put("values", values);
-                        moduleSet.put("value", URLUtils.encode(((ModeSetting) setting).getValue()));
+                        JsonArray values = new JsonArray();
+                        moduleSet.addProperty("name", setting.getName());
+                        moduleSet.addProperty("type", "selection");
+                        values.addAll(JsonUtils.parseArray(Arrays.asList(((ModeSetting) setting).getValues())));
+                        moduleSet.add("values", values);
+                        moduleSet.addProperty("value", URLUtils.encode(((ModeSetting) setting).getValue()));
                     } else if (setting instanceof BooleanSetting) {
-                        moduleSet.put("name", setting.getName());
-                        moduleSet.put("type", "checkbox");
-                        moduleSet.put("value", ((BooleanSetting) setting).getValue());
+                        moduleSet.addProperty("name", setting.getName());
+                        moduleSet.addProperty("type", "checkbox");
+                        moduleSet.addProperty("value", ((BooleanSetting) setting).getValue());
                     }
-                    moduleJsonArray.put(moduleSet);
+                    moduleJsonArray.add(moduleSet);
                 }
-                jsonObject.put("result", moduleJsonArray);
+                jsonObject.add("result", moduleJsonArray);
             }
         }
 
-        jsonObject.put("success", isFound);
-        if (!isFound) jsonObject.put("reason", "Can't find module");
+        jsonObject.addProperty("success", isFound);
+        if (!isFound) jsonObject.addProperty("reason", "Can't find module");
 
         byte[] response = jsonObject.toString().getBytes(StandardCharsets.UTF_8);
 
