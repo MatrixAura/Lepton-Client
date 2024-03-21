@@ -2,7 +2,6 @@ package cn.matrixaura.lepton.uiengines.LAIT;
 
 import cn.matrixaura.lepton.module.NonModuleBus;
 import com.google.gson.JsonParser;
-import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;

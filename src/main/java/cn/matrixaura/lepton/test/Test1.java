@@ -1,11 +1,11 @@
 package cn.matrixaura.lepton.test;
 
 import cn.matrixaura.lepton.uiengines.LAIT.nodes.RectangleNode;
-import com.google.gson.JsonParser;
+import cn.matrixaura.lepton.util.json.JsonUtils;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.lang.reflect.Field;
 
 public class Test1 {
 
@@ -16,8 +16,22 @@ public class Test1 {
         toObject.align = new int[]{1, 1};
         toObject.offset = new float[]{0, 0};
         toObject.color = Color.BLUE.getRGB();
-        //System.out.println(YamlUtils.toYaml(toObject));
-        System.out.println(new JsonParser().parse(new FileReader("F:\\Code\\Lepton-Client\\src\\main\\resources\\assets\\lepton\\client\\laits\\ClickGUI.LAIT.json5")).getAsJsonObject().toString());
+        String json = JsonUtils.BeanGenerator.toJson(toObject);
+        printPublicFields(JsonUtils.BeanGenerator.fromJson(json, RectangleNode.class));
+    }
+
+    public static void printPublicFields(Object obj) {
+        Class<?> clazz = obj.getClass();
+        Field[] fields = clazz.getFields(); // 获取所有公开字段
+
+        for (Field field : fields) {
+            try {
+                Object value = field.get(obj); // 获取字段的值
+                System.out.println(field.getName() + ": " + value);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

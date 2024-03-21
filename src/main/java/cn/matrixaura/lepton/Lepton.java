@@ -2,8 +2,8 @@ package cn.matrixaura.lepton;
 
 import cn.matrixaura.lepton.bind.BindManager;
 import cn.matrixaura.lepton.listener.bus.EventBus;
-import cn.matrixaura.lepton.module.NonModuleBus;
 import cn.matrixaura.lepton.module.ModuleManager;
+import cn.matrixaura.lepton.module.NonModuleBus;
 import cn.matrixaura.lepton.protect.ProtectionManager;
 import cn.matrixaura.lepton.server.LeptonHttpServer;
 import cn.matrixaura.lepton.util.protect.HWIDUtils;
