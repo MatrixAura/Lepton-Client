@@ -3,7 +3,7 @@ plugins {
     id 'de.fuerstenau.buildconfig' version '1.1.4'
 }
 
-version = '3.6'
+version = '4.0'
 group = 'cn.matrixaura.lepton'
 archivesBaseName = 'Lepton'
 
