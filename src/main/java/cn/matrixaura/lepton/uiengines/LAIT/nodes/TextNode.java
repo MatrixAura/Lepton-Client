@@ -1,8 +1,8 @@
 package cn.matrixaura.lepton.uiengines.LAIT.nodes;
 
-import cn.matrixaura.lepton.uiengines.LAIT.RenderNode;
+import cn.matrixaura.lepton.uiengines.LAIT.Node;
 
-public class TextNode extends RenderNode {
+public class TextNode extends Node {
     public String text;
 
     public TextNode() {
@@ -12,6 +12,11 @@ public class TextNode extends RenderNode {
     @Override
     protected void run() {
 
+    }
+
+    @Override
+    protected void calcExtent() {
+        throw new RuntimeException("未完成");
     }
     // TODO: Font Render
     //public Font font;

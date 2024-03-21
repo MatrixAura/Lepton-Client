@@ -13,8 +13,8 @@ public class Test1 {
         RectangleNode toObject = new RectangleNode();
         toObject.height = 800;
         toObject.width = 1200;
-        toObject.align = new Number[]{1, 1};
-        toObject.offset = new Number[]{0, 0};
+        toObject.align = new int[]{1, 1};
+        toObject.offset = new float[]{0, 0};
         toObject.color = Color.BLUE.getRGB();
         //System.out.println(YamlUtils.toYaml(toObject));
         System.out.println(new JsonParser().parse(new FileReader("F:\\Code\\Lepton-Client\\src\\main\\resources\\assets\\lepton\\client\\laits\\ClickGUI.LAIT.json5")).getAsJsonObject().toString());
