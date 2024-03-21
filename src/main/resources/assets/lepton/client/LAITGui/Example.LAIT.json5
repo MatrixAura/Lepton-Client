@@ -1,56 +1,74 @@
 {
-    "api_version": 1.0, // api version (Must be written)
-    "Default_Node_Desc": { // 解析器会忽略这个
-        "id": null, // It can be null or not written
-        "body": null, // It can be null or not written
-        "type": "your_node_type" // It can't be null, and it must be written
-    },
-    "LAIT_PROGRAM": { // 解析入口点
-        "id": "Example", // It can't be null, and it must be written
-        "body": [
-            {
-                "id": null,
-                "type": "Rectangle",
-                "color": 16777215, // White (Default)
-                "body": null,
-                "width": 0,
-                "height": 0,
-                "radius": 0,
-                "align": [0, 0],
-                "offset": [0, 0]
-            },
-            {
-                "id": null,
-                "type": "Text",
-                "text": "",
-                "color": 16777215, // White (Default)
-                "align": [0, 0],
-                "offset": [0, 0]
-            },
-            {
-                "id": null,
-                "type": "Group",
-                "body": [
-                    {
-                        "id": "Rect1",
-                        "type": "Rectangle",
-                        "color": 3289657,
-                        "width": 1200,
-                        "height": 800,
-                        "radius": 0,
-                        "align": [1, 1],
-                        "offset": [0, 0]
-                    },
-                    {
-                        "id": null,
-                        "type": "Text",
-                        "text": "LAIT Render Example",
-                        "color": 0,
-                        "align": [0, 0],
-                        "offset": [20, 20]
-                    }
-                ]
-            }
-        ]
-    }
+    "api_version": 1.0, // api版本，目前更新到1.0
+    "abcdefghijklmnopqrstuvwxyz": 1.0, // 除版本信息或入口点之外，其他皆被忽略
+    "program": [
+        {
+            "shown": true,
+            "id": null,
+            "type": "Rectangle", // 所有type都必须填写
+            "color": 0xFFFFFF,
+            "body": null,
+            "width": 0,
+            "height": 0,
+            "radius": 0,
+            "align": [
+                0,
+                0
+            ],
+            "offset": [
+                0,
+                0
+            ]
+        },
+        {
+            "id": null,
+            "type": "Text",
+            "text": "",
+            "color": 0xFFFFFF,
+            "align": [
+                0,
+                0
+            ],
+            "offset": [
+                0,
+                0
+            ]
+        },
+        {
+            "id": null,
+            "type": "Group",
+            "body": [
+                {
+                    "id": "Rect1",
+                    "type": "Rectangle",
+                    "color": 0x313131,
+                    "width": 1200,
+                    "height": 800,
+                    "radius": 0,
+                    "align": [
+                        1,
+                        1
+                    ],
+                    "offset": [
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "id": null,
+                    "type": "Text",
+                    "text": "LAIT Render Example",
+                    "color": 0xFFFFFF,
+                    "align": [
+                        0,
+                        0
+                    ],
+                    "offset": [
+                        20,
+                        20
+                    ]
+                }
+            ]
+        }
+    ]
 }
