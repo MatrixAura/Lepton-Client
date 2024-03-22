@@ -1,8 +1,9 @@
-package cn.matrixaura.lepton.uiengines.LAIT.nodes;
+package cn.matrixaura.lepton.uiengines.LAIT.nodes.render;
 
 import cn.matrixaura.lepton.uiengines.LAIT.Node;
+import cn.matrixaura.lepton.uiengines.LAIT.nodes.RenderNode;
 
-public class TextNode extends Node {
+public class TextNode extends RenderNode {
     public String text;
 
     public TextNode() {

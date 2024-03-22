@@ -6,15 +6,17 @@ import com.google.gson.JsonParser;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Objects;
 
 public class LAIT {
 
-    private final Node node;
+    private final Node program;
     private Runnable prevFunc;
     private Runnable postFunc;
 
-    private LAIT(Node node) {
-        this.node = node;
+    private LAIT(Node program) {
+        if (!Objects.equals(program.type, "Program")) throw new RuntimeException("不是根节点");
+        this.program = program;
     }
 
     public static LAIT parse(File source) {
@@ -36,7 +38,7 @@ public class LAIT {
 
     public void render() {
         prevFunc.run();
-        node.runAll();
+        program.runAll();
         postFunc.run();
     }
 

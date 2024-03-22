@@ -1,13 +1,13 @@
 {
     "api_version": 1.0, // api版本，目前更新到1.0
-    "abcdefghijklmnopqrstuvwxyz": 1.0, // 除版本信息或入口点之外，其他皆被忽略
-    "program": [
+    "abcdefghijklmnopqrstuvwxyz": 1.0, // 无效信息皆被忽略
+    "body": [
         {
             "shown": true,
             "id": null,
             "type": "Rectangle", // 所有type都必须填写
             "color": 0xFFFFFF,
-            "body": null,
+            "body": [],
             "width": 0,
             "height": 0,
             "radius": 0,

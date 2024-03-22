@@ -1,11 +1,12 @@
-package cn.matrixaura.lepton.uiengines.LAIT.nodes;
+package cn.matrixaura.lepton.uiengines.LAIT.nodes.render;
 
 import cn.matrixaura.lepton.uiengines.LAIT.Node;
+import cn.matrixaura.lepton.uiengines.LAIT.nodes.RenderNode;
 import cn.matrixaura.lepton.util.render.RenderUtils;
 
 import java.awt.*;
 
-public class RectangleNode extends Node {
+public class RectangleNode extends RenderNode {
     public float width = 0, height = 0, radius = 0;
     public int borderThickness = 0, borderColor = 0;
 

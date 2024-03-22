@@ -1,6 +1,6 @@
 package cn.matrixaura.lepton.test;
 
-import cn.matrixaura.lepton.uiengines.LAIT.nodes.RectangleNode;
+import cn.matrixaura.lepton.uiengines.LAIT.nodes.render.RectangleNode;
 import cn.matrixaura.lepton.util.json.JsonUtils;
 
 import java.awt.*;

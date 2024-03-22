@@ -1,9 +1,7 @@
 {
     "api_version": 1.0,
-    "program": [
+    "body": [
         {
-            "id": null,
-            "body": null,
             "type": "Rectangle",
             "align": [1, 1],
             "offset": [0, 0],
