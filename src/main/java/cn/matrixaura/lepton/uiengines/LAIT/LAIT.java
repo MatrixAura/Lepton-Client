@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class LAIT {
 
-    private final Node program;
+    public final Node program;
     private Runnable prevFunc;
     private Runnable postFunc;
 

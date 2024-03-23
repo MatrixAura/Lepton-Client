@@ -1,23 +1,22 @@
 package cn.matrixaura.lepton.test;
 
+import cn.matrixaura.lepton.uiengines.LAIT.LAIT;
+import cn.matrixaura.lepton.uiengines.LAIT.Node;
 import cn.matrixaura.lepton.uiengines.LAIT.nodes.render.RectangleNode;
+import cn.matrixaura.lepton.util.file.FileUtils;
 import cn.matrixaura.lepton.util.json.JsonUtils;
 
 import java.awt.*;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 
 public class Test1 {
 
     public static void main(String[] args) throws FileNotFoundException {
-        RectangleNode toObject = new RectangleNode();
-        toObject.height = 800;
-        toObject.width = 1200;
-        toObject.align = new int[]{1, 1};
-        toObject.offset = new float[]{0, 0};
-        toObject.color = Color.BLUE.getRGB();
-        String json = JsonUtils.BeanGenerator.toJson(toObject);
-        printPublicFields(JsonUtils.BeanGenerator.fromJson(json, RectangleNode.class));
+
+        Node node = LAIT.parse(FileUtils.readPath("/assets/lepton/client/LAITGui/ClickGUI.LAIT.json5")).program;
+        printPublicFields(node);
     }
 
     public static void printPublicFields(Object obj) {

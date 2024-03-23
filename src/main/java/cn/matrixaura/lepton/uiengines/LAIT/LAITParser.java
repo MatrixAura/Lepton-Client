@@ -19,12 +19,14 @@ class LAITParser {
     }
 
     private static void Object2Node(JsonObject obj, Node parent) {
+        if (!obj.has("body")) return;
         JsonArray body = obj.get("body").getAsJsonArray();
         if (body.size() == 0) return;
         body.forEach(jsonElement -> {
             JsonObject nodeObj = jsonElement.getAsJsonObject();
             Node node = parseObject(nodeObj);
             parent.body.add(node);
+            node.parent = parent;
             Object2Node(nodeObj, node);
         });
     }
