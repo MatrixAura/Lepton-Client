@@ -1,6 +1,5 @@
 package cn.matrixaura.lepton.uiengines.LAIT.nodes.render;
 
-import cn.matrixaura.lepton.uiengines.LAIT.Node;
 import cn.matrixaura.lepton.uiengines.LAIT.nodes.RenderNode;
 import cn.matrixaura.lepton.util.render.RenderUtils;
 

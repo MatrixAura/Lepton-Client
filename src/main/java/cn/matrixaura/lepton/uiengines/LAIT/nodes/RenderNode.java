@@ -63,6 +63,7 @@ public abstract class RenderNode extends Node {
         calcCoords();
         this.run();
     }
+
     protected abstract void run();
 
     protected abstract void calcExtent();

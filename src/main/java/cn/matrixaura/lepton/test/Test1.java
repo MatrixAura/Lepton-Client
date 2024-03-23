@@ -2,12 +2,8 @@ package cn.matrixaura.lepton.test;
 
 import cn.matrixaura.lepton.uiengines.LAIT.LAIT;
 import cn.matrixaura.lepton.uiengines.LAIT.Node;
-import cn.matrixaura.lepton.uiengines.LAIT.nodes.render.RectangleNode;
 import cn.matrixaura.lepton.util.file.FileUtils;
-import cn.matrixaura.lepton.util.json.JsonUtils;
 
-import java.awt.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 
