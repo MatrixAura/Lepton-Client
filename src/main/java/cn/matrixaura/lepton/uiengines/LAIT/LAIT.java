@@ -1,11 +1,11 @@
 package cn.matrixaura.lepton.uiengines.LAIT;
 
 import cn.matrixaura.lepton.module.NonModuleBus;
+import cn.matrixaura.lepton.util.file.FileUtils;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Objects;
 
 public class LAIT {
@@ -19,16 +19,12 @@ public class LAIT {
         this.program = program;
     }
 
-    public static LAIT parse(File source) {
-        try {
-            return new LAIT(LAITParser.parse(new JsonParser().parse(new FileReader(source)).getAsJsonObject()));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public static LAIT parse(String path) {
+        return new LAIT(LAITParser.parse(new JsonParser().parse(FileUtils.readPath(path)).getAsJsonObject()));
     }
 
-    public static LAIT parse(String source) {
-        return new LAIT(LAITParser.parse(new JsonParser().parse(source).getAsJsonObject()));
+    public static LAIT parse(JsonObject source) {
+        return new LAIT(LAITParser.parse(source));
     }
 
     public LAIT register() {
