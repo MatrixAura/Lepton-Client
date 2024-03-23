@@ -1,7 +1,7 @@
 package cn.matrixaura.lepton.uiengines.LAIT.nodes;
 
+import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.uiengines.LAIT.Node;
-import net.minecraft.client.Minecraft;
 
 public abstract class RenderNode extends Node {
 
@@ -13,7 +13,7 @@ public abstract class RenderNode extends Node {
     protected float x, y, nWidth, nHeight;
 
     private void calcCoords() {
-        float parentX = 0, parentY = 0, parentWidth = Minecraft.getMinecraft().displayWidth, parentHeight = Minecraft.getMinecraft().displayHeight;
+        float parentX = 0, parentY = 0, parentWidth = MinecraftWrapper.get().getDisplayWidth(), parentHeight = MinecraftWrapper.get().getDisplayHeight();
         if (parent != null && parent instanceof RenderNode) {
             parentX = ((RenderNode) parent).x;
             parentY = ((RenderNode) parent).y;

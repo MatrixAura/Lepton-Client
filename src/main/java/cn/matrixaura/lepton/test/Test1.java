@@ -11,8 +11,6 @@ public class Test1 {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Node node = LAIT.parse(FileUtils.readPath("/assets/lepton/client/LAITGui/ClickGUI.LAIT.json5")).program;
-        printPublicFields(node);
     }
 
     public static void printPublicFields(Object obj) {
