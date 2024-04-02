@@ -1,5 +1,6 @@
 package cn.matrixaura.lepton.uiengines.LAIT.nodes;
 
+import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.inject.wrapper.impl.MinecraftWrapper;
 import cn.matrixaura.lepton.uiengines.LAIT.Node;
 
@@ -26,6 +27,9 @@ public abstract class RenderNode extends Node {
                 break;
             }
             case 1: {
+                Lepton.logger.info(parentX);
+                Lepton.logger.info(parentWidth);
+                Lepton.logger.info(parentX + parentWidth / 2F + offset[0]);
                 x = parentX + parentWidth / 2F + offset[0];
                 break;
             }

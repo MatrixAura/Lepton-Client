@@ -5,14 +5,13 @@ import cn.matrixaura.lepton.util.file.FileUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.File;
 import java.util.Objects;
 
 public class LAIT {
 
     private final Node program;
-    private Runnable prevFunc;
-    private Runnable postFunc;
+    private Runnable prevFunc = () -> {};
+    private Runnable postFunc = () -> {};
 
     private LAIT(Node program) {
         if (!Objects.equals(program.type, "Program")) throw new RuntimeException("不是根节点");
@@ -20,7 +19,7 @@ public class LAIT {
     }
 
     public static LAIT parse(String path) {
-        return new LAIT(LAITParser.parse(new JsonParser().parse(FileUtils.readPath(path)).getAsJsonObject()));
+        return parse(new JsonParser().parse(FileUtils.readPath(path)).getAsJsonObject());
     }
 
     public static LAIT parse(JsonObject source) {
@@ -29,6 +28,11 @@ public class LAIT {
 
     public LAIT register() {
         NonModuleBus.renderList.add(this);
+        return this;
+    }
+
+    public LAIT unregister() {
+        NonModuleBus.renderList.remove(this);
         return this;
     }
 

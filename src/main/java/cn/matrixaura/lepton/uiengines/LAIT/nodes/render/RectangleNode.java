@@ -16,6 +16,7 @@ public class RectangleNode extends RenderNode {
     @Override
     protected void run() {
         RenderUtils.drawRoundedOutlineRect(x, y, width, height, radius, borderThickness, new Color(color), new Color(borderColor));
+        RenderUtils.drawRect(x,y, x+width, y+height, 0);
     }
 
     @Override

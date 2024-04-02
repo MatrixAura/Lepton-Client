@@ -1,5 +1,6 @@
 package cn.matrixaura.lepton.module.impl.other.anticrash.checks;
 
+import cn.matrixaura.lepton.Lepton;
 import cn.matrixaura.lepton.module.impl.other.anticrash.CrashCheck;
 import cn.matrixaura.lepton.util.inject.Mappings;
 import cn.matrixaura.lepton.util.inject.ObjectUtils;
@@ -17,13 +18,16 @@ public class ParticleCheck extends CrashCheck {
     public boolean handle(Object packet) {
         if (PacketUtils.isPacketInstanceof(packet, "S2APacketParticles")) {
             int particleCount = (Integer) ObjectUtils.invokeMethod(packet, Mappings.getObfMethod("func_149222_k"));
-            int particleSpeed = (Integer) ObjectUtils.invokeMethod(packet, Mappings.getObfMethod("func_149227_j"));
+            float particleSpeed = (Float) ObjectUtils.invokeMethod(packet, Mappings.getObfMethod("func_149227_j"));
 
             particles += particleCount;
             particles -= 6;
             particles = Math.min(particles, 150);
 
-            return particles > 100 || particleCount < 1 || Math.abs(particleCount) > 20 || particleSpeed < 0 || particleSpeed > 1000;
+            boolean a = particles > 100, b = particleCount < 1, c = Math.abs(particleCount) > 100, d = particleSpeed < 0f, e=particleSpeed > 1000f;
+            Lepton.logger.info("{} + {} + {} + {} + {}", a,b,c,d,e);
+
+            return a || b || c || d || e;
         }
 
         return false;
